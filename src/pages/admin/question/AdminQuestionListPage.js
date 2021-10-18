@@ -39,7 +39,7 @@ import Loader from "../../../components/Loader";
 import { getResultList } from "../../../redux/actions/resultActions";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { AddIcon } from "@material-ui/data-grid";
-import { deleteQuestion, updateQuestion } from "../../../services/questionService";
+import { deleteQuestion, updateQuestion, updateQuestions } from "../../../services/questionService";
 import AlertDialog from "../../../components/common/AlertDialog";
 import { fileUpload } from "../../../services/fileService";
 import AdminQuestionDetail from "./AdminQuestionDetail";
@@ -151,7 +151,7 @@ const Question = memo(({ question, questionOrders, setQuestionOrders, setSelecte
 
 const QuestionList = memo(({ results, selectedResult}) => {
 
-  const initialQuestions = useMemo(() => results[selectedResult] && results[selectedResult].questionList ? results[selectedResult].questionList.sort((a, b) => a.questionIdx - b.questionIdx) : []);
+  const initialQuestions = useMemo(() => results[selectedResult] && results[selectedResult].questionList ? results[selectedResult].questionList : []);
   const minNumber = useMemo(() => Math.min(...initialQuestions.map(({ questionNumber }) => Number(questionNumber))));
   
   const [questionOrders, setQuestionOrders] = useState(initialQuestions);
@@ -173,7 +173,7 @@ const QuestionList = memo(({ results, selectedResult}) => {
   const reOrder = (list, startIndex, endIndex) => {
     const [removed] = list.splice(startIndex, 1);
     list.splice(endIndex, 0, removed);
-    return list.map((obj,index) => ({...obj, questionNumber : minNumber + index }));
+    return list.map((obj,index) => ({...obj, questionOrder : minNumber + index }));
   }
 
   useEffect(() => {
@@ -190,6 +190,7 @@ const QuestionList = memo(({ results, selectedResult}) => {
     console.log(files[0]);
     setFile(files[0]);
   }
+
   const upload = (e) => {
     e.preventDefault();
     fileUpload(file)
@@ -198,6 +199,13 @@ const QuestionList = memo(({ results, selectedResult}) => {
         //callback
       }
     });
+  }
+
+  const onUpdate = (questions) => {
+    updateQuestions(questions)
+    .then(response => {
+      console.log(response);
+    })
   }
 
   return (
@@ -215,11 +223,6 @@ const QuestionList = memo(({ results, selectedResult}) => {
             control={<Checkbox name="gilad" checked={deleted} onChange={handleDeleted}/>}
             label="삭제 된 문항 포함"
           />
-          <form onSubmit={upload}>
-
-            <input type="file" name="file" onChange={fileChange}/>
-            <input type="submit" name="업로드"/>
-          </form>
         </Grid>
         <Grid item>
           <Fab color="primary" aria-label="add">
@@ -242,6 +245,14 @@ const QuestionList = memo(({ results, selectedResult}) => {
           )}
         </Droppable>
       </DragDropContext>
+      {true &&
+      //initialQuestions !== questionOrders &&
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <Button color="primary" variant="contained" size="large" onClick={() => { onUpdate(questionOrders) }}>확인</Button>
+          {JSON.stringify(questionOrders.map(obj => obj.questionIdx))}
+          {JSON.stringify(questionOrders)}
+        </Box>
+      }
     </Grid>
     </>
   )
