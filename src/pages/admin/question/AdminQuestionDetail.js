@@ -11,7 +11,7 @@ import { CloseIcon } from '@material-ui/data-grid';
 import { fileUpload } from '../../../services/fileService';
 import { FTP_URL, QUESTION_TYPE_IMAGE, QUESTION_TYPE_TEXT } from "../../../constants/index";
 import { Add, Delete, Refresh, Remove } from "@material-ui/icons"
-import SaveIcon from '@material-ui/icons/Save';;
+import SaveIcon from '@material-ui/icons/Save';
 
 const useStyles = makeStyles((theme) => ({
  

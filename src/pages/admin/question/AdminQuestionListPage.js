@@ -24,9 +24,11 @@ import {
   TableRow,
   Typography,
   Checkbox,
-  FormControlLabel
+  FormControlLabel,
+  TextField
 } from "@material-ui/core";
-import { DragHandle, Delete, Assignment, RestoreFromTrash } from "@material-ui/icons";
+import { DragHandle, Delete, Assignment, RestoreFromTrash, Refresh, Remove } from "@material-ui/icons";
+import SaveIcon from '@material-ui/icons/Save';
 
 import { spacing } from "@material-ui/system";
 import { useDispatch, useSelector } from "react-redux";
@@ -46,6 +48,9 @@ import AdminQuestionDetail from "./AdminQuestionDetail";
 
 const Divider = styled(MuiDivider)(spacing);
 const useStyles = makeStyles({
+  margin: {
+    margin: 10
+  },
   results_tab: {
     borderRight: "1px solid #cccc"
   },
@@ -65,7 +70,9 @@ const useStyles = makeStyles({
     border: "1px solid #cccc"
   }
 });
-const Question = memo(({ question, questionOrders, setQuestionOrders, setSelectedQuestionIdx, index }) => {
+
+
+const Question = memo(({ question, questions, setQuestions, setSelectedQuestionIdx, index }) => {
   const classes = useStyles();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showRestoreDialog, setShowRestoreDialog] = useState(false);
@@ -76,9 +83,8 @@ const Question = memo(({ question, questionOrders, setQuestionOrders, setSelecte
     
     deleteQuestion(questionIdx)
     .then(() => {
-      //const questions = questionOrders.filter(question => question.questionIdx !== questionIdx);
-      const questions = questionOrders.map(question => question.questionIdx === questionIdx ? {...question, delYn : "Y" } : question);
-      setQuestionOrders(questions);
+      //const questions = questions.filter(question => question.questionIdx !== questionIdx);
+      setQuestions(questions.map(question => question.questionIdx === questionIdx ? {...question, delYn : "Y" } : question));
       setShowDeleteDialog(false);
       
     }).catch(e => {
@@ -91,8 +97,7 @@ const Question = memo(({ question, questionOrders, setQuestionOrders, setSelecte
     const param = { delYn : "N"};
     updateQuestion(questionIdx, param)
     .then(() => {
-      const questions = questionOrders.map(question => question.questionIdx === questionIdx ? {...question, ...param } : question);
-      setQuestionOrders(questions);
+      setQuestions(questions.map(question => question.questionIdx === questionIdx ? {...question, ...param } : question));
       setShowRestoreDialog(false);
       
     }).catch(e => {
@@ -101,7 +106,7 @@ const Question = memo(({ question, questionOrders, setQuestionOrders, setSelecte
     });
   }
   return (
-    <List>
+    <>
       <AlertDialog 
         title={"해당 문항을 삭제 하시겠습니까?"}
         desc={"삭제 후 복원 가능합니다"}
@@ -116,10 +121,8 @@ const Question = memo(({ question, questionOrders, setQuestionOrders, setSelecte
         callback={() => { onRestore(questionIdx) }}
       />
         
-      <Draggable key={questionIdx} draggableId={`question_${questionIdx}`} index={index}>
-        
+      <Draggable key={index} draggableId={`question_${index}`} index={index}>
         {(provided, snapshot) => (
-
           <ListItem
             className={classes.question}
             ref={provided.innerRef}
@@ -136,77 +139,119 @@ const Question = memo(({ question, questionOrders, setQuestionOrders, setSelecte
               <>
                 <IconButton edge="end" aria-label="delete" children={<RestoreFromTrash color="secondary" onClick={() => { setShowRestoreDialog(true) }}/>}/>
               </>
-
             }
-            
           </ListItem>
         )}
       </Draggable>
-    </List>
+    </>
 
   )
+});
+
+const EmptyQuestion = ({ index, question, questions, setQuestions }) => {
+  const classes = useStyles();
+  const { questionNumber } = question;
+
+  const deleteQuestion = () => {
+    const deletedQuestions = questions.filter((obj, x) => x !== index);
+    setQuestions(deletedQuestions);
+  }
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    const addedQuestion = {
+      ...questions.find((obj, x) => x === index),
+      [name]: value
+    }
+    let addedQuestions = [...questions];
+    addedQuestions.splice(index, 1, addedQuestion);
+    setQuestions(addedQuestions);
+  }
+
+  return (
+    <Draggable key={index} draggableId={`question_${index}`} index={index}>
+      {(provided, snapshot) => (
+        <ListItem
+          className={classes.question}
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
+          <DragHandle/>
+          <ListItemText primary={<><Typography variant="h6">{questionNumber}. <TextField name="questionText" onChange={handleChange} style={{minWidth: "50%"}}/></Typography></>}/>
+          <IconButton edge="end" aria-label="delete" children={<Remove color="error"/>} onClick={deleteQuestion}/>
+        </ListItem>
+      )}
+    </Draggable>
+  )
 }
-  
-)
 
-const QuestionList = memo(({ results, selectedResult}) => {
+const QuestionList = memo(({ results, selectedResult, inspectionIdx }) => {
 
+  const classes = useStyles();
   const initialQuestions = useMemo(() => results[selectedResult] && results[selectedResult].questionList ? results[selectedResult].questionList : []);
   const minNumber = useMemo(() => Math.min(...initialQuestions.map(({ questionNumber }) => Number(questionNumber))));
   
-  const [questionOrders, setQuestionOrders] = useState(initialQuestions);
+  const [questions, setQuestions] = useState(initialQuestions);
   const [deleted, setDeleted] = useState(false);
   const [selectedQuestionIdx, setSelectedQuestionIdx] = useState(0);
   const [updatedQuestion, setupdatedQuestion] = useState({});
   
-  const handleDeleted = (e) => {
+  const toggleDeleteBox = (e) => {
     const { checked } = e.target;
     setDeleted(checked);
   }
 
   const onDragEnd = (e) => {
     const { destination, source } = e;
-    const orderedList = reOrder(questionOrders, source.index, destination.index);
-    setQuestionOrders(orderedList);
+    const orderedList = reOrder(questions, source.index, destination.index);
+    setQuestions(orderedList);
   }
 
-  const reOrder = (list, startIndex, endIndex) => {
+  const reOrder = (ininitailValues, startIndex, endIndex) => {
+    const list = Array.from(ininitailValues);
     const [removed] = list.splice(startIndex, 1);
     list.splice(endIndex, 0, removed);
-    return list.map((obj,index) => ({...obj, questionOrder : minNumber + index }));
+    return list.map((obj,index) => ({...obj, questionOrder : index + 1, questionNumber: minNumber + index }));
   }
 
   useEffect(() => {
-    setQuestionOrders(initialQuestions);
+    setQuestions(initialQuestions);
     setDeleted(false);
   }, [selectedResult]);
 
-  
-
-  const [file, setFile] = useState({});
-
-  const fileChange  = (e) => {
-    const { files } = e.target;
-    console.log(files[0]);
-    setFile(files[0]);
-  }
-
-  const upload = (e) => {
-    e.preventDefault();
-    fileUpload(file)
-    .then(({ success, data }) => {
-      if(success){
-        //callback
-      }
-    });
-  }
-
-  const onUpdate = (questions) => {
+  const onUpdate = () => {
     updateQuestions(questions)
-    .then(response => {
-      console.log(response);
+    .then(({ success }) => {
+      if(success){
+        alert("수정되었습니다");
+      }else{
+        alert("수정시 오류 발생");
+      }
     })
   }
+
+  const addQuestion = () => {
+    
+    const nextNumber = Math.max(...questions.map(({ questionNumber }) => questionNumber )) + 1;
+    const initialQuestion = {
+      inspectionIdx: inspectionIdx,
+      resultIdx: selectedResult,
+      questionNumber: nextNumber,
+      questionText: "",
+      delYn: "N"
+
+    }
+    setQuestions([...questions, initialQuestion]);
+
+    console.log(initialQuestion);
+  }
+
+  const reset = () => {
+    setQuestions(initialQuestions);
+  }
+
+  const isChanged = useMemo(() => Boolean(JSON.stringify(initialQuestions) !== JSON.stringify(questions)), [questions]);
 
   return (
     <>
@@ -220,12 +265,12 @@ const QuestionList = memo(({ results, selectedResult}) => {
       <Grid justify="space-between" container spacing={10}>
         <Grid item>
         <FormControlLabel
-            control={<Checkbox name="gilad" checked={deleted} onChange={handleDeleted}/>}
+            control={<Checkbox name="gilad" checked={deleted} onChange={toggleDeleteBox}/>}
             label="삭제 된 문항 포함"
           />
         </Grid>
         <Grid item>
-          <Fab color="primary" aria-label="add">
+          <Fab color="primary" aria-label="add" onClick={addQuestion}>
             <AddIcon />
           </Fab>
         </Grid>
@@ -233,26 +278,29 @@ const QuestionList = memo(({ results, selectedResult}) => {
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
-            <div
+            <List
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {questionOrders.filter(question => deleted ? question : question.delYn === "N").map((question, index) => (
-                <Question question={question} questionOrders={questionOrders} setQuestionOrders={setQuestionOrders} setSelectedQuestionIdx={setSelectedQuestionIdx} key={index} index={index} />
+              {questions.filter(question => deleted ? question : question.delYn === "N").map((question, index) => (
+                question.questionIdx ?
+                <Question question={question} questions={questions} setQuestions={setQuestions} setSelectedQuestionIdx={setSelectedQuestionIdx} key={index} index={index} /> :
+                <EmptyQuestion key={index} index={index} question={question} questions={questions} setQuestions={setQuestions}/>
               ))}
               {provided.placeholder}
-            </div>
+              {JSON.stringify(questions)}
+            </List>
           )}
         </Droppable>
       </DragDropContext>
-      {true &&
-      //initialQuestions !== questionOrders &&
-        <Box display="flex" justifyContent="center" alignItems="center">
-          <Button color="primary" variant="contained" size="large" onClick={() => { onUpdate(questionOrders) }}>확인</Button>
-          {JSON.stringify(questionOrders.map(obj => obj.questionIdx))}
-          {JSON.stringify(questionOrders)}
-        </Box>
-      }
+      <Box display="flex" justifyContent="center" alignItems="center">
+        {isChanged && 
+          <Box >
+            <Button className={classes.margin} color="primary" variant="contained" size="large" onClick={onUpdate}  startIcon={<SaveIcon />} >저장</Button>
+            <Button className={classes.margin} color="primary" variant="contained" size="large" onClick={reset}  startIcon={<Refresh />}>초기화</Button>
+          </Box>
+        }
+      </Box>
     </Grid>
     </>
   )
@@ -279,7 +327,6 @@ const ResultList = ({ selectedInspection }) => {
   return (
     <Grid container spacing={4}>
       <Grid item className={classes.results_tab} item xs={1}>
-      
         <Tab.Container 
           id="left-tabs-example" 
           defaultActiveKey={selectedResult}
@@ -299,7 +346,7 @@ const ResultList = ({ selectedInspection }) => {
         </Tab.Container>
       </Grid>
       <Grid item xs={11}>
-        <QuestionList results={response.data} selectedResult={selectedResult}/>
+        <QuestionList results={response.data} selectedResult={selectedResult} inspectionIdx={inspectionIdx}/>
       </Grid>
     </Grid>
   )
@@ -315,7 +362,6 @@ const AdminQuestionListPage = ({ match }) => {
   const payYn = match.path.includes("free") ? "N" : "Y";
 
   useEffect(() => {
-    
     const params = {
       payYn: payYn
     }
@@ -335,15 +381,8 @@ const AdminQuestionListPage = ({ match }) => {
   
     <React.Fragment>
       <Helmet title="회원 목록" />
-      
       <Grid justify="space-between" container spacing={10}>
         <MenuBar match={match} />
-        {/* <Grid item>
-          <Button variant="contained" color="primary">
-            <AddIcon />
-            New Order
-          </Button>
-        </Grid> */}
       </Grid>
       <Divider my={3} />
       <Tabs 
