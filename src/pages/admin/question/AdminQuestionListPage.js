@@ -232,19 +232,22 @@ const QuestionList = memo(({ results, selectedResult, inspectionIdx }) => {
   }
 
   const addQuestion = () => {
-    
-    const nextNumber = Math.max(...questions.map(({ questionNumber }) => questionNumber )) + 1;
+    const usedQuestions = questions.filter(question => question.delYn === "N");
+    const nextNumber = Math.max(...usedQuestions.map(({ questionNumber }) => questionNumber )) + 1;
+    const nextOrder = Math.max(...usedQuestions.map(({ questionOrder }) => questionOrder )) + 1;
+    const resultIdx = results.find((result, index) => index === selectedResult).resultIdx;
+    console.log(resultIdx);
+
     const initialQuestion = {
       inspectionIdx: inspectionIdx,
-      resultIdx: selectedResult,
+      resultIdx: resultIdx,
       questionNumber: nextNumber,
       questionText: "",
+      questionOrder: nextOrder,
       delYn: "N"
 
     }
     setQuestions([...questions, initialQuestion]);
-
-    console.log(initialQuestion);
   }
 
   const reset = () => {
@@ -288,7 +291,6 @@ const QuestionList = memo(({ results, selectedResult, inspectionIdx }) => {
                 <EmptyQuestion key={index} index={index} question={question} questions={questions} setQuestions={setQuestions}/>
               ))}
               {provided.placeholder}
-              {JSON.stringify(questions)}
             </List>
           )}
         </Droppable>
@@ -330,7 +332,7 @@ const ResultList = ({ selectedInspection }) => {
         <Tab.Container 
           id="left-tabs-example" 
           defaultActiveKey={selectedResult}
-          onSelect={(v) => setSelectedResult(v)}
+          onSelect={(v) => setSelectedResult(Number(v))}
         >
           <Row>
             <Col className="taC">
