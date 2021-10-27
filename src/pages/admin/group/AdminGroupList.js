@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/macro";
 import { NavLink } from "react-router-dom";
 
@@ -15,21 +16,20 @@ import {
   Grid,
   IconButton,
   Link,
+  makeStyles,
   Paper as MuiPaper,
   Table,
   TableBody,
-  TableCell,
   TableContainer,
   TableHead,
-  TablePagination,
+  TableCell,
   TableRow,
+  TablePagination,
   TableSortLabel,
   Toolbar,
   Tooltip,
   Typography,
 } from "@material-ui/core";
-
-import { green, orange } from "@material-ui/core/colors";
 
 import {
   Add as AddIcon,
@@ -39,44 +39,18 @@ import {
 } from "@material-ui/icons";
 
 import { spacing } from "@material-ui/system";
-import DropDownMenu from "../../../components/common/DropDownMenu"
-import { useDispatch, useSelector } from "react-redux";
-import { getMemberList } from "../../../redux/actions/memberActions";
 import MenuBar from "../../../components/MenuBar";
+import { getAdminGroups } from "../../../services/groupService";
+import Paging from "../../../components/common/Paging";
+import queryString from "query-string";
+import { getAdminGroupList } from "../../../redux/actions/groupActions";
+
 const Divider = styled(MuiDivider)(spacing);
-
-
 const Paper = styled(MuiPaper)(spacing);
-
-const Chip = styled(MuiChip)`
-  ${spacing};
-
-  background: ${(props) => props.paid && green[500]};
-  background: ${(props) => props.sent && orange[700]};
-  color: ${(props) =>
-    (props.paid || props.sent) && props.theme.palette.common.white};
-`;
-
-const Spacer = styled.div`
-  flex: 1 1 100%;
-`;
-
-const ToolbarTitle = styled.div`
-  min-width: 150px;
-`;
-
-const Avatar = styled(MuiAvatar)`
-  background: ${(props) => props.theme.palette.primary.main};
-`;
-
-const Customer = styled.div`
-  display: flex;
-  align-items: center;
-`;
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: "#376fd0",
     color: theme.palette.common.white,
   },
   body: {
@@ -94,12 +68,30 @@ const StyledTableRow = withStyles((theme) => ({
 
 const AdminGroupList = ({ match }) => {
   
+  const useStyles = makeStyles({
+    menu: {
+      padding: '10px',
+    }
+  });
+  const classes = useStyles();
   const dispatch = useDispatch();
+  
+  const [params, setParams] = useState(queryString.parse(location.search));
+
+  const goPage = (page) => {
+    setParams({
+      ...params,
+      pageNum: page
+    })
+  }
 
   useEffect(() => {
-  }, []);
+    console.log("useEffect!!");
+    dispatch(getAdminGroupList(params));
+  }, [params]);
 
-  
+  const { data } = useSelector(state => state.groupReducer);
+
   return (
     <React.Fragment>
       <Helmet title="회원 목록" />
@@ -109,27 +101,45 @@ const AdminGroupList = ({ match }) => {
         <MenuBar match={match}/>
         <Grid item>
           <Button variant="contained" color="primary">
-            <AddIcon />
-            New Order
+            <AddIcon />새 기관 추가
           </Button>
         </Grid>
       </Grid>
       <Divider my={6} />
 
       <Grid container spacing={6}>
+        {data && 
         <Grid item xs={12}>
-          <Paper>
-            <Toolbar>
-              <ToolbarTitle>
-              <Typography variant="h6" id="tableTitle">
-                회원
-              </Typography>
-              </ToolbarTitle>
-            </Toolbar> 
-           
-          </Paper>
-
+          <TableContainer component={Paper}>
+            <Table aria-label="customized table">
+              <TableHead>
+                <StyledTableRow>
+                  <StyledTableCell align="center">기관명</StyledTableCell>
+                  <StyledTableCell align="center">연락처</StyledTableCell>
+                  <StyledTableCell align="center">담당자명</StyledTableCell>
+                  <StyledTableCell align="center">이메일</StyledTableCell>
+                  <StyledTableCell align="center">등록일</StyledTableCell>
+                </StyledTableRow>
+              </TableHead>
+              <TableBody>
+                {data.list.map(group => 
+                  <StyledTableRow>
+                    <StyledTableCell align="center">{group.name}</StyledTableCell>
+                    <StyledTableCell align="center">{JSON.stringify(group)}</StyledTableCell>
+                  </StyledTableRow>
+                  
+                )}
+                
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <Paging 
+            page={params.pageNum ? Number(params.pageNum) : 1} 
+            goPage={goPage} 
+            pageInfo={data}
+          />
         </Grid>
+        }
       </Grid>
     </React.Fragment>
   );

@@ -40,3 +40,16 @@ export const registGroup = (group) => async dispatch  => {
     
   } 
 }
+
+export const getAdminGroupList = (params) => async dispatch  => {
+  dispatch({ type: types.GROUP_LIST_REQUEST });
+  try {
+    const data = await service.getAdminGroups(params);
+    dispatch({ type: types.GROUP_LIST_SUCCESS, data: data });
+
+  } catch (e) {
+    console.error(e);
+    dispatch({ type: types.GROUP_LIST_FAILURE, error: e });
+    
+  } 
+}

@@ -48,3 +48,22 @@ export const registGroup = (group) => {
       });
   });
 }
+
+
+export const getAdminGroups = (params) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`/api/admin/groups`, {
+        params: params
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
