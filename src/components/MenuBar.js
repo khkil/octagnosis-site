@@ -1,7 +1,8 @@
 import { Breadcrumbs, Button, Grid, makeStyles, Typography } from "@material-ui/core";
 import { AddIcon } from "@material-ui/data-grid";
 import { DriveEtaTwoTone } from "@material-ui/icons";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { Helmet } from "react-helmet";
 import { Link, NavLink, useHistory } from "react-router-dom";
 import { sidebarRoutes as routes} from "../routes";
 
@@ -14,36 +15,32 @@ const MenuBar = ({ match }) => {
   });
   const classes = useStyles();
 
-  const menuInfo = useCallback(() => {
-    let menu = {};
+  const menuInfo = useMemo(() => {
+    let result = {};
     routes.forEach(route => {
       const { children, id, group } = route;
-      if(children && Object.keys(menu).length === 0){
+      if(children && Object.keys(result).length === 0){
         children.some(child => {
           if(match.path === child.path){
-            menu = { group: group, parent: id, child: child.name }
+            result = { group: group, parent: id, name: child.name }
           }
         })
       }
     });
-    return menu;
-  })
+    return result;
+  }, [match]);
+  const { group, parent, name } = menuInfo;
 
-  const [menu, setMenu] = useState({});
-
-  useEffect(() => {
-    setMenu(menuInfo());
-  }, [match])
- 
   return (
     <Grid item>
+      <Helmet title={name} />
       <Typography variant="h3" gutterBottom display="inline">
-        {menu.child}
+        {name}
       </Typography>
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-        <Typography>{menu.group}</Typography>
-        <Typography>{menu.parent}</Typography>
-        <Typography>{menu.child}</Typography>
+        <Typography>{group}</Typography>
+        <Typography>{parent}</Typography>
+        <Typography>{name}</Typography>
       </Breadcrumbs>
     </Grid> 
   )

@@ -104,7 +104,6 @@ const AdminGroupList = ({ match }) => {
     <React.Fragment>
       <Helmet title="회원 목록" />
 
-      {/* <MenuBar match={match}/> */}
 
       <Grid justify="space-between" container spacing={10}>
         <MenuBar match={match}/>
