@@ -92,6 +92,7 @@ const AdminGroupList = ({ match }) => {
 
   const { data } = useSelector(state => state.groupReducer);
 
+  if(!data) return null;
   return (
     <React.Fragment>
       <Helmet title="회원 목록" />
@@ -122,10 +123,20 @@ const AdminGroupList = ({ match }) => {
                 </StyledTableRow>
               </TableHead>
               <TableBody>
-                {data.list.map(group => 
+                {data.list.map(({ name, tel, contactName, contactEmail, cdate }) => 
                   <StyledTableRow>
-                    <StyledTableCell align="center">{group.name}</StyledTableCell>
-                    <StyledTableCell align="center">{JSON.stringify(group)}</StyledTableCell>
+                    <StyledTableCell align="center">
+                      <Link 
+                        component="button" 
+                        onClick={() => {}}
+                      >
+                        {name}
+                      </Link>
+                    </StyledTableCell>
+                    <StyledTableCell align="center">{tel}</StyledTableCell>
+                    <StyledTableCell align="center">{contactName}</StyledTableCell>
+                    <StyledTableCell align="center">{contactEmail}</StyledTableCell>
+                    <StyledTableCell align="center">{cdate}</StyledTableCell>
                   </StyledTableRow>
                   
                 )}

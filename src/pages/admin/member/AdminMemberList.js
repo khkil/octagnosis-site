@@ -222,10 +222,7 @@ const AdminMemberList = ({ location, match, history }) => {
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}
-                
-
               </TableBody>
-
             </Table>
           </Paper>
           <Paging 
