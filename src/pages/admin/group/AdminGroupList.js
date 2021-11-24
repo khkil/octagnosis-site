@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
+import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/macro";
 import { NavLink } from "react-router-dom";
@@ -75,6 +76,7 @@ const AdminGroupList = ({ match }) => {
   });
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
   
   const [params, setParams] = useState(queryString.parse(location.search));
 
@@ -83,6 +85,10 @@ const AdminGroupList = ({ match }) => {
       ...params,
       pageNum: page
     })
+  }
+
+  const groupDetail = (groupIdx) => {
+    history.push(`/admin/groups/${groupIdx}`)
   }
 
   useEffect(() => {
@@ -123,12 +129,12 @@ const AdminGroupList = ({ match }) => {
                 </StyledTableRow>
               </TableHead>
               <TableBody>
-                {data.list.map(({ name, tel, contactName, contactEmail, cdate }) => 
+                {data.list.map(({ idx, name, tel, contactName, contactEmail, cdate }) => 
                   <StyledTableRow>
                     <StyledTableCell align="center">
                       <Link 
                         component="button" 
-                        onClick={() => {}}
+                        onClick={() => { groupDetail(idx) } }
                       >
                         {name}
                       </Link>

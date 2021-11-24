@@ -51,6 +51,7 @@ const AdminQuestionListPage = async(() => import("../pages/admin/question/AdminQ
 
 //admin > group
 const AdminGroupList = async(() => import("../pages/admin/group/AdminGroupList"))
+const AdminGroupDetail = async(() => import("../pages/admin/group/AdminGroupDetail"))
 // Member components
 const MemberProfile = async(() => import("../pages/member/Profile"));
 
@@ -212,7 +213,7 @@ const adminGroupRoute = {
     {
       path: "/admin/groups/:idx",
       name: "기관 상세",
-      component: AdminMemberList,
+      component: AdminGroupDetail,
     },
   ],
   component: null,

@@ -392,13 +392,13 @@ function EnhancedTable() {
   );
 }
 
-function OrderList() {
+const OrderList = ({ match }) => {
   return (
     <React.Fragment>
       <Helmet title="Orders" />
 
       <Grid justify="space-between" container spacing={24}>
-        <MenuBar/>
+        <MenuBar match={match}/>
         {/* <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
             Orders
