@@ -7,7 +7,7 @@ export default function reducer(state = initialState, actions) {
     
     case types.GROUP_LIST_REQUEST:
       return {
-        ...state,
+        state,
         loading: true
       };
 
@@ -25,13 +25,12 @@ export default function reducer(state = initialState, actions) {
       };
 
     case types.GROUP_DETAIL_REQUEST:
-      return {
-        ...state,
-      };
+      return state;
 
     case types.GROUP_DETAIL_SUCCESS:
       return {
         ...state,
+        data: null,
         selected: actions.data
       };
     case types.GROUP_DETAIL_FAILURE:
@@ -44,7 +43,7 @@ export default function reducer(state = initialState, actions) {
 
     case types.GROUP_REGIST_REQUEST:
       return {
-        ...state,
+        state,
         loading: true
       };
 

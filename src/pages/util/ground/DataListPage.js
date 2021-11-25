@@ -21,7 +21,7 @@ import {
  TextField,
 } from "@material-ui/core"
 import { SearchIcon } from '@material-ui/data-grid';
-import { getGroupDetail, getGroupList } from '../../../redux/actions/groupActions';
+import { getGroupList } from '../../../redux/actions/groupActions';
 import { dateFormat } from '../../../utils/util';
 import { useHistory } from 'react-router-dom';
 import { Delete, Close, FormatAlignLeft } from "@material-ui/icons";

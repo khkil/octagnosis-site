@@ -27,10 +27,7 @@ function Page404() {
         404
       </Typography>
       <Typography component="h2" variant="h5" align="center" gutterBottom>
-        Page not found.
-      </Typography>
-      <Typography component="h2" variant="body1" align="center" gutterBottom>
-        The page you are looking for might have been removed.
+        페이지를 찾을수 없습니다.
       </Typography>
 
       <Button
@@ -40,7 +37,7 @@ function Page404() {
         color="secondary"
         mt={2}
       >
-        Return to website
+        홈으로 가기
       </Button>
     </Wrapper>
   );

@@ -18,6 +18,7 @@ import Page404 from "../pages/auth/Page404";
 import AuthGuard from "../components/AuthGuard";
 import GuestGuard from "../components/GuestGuard";
 import InspectionLayout from "../layouts/Inspection";
+import Common from "../layouts/Common";
 
 const childRoutes = (Layout, routes) => {
   return (
@@ -25,9 +26,6 @@ const childRoutes = (Layout, routes) => {
       return children ? (
         children.map((element, index) => {
           const hideLayout = Boolean(element.hideLayout && Boolean(element.hideLayout));
-          if(hideLayout){
-            console.log(element.path);
-          }
           return (
             <Route
               key={index}
@@ -98,9 +96,9 @@ const Routes = () => (
       
       <Route
         render={() => (
-          <AuthLayout>
+          <Common>
             <Page404 />
-          </AuthLayout>
+          </Common>
         )}
         />
     </Switch>

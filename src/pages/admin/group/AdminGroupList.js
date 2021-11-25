@@ -45,6 +45,7 @@ import { getAdminGroups } from "../../../services/groupService";
 import Paging from "../../../components/common/Paging";
 import queryString from "query-string";
 import { getAdminGroupList } from "../../../redux/actions/groupActions";
+import Loader from "../../../components/Loader";
 
 const Divider = styled(MuiDivider)(spacing);
 const Paper = styled(MuiPaper)(spacing);
@@ -96,9 +97,9 @@ const AdminGroupList = ({ match }) => {
     dispatch(getAdminGroupList(params));
   }, [params]);
 
-  const { data } = useSelector(state => state.groupReducer);
+  const { data, loading } = useSelector(state => state.groupReducer);
 
-  if(!data) return null;
+  if(!data || loading) return <Loader/>;
   return (
     <React.Fragment>
       <Helmet title="회원 목록" />
