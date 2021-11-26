@@ -14,7 +14,8 @@ import {
   Card,
   CardContent,
   TextField,
-  Box
+  Box,
+  Typography
 } from "@material-ui/core";
 import {
   Delete, Save
@@ -26,7 +27,7 @@ import { useDispatch, useSelector } from "react-redux";
 import MenuBar from "../../../components/MenuBar";
 import { getAdminGroupDetail } from "../../../redux/actions/groupActions";
 import Loader from "../../../components/Loader";
-import AlertDialog from "../../../components/common/AlertDialog";
+import { AlertDialog, FindAddress, PopupDom } from "../../../components/common";
 
 
 const validationSchema = Yup.object().shape({
@@ -49,6 +50,7 @@ const DeleteButton = withStyles((theme) => ({
     },
   },
 }))(Button);
+
 
 const Group = ({ initialGroup }) => {
 
@@ -86,7 +88,11 @@ const Group = ({ initialGroup }) => {
             status,
           }) => (
             <form onSubmit={updateGroup}>
-              {JSON.stringify(values)}
+              <Box pb={5}>
+                <Typography variant="h6" gutterBottom>
+                  기관정보
+                </Typography>
+              </Box>
               <Grid container spacing={6} m={5}>
                 <Grid item md={6}>
                   <TextField
@@ -120,12 +126,13 @@ const Group = ({ initialGroup }) => {
               <Grid container spacing={6} m={5}>
                 <Grid item md={6}>
                   <TextField
-                    name="firstName"
-                    label="First Name"
-                    value={values.firstName}
-                    error={Boolean(touched.firstName && errors.firstName)}
+                    InputProps={{readOnly: true}}
+                    name="address"
+                    label="주소"
+                    value={values.address}
+                    error={Boolean(touched.address && errors.address)}
                     fullWidth
-                    helperText={touched.firstName && errors.firstName}
+                    helperText={touched.address && errors.address}
                     onBlur={handleBlur}
                     onChange={handleChange}
                     variant="outlined"
@@ -134,12 +141,67 @@ const Group = ({ initialGroup }) => {
                 </Grid>
                 <Grid item md={6}>
                   <TextField
-                    name="lastName"
-                    label="Last Name"
-                    value={values.lastName}
-                    error={Boolean(touched.lastName && errors.lastName)}
+                    InputProps={{readOnly: true}}
+                    name="addressSub"
+                    label="상세주소"
+                    value={values.addressSub}
+                    error={Boolean(touched.addressSub && errors.addressSub)}
                     fullWidth
-                    helperText={touched.lastName && errors.lastName}
+                    helperText={touched.addressSub && errors.addressSub}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    variant="outlined"
+                    my={2}
+                  />
+                </Grid>
+                <PopupDom>
+                  <FindAddress/>
+                </PopupDom>
+              </Grid>
+              <Grid justify="space-between" container spacing={6} m={5}>
+                <Grid item>
+                  <Button variant="contained" color="default" size="small" className={classes.button}>
+                    주소찾기
+                  </Button>
+                </Grid>
+              </Grid>
+              <Grid container spacing={6} m={5}>
+                <Grid item md={4}>
+                  <TextField
+                    name="contactName"
+                    label="담당자명"
+                    value={values.contactName}
+                    error={Boolean(touched.contactName && errors.contactName)}
+                    fullWidth
+                    helperText={touched.contactName && errors.contactName}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    variant="outlined"
+                    my={2}
+                  />
+                </Grid>
+                <Grid item md={4}>
+                  <TextField
+                    name="name"
+                    label="담당자 연락처"
+                    value={values.contactTel}
+                    error={Boolean(touched.contactTel && errors.contactTel)}
+                    fullWidth
+                    helperText={touched.contactTel && errors.contactTel}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    variant="outlined"
+                    my={2}
+                  />
+                </Grid>
+                <Grid item md={4}>
+                  <TextField
+                    name="name"
+                    label="담당자 이메일"
+                    value={values.contactEmail}
+                    error={Boolean(touched.contactEmail && errors.contactEmail)}
+                    fullWidth
+                    helperText={touched.contactEmail && errors.contactEmail}
                     onBlur={handleBlur}
                     onChange={handleChange}
                     variant="outlined"
@@ -196,6 +258,22 @@ const Group = ({ initialGroup }) => {
   )
 }
 
+const GroupCode = () => {
+
+  return (
+    <Card mb={6}>
+      <CardContent>
+
+
+      </CardContent>
+
+    </Card>
+
+  )
+  
+
+}
+
 const AdminGroupDetail = ({ match }) => {
   
   const classes = useStyles();
@@ -215,13 +293,16 @@ const AdminGroupDetail = ({ match }) => {
         <MenuBar match={match}/>
       </Grid>
       <Divider my={6} />
-      
-      {
-        loading ? <Loader/> :
-        !selected ? null : 
-        <Group initialGroup={selected}/>
-      }
-      
+
+      <Grid container spacing={6}>
+        <Grid item xs={12}>
+          {selected && <Group initialGroup={selected}/>}
+        </Grid>
+
+        {/* <Grid item xs={12} md={4}>
+          {selected && <Group initialGroup={selected}/>}
+        </Grid> */}
+      </Grid>
     </React.Fragment>
   );
 }
