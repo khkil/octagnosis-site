@@ -25,12 +25,16 @@ export default function reducer(state = initialState, actions) {
       };
 
     case types.GROUP_DETAIL_REQUEST:
-      return state;
+      return {
+        ...state,
+        loading: true
+      };
 
     case types.GROUP_DETAIL_SUCCESS:
       return {
         ...state,
         data: null,
+        loading: false,
         selected: actions.data
       };
     case types.GROUP_DETAIL_FAILURE:
@@ -43,15 +47,16 @@ export default function reducer(state = initialState, actions) {
 
     case types.GROUP_REGIST_REQUEST:
       return {
-        state,
+        ...state,
         loading: true
       };
 
     case types.GROUP_REGIST_SUCCESS:
+      console.log("state",state.state);
       return {
         ...state,
         loading: false,
-        data: [...state.data, actions.data]
+        data: [...state.state.data, actions.group]
       };
     case types.GROUP_REGIST_FAILURE:
       return {

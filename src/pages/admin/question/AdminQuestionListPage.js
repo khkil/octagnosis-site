@@ -111,14 +111,14 @@ const Question = memo(({ question, questions, setQuestions, setSelectedQuestionI
         title={"해당 문항을 삭제 하시겠습니까?"}
         desc={"삭제 후 복원 가능합니다"}
         open={showDeleteDialog} 
-        setOpen={setShowDeleteDialog} 
-        callback={() => { onDelete(questionIdx) }}
+        onClose={() => { setShowDeleteDialog(false) }} 
+        onConfirm={() => { onDelete(questionIdx) }}
       />
       <AlertDialog 
         title={"해당 문항을 복원 하시겠습니까?"}
         open={showRestoreDialog} 
-        setOpen={setShowRestoreDialog} 
-        callback={() => { onRestore(questionIdx) }}
+        onClose={() => { setShowRestoreDialog(false) }} 
+        onConfirm={() => { onRestore(questionIdx) }}
       />
         
       <Draggable key={index} draggableId={`question_${index}`} index={index}>

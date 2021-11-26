@@ -481,13 +481,10 @@ const DataDetailPage = ({ history, match }) => {
           <AnswersForm userAnswers={data.answers} answers={answers} setAnswers={setAnswers} userRank={rank} />
           <Grid container item xs={12} spacing={3}>
             <Grid item xs={4}/>
-            <Grid item xs={4} style={{textAlign:"center", paddingTop:"50px"}}>
-              <Paper className={classes.paper}>
-
+            <Grid item xs={4} style={{textAlign:"center", margin:"20px"}}>
               <Button variant="contained" color="primary" size="large" type="submit">
                 수정
               </Button>
-              </Paper>
             </Grid>
             <Grid item xs={4}/>
           </Grid>

@@ -69,7 +69,7 @@ const UserForm = React.memo(({ user, setUser }) => {
 
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [groupForm, setGroupForm] = useState({ flag: -1});
+  const [groupForm, setGroupForm] = useState({});
   const [showGroupForm, setShowGroupForm] = useState(false);
 
   const toggleForm = () => {

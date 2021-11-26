@@ -10,20 +10,17 @@ import { useTheme } from '@material-ui/core/styles';
 
 
 
-const AlertDialog = ({ open, setOpen, title, desc, callback }) => {
+const AlertDialog = ({ open, title, desc, onClose, onConfirm }) => {
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const handleClose = () => {
-    setOpen(false);
-  };
   return (
     <div>
       <Dialog
         fullScreen={fullScreen}
         open={open}
-        onClose={handleClose}
+        onClose={onClose}
         aria-labelledby="responsive-dialog-title"
       >
         <DialogTitle id="responsive-dialog-title">{title}</DialogTitle>
@@ -32,10 +29,10 @@ const AlertDialog = ({ open, setOpen, title, desc, callback }) => {
         </DialogContent>
         <DialogActions>
           
-          <Button variant="contained" color="primary" onClick={callback}>
+          <Button variant="contained" color="primary" onClick={onConfirm}>
             확인
           </Button>
-          <Button variant="contained" onClick={handleClose} color="error">
+          <Button variant="contained" onClick={onClose} color="error">
             취소
           </Button>
         </DialogActions>

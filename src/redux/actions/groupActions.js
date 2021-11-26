@@ -18,7 +18,7 @@ export const registGroup = (group) => async dispatch  => {
   dispatch({ type: types.GROUP_REGIST_REQUEST });
   try {
     const data = await service.registGroup(group);
-    dispatch({ type: types.GROUP_REGIST_SUCCESS, data: data});
+    dispatch({ type: types.GROUP_REGIST_SUCCESS, group: group});
 
   } catch (e) {
     console.error(e);

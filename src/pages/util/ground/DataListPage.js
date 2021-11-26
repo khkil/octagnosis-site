@@ -380,22 +380,20 @@ const DataListPage = ({ history, location }) => {
           searchParams={searchParams}>
         </Groups>
       </Box>
-      <Paper square>
-        <Tabs
-          className={classes.tab}
-          value={value}
-          indicatorColor="primary"
-          textColor="primary"
-          onChange={handleChangeTab}
-          aria-label="disabled tabs example"
-        >
-          <Tab label="사용 중 유저" />
-          <Tab label="삭제된 유저"/>
-        </Tabs>
-        {/* <Button color="primary" variant="contained" className={classes.refreshButton} >
-          통계 엑셀 다운
-        </Button> */}
-      </Paper>
+      <Tabs
+        className={classes.tab}
+        value={value}
+        indicatorColor="primary"
+        textColor="primary"
+        onChange={handleChangeTab}
+        aria-label="disabled tabs example"
+      >
+        <Tab label="사용 중 유저" />
+        <Tab label="삭제된 유저"/>
+      </Tabs>
+      {/* <Button color="primary" variant="contained" className={classes.refreshButton} >
+        통계 엑셀 다운
+      </Button> */}
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
