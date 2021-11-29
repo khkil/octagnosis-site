@@ -42,7 +42,7 @@ import { getResultList } from "../../../redux/actions/resultActions";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { AddIcon } from "@material-ui/data-grid";
 import { deleteQuestion, updateQuestion, updateQuestions } from "../../../services/questionService";
-import AlertDialog from "../../../components/common/AlertDialog";
+import AlertDialog from "../../../components/common/dialogs/AlertDialog";
 import { fileUpload } from "../../../services/fileService";
 import AdminQuestionDetail from "./AdminQuestionDetail";
 

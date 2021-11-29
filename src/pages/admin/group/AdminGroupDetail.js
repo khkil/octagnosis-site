@@ -27,7 +27,8 @@ import { useDispatch, useSelector } from "react-redux";
 import MenuBar from "../../../components/MenuBar";
 import { getAdminGroupDetail } from "../../../redux/actions/groupActions";
 import Loader from "../../../components/Loader";
-import { AlertDialog, FindAddress, PopupDom } from "../../../components/common";
+import AlertDialog from "../../../components/common/dialogs/AlertDialog";
+import AddressDialog from "../../../components/common/dialogs/AddressDialog";
 
 
 const validationSchema = Yup.object().shape({
@@ -126,7 +127,7 @@ const Group = ({ initialGroup }) => {
               <Grid container spacing={6} m={5}>
                 <Grid item md={6}>
                   <TextField
-                    InputProps={{readOnly: true}}
+                    //InputProps={{readOnly: true}}
                     name="address"
                     label="주소"
                     value={values.address}
@@ -134,14 +135,17 @@ const Group = ({ initialGroup }) => {
                     fullWidth
                     helperText={touched.address && errors.address}
                     onBlur={handleBlur}
-                    onChange={handleChange}
+                    onChange={(e) => {
+                      handleChange(e);
+                      console.log(e.target);
+                    }}
                     variant="outlined"
                     my={2}
                   />
                 </Grid>
                 <Grid item md={6}>
                   <TextField
-                    InputProps={{readOnly: true}}
+                   // InputProps={{readOnly: true}}
                     name="addressSub"
                     label="상세주소"
                     value={values.addressSub}
@@ -154,15 +158,11 @@ const Group = ({ initialGroup }) => {
                     my={2}
                   />
                 </Grid>
-                <PopupDom>
-                  <FindAddress/>
-                </PopupDom>
+                  
               </Grid>
               <Grid justify="space-between" container spacing={6} m={5}>
                 <Grid item>
-                  <Button variant="contained" color="default" size="small" className={classes.button}>
-                    주소찾기
-                  </Button>
+                  <AddressDialog onComplete={(data) => { console.log(data) }}/>
                 </Grid>
               </Grid>
               <Grid container spacing={6} m={5}>

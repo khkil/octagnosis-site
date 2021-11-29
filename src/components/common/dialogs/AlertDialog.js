@@ -8,8 +8,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 
-
-
 const AlertDialog = ({ open, title, desc, onClose, onConfirm }) => {
 
   const theme = useTheme();
