@@ -48,16 +48,8 @@ const AddressDialog = ({ onComplete }) => {
           <DialogContentText>
             주소를 검색하신 후 클릭 해주세요.
           </DialogContentText>
-          <DaumPostcode onComplete={onComplete}/>
+          <DaumPostcode onComplete={onComplete} onClose={handleClose}/>
         </DialogContent>
-        {/* <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Subscribe
-          </Button>
-        </DialogActions> */}
       </Dialog>
     </Box>
   );

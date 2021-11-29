@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import * as Yup from "yup";
 import { Formik } from "formik";
@@ -56,13 +56,17 @@ const DeleteButton = withStyles((theme) => ({
 const Group = ({ initialGroup }) => {
 
   const classes = useStyles();
-  const [group, setGroup] = useState(initialGroup);
   const [showDialog, setShowDialog] = useState({
-    delete: false
+    delete: false,
+    modify: false
   })
 
-  const updateGroup = (e) => {
-    e.preventDefault();
+  const modifyGroup = (values) => {
+    console.log(values);
+  }
+
+  const deleteGroup = () => {
+
   }
 
   return (
@@ -72,6 +76,13 @@ const Group = ({ initialGroup }) => {
         desc={"삭제 후 복원 불가능합니다"}
         open={showDialog.delete} 
         onClose={() => { setShowDialog({...showDialog, delete: false}) }} 
+        onConfirm={() => { alert(1) }}
+      />
+      <AlertDialog 
+        title={"수정 사항을 반영하시겠습니까?"}
+        desc={"변경된 사항이 저장됩니다"}
+        open={showDialog.modify} 
+        onClose={() => { setShowDialog({...showDialog, modify: false}) }} 
         onConfirm={() => { alert(1) }}
       />
       <CardContent>
@@ -86,9 +97,10 @@ const Group = ({ initialGroup }) => {
             isSubmitting,
             touched,
             values,
+            setValues,
             status,
           }) => (
-            <form onSubmit={updateGroup}>
+            <form>
               <Box pb={5}>
                 <Typography variant="h6" gutterBottom>
                   기관정보
@@ -127,7 +139,7 @@ const Group = ({ initialGroup }) => {
               <Grid container spacing={6} m={5}>
                 <Grid item md={6}>
                   <TextField
-                    //InputProps={{readOnly: true}}
+                    InputProps={{readOnly: true}}
                     name="address"
                     label="주소"
                     value={values.address}
@@ -135,17 +147,13 @@ const Group = ({ initialGroup }) => {
                     fullWidth
                     helperText={touched.address && errors.address}
                     onBlur={handleBlur}
-                    onChange={(e) => {
-                      handleChange(e);
-                      console.log(e.target);
-                    }}
+                    onChange={handleChange}
                     variant="outlined"
                     my={2}
                   />
                 </Grid>
                 <Grid item md={6}>
                   <TextField
-                   // InputProps={{readOnly: true}}
                     name="addressSub"
                     label="상세주소"
                     value={values.addressSub}
@@ -162,7 +170,16 @@ const Group = ({ initialGroup }) => {
               </Grid>
               <Grid justify="space-between" container spacing={6} m={5}>
                 <Grid item>
-                  <AddressDialog onComplete={(data) => { console.log(data) }}/>
+                  <AddressDialog onComplete={data => { 
+                    let { address, buildingName } = data;
+                    if(buildingName){
+                      address += ` (${buildingName})`;
+                    }
+                    setValues({
+                      ...values,
+                      address: address
+                    });
+                  }}/>
                 </Grid>
               </Grid>
               <Grid container spacing={6} m={5}>
@@ -182,7 +199,7 @@ const Group = ({ initialGroup }) => {
                 </Grid>
                 <Grid item md={4}>
                   <TextField
-                    name="name"
+                    name="contactTel"
                     label="담당자 연락처"
                     value={values.contactTel}
                     error={Boolean(touched.contactTel && errors.contactTel)}
@@ -196,7 +213,7 @@ const Group = ({ initialGroup }) => {
                 </Grid>
                 <Grid item md={4}>
                   <TextField
-                    name="name"
+                    name="contactEmail"
                     label="담당자 이메일"
                     value={values.contactEmail}
                     error={Boolean(touched.contactEmail && errors.contactEmail)}
@@ -231,16 +248,19 @@ const Group = ({ initialGroup }) => {
                 </Grid>
                 <Grid item>
                 <Button
+                  onClick={() => {
+                    console.log(values);
+                  }}
                   variant="contained"
-                  color="secondary"
+                  color="primary"
                   className={classes.button}
                   startIcon={<Save/>}
+                  onClick={() => { setShowDialog({...showDialog, modify: true}) }}
                 >
                   저장
                 </Button>
                 <DeleteButton
                   variant="contained"
-                  color="default"
                   className={classes.button}
                   startIcon={<Delete/>}
                   onClick={() => { setShowDialog({...showDialog, delete: true}) }}
