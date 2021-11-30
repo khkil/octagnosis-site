@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import * as Yup from "yup";
 import { Formik } from "formik";
@@ -25,7 +25,8 @@ import { green, red } from '@material-ui/core/colors';
 import { spacing } from "@material-ui/system";
 import { useDispatch, useSelector } from "react-redux";
 import MenuBar from "../../../components/MenuBar";
-import { getAdminGroupDetail } from "../../../redux/actions/groupActions";
+import * as groupActions from "../../../redux/actions/groupActions";
+import * as groupService from "../../../services/groupService";
 import Loader from "../../../components/Loader";
 import AlertDialog from "../../../components/common/dialogs/AlertDialog";
 import AddressDialog from "../../../components/common/dialogs/AddressDialog";
@@ -53,38 +54,38 @@ const DeleteButton = withStyles((theme) => ({
 }))(Button);
 
 
-const Group = ({ initialGroup }) => {
+const Group = ({ initialGroup, history }) => {
 
   const classes = useStyles();
   const [showDialog, setShowDialog] = useState({
     delete: false,
-    modify: false
-  })
+    update: false
+  });
+  const [openAddressPopup, setOpenAddressPopup] = useState(false);
 
-  const modifyGroup = (values) => {
-    console.log(values);
+  const groupIdx = useMemo(() => initialGroup.idx, [initialGroup])
+
+  const updateGroup = (values) => {
+    groupService.updateGroup(groupIdx, values)
+    .then(() => {
+      setShowDialog({...showDialog, update: false});
+      alert("수정에 성공하였습니다.");
+    });
   }
 
   const deleteGroup = () => {
+    
+    groupService.deleteGroup(groupIdx)
+    .then(() => {
+      setShowDialog({...showDialog, update: false});
+      alert("삭제에 성공하였습니다.");
+      history.push(`/admin/groups`);
+    });
 
   }
 
   return (
     <Card mb={6}>
-      <AlertDialog 
-        title={"해당 기관을 삭제 하시겠습니까?"}
-        desc={"삭제 후 복원 불가능합니다"}
-        open={showDialog.delete} 
-        onClose={() => { setShowDialog({...showDialog, delete: false}) }} 
-        onConfirm={() => { alert(1) }}
-      />
-      <AlertDialog 
-        title={"수정 사항을 반영하시겠습니까?"}
-        desc={"변경된 사항이 저장됩니다"}
-        open={showDialog.modify} 
-        onClose={() => { setShowDialog({...showDialog, modify: false}) }} 
-        onConfirm={() => { alert(1) }}
-      />
       <CardContent>
         <Formik
           initialValues={initialGroup}
@@ -101,6 +102,20 @@ const Group = ({ initialGroup }) => {
             status,
           }) => (
             <form>
+              <AlertDialog 
+                title={"해당 기관을 삭제 하시겠습니까?"}
+                desc={"삭제 후 복원 불가능합니다"}
+                open={showDialog.delete} 
+                onClose={() => { setShowDialog({...showDialog, delete: false}) }} 
+                onConfirm={deleteGroup}
+              />
+              <AlertDialog 
+                title={"수정 사항을 반영하시겠습니까?"}
+                desc={"변경된 사항이 저장됩니다"}
+                open={showDialog.update} 
+                onClose={() => { setShowDialog({...showDialog, update: false}) }} 
+                onConfirm={() => { updateGroup(values)}}
+              />
               <Box pb={5}>
                 <Typography variant="h6" gutterBottom>
                   기관정보
@@ -148,6 +163,7 @@ const Group = ({ initialGroup }) => {
                     helperText={touched.address && errors.address}
                     onBlur={handleBlur}
                     onChange={handleChange}
+                    onClick={() => setOpenAddressPopup(true)}
                     variant="outlined"
                     my={2}
                   />
@@ -170,7 +186,13 @@ const Group = ({ initialGroup }) => {
               </Grid>
               <Grid justify="space-between" container spacing={6} m={5}>
                 <Grid item>
-                  <AddressDialog onComplete={data => { 
+                <Button variant="contained" color="default" size="small" className={classes.button} onClick={() => setOpenAddressPopup(true)}>
+                  주소찾기
+                </Button>
+                <AddressDialog 
+                  open={openAddressPopup}
+                  setOpen={setOpenAddressPopup}
+                  onComplete={data => { 
                     let { address, buildingName } = data;
                     if(buildingName){
                       address += ` (${buildingName})`;
@@ -179,7 +201,9 @@ const Group = ({ initialGroup }) => {
                       ...values,
                       address: address
                     });
-                  }}/>
+                  }}
+                  
+                />
                 </Grid>
               </Grid>
               <Grid container spacing={6} m={5}>
@@ -255,7 +279,7 @@ const Group = ({ initialGroup }) => {
                   color="primary"
                   className={classes.button}
                   startIcon={<Save/>}
-                  onClick={() => { setShowDialog({...showDialog, modify: true}) }}
+                  onClick={() => { setShowDialog({...showDialog, update: true}) }}
                 >
                   저장
                 </Button>
@@ -294,15 +318,14 @@ const GroupCode = () => {
 
 }
 
-const AdminGroupDetail = ({ match }) => {
+const AdminGroupDetail = ({ match, history }) => {
   
-  const classes = useStyles();
   const dispatch = useDispatch();
   const { loading, selected } = useSelector(state => state.groupReducer);
 
   useEffect(() => {
     const groupIdx = match.params.idx;
-    dispatch(getAdminGroupDetail(groupIdx));
+    dispatch(groupActions.getAdminGroupDetail(groupIdx));
   }, []);
   
   return (
@@ -316,7 +339,7 @@ const AdminGroupDetail = ({ match }) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          {selected && <Group initialGroup={selected}/>}
+          {selected && <Group initialGroup={selected} history={history}/>}
         </Grid>
 
         {/* <Grid item xs={12} md={4}>

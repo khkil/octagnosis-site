@@ -84,5 +84,21 @@ export const updateGroup = (groupIdx, group) => {
       reject(error);
     });
   });
+}
+
+export const deleteGroup = (groupIdx) => {
+  return new Promise((resolve, reject) => {
+    axios
+    .delete(`/api/admin/groups/${groupIdx}`)
+    .then((response) => {
+      if (response.status === 200) {
+        resolve(response.data);
+      }
+      reject(response.data);
+    })
+    .catch((error) => {
+      reject(error);
+    });
+  });
 
 }

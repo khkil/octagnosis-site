@@ -43,8 +43,6 @@ export default function reducer(state = initialState, actions) {
         error: actions.error
       };
 
-    
-
     case types.GROUP_REGIST_REQUEST:
       return {
         ...state,
@@ -52,7 +50,6 @@ export default function reducer(state = initialState, actions) {
       };
 
     case types.GROUP_REGIST_SUCCESS:
-      console.log("state",state.state);
       return {
         ...state,
         loading: false,
@@ -65,7 +62,24 @@ export default function reducer(state = initialState, actions) {
         error: actions.error
       };
 
+    case types.GROUP_UPDATE_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
 
+    case types.GROUP_UPDATE_SUCCESS:
+      return {
+        ...state,
+        loading: false
+      };
+    case types.GROUP_UPDATE_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: actions.error
+      };
+      
     default:
       return state;
   }
