@@ -54,7 +54,7 @@ const DeleteButton = withStyles((theme) => ({
 }))(Button);
 
 
-const Group = ({ initialGroup, history }) => {
+const GroupDetail = ({ initialGroup, history }) => {
 
   const classes = useStyles();
   const [showDialog, setShowDialog] = useState({
@@ -339,7 +339,7 @@ const AdminGroupDetail = ({ match, history }) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          {selected && <Group initialGroup={selected} history={history}/>}
+          {selected && <GroupDetail initialGroup={selected} history={history}/>}
         </Grid>
 
         {/* <Grid item xs={12} md={4}>

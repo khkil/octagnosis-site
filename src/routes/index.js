@@ -43,15 +43,17 @@ const Page404 = async(() => import("../pages/auth/Page404"));
 const Page500 = async(() => import("../pages/auth/Page500"));
 
 //admin > member
-const AdminMemberList = async(() => import("../pages/admin/member/AdminMemberList"))
-const AdminMemberDetail = async(() => import("../pages/admin/member/AdminMemberDetail"))
+const AdminMemberList = async(() => import("../pages/admin/member/AdminMemberList"));
+const AdminMemberDetail = async(() => import("../pages/admin/member/AdminMemberDetail"));
 
 //admin > question
 const AdminQuestionListPage = async(() => import("../pages/admin/question/AdminQuestionListPage"));
 
 //admin > group
-const AdminGroupList = async(() => import("../pages/admin/group/AdminGroupList"))
-const AdminGroupDetail = async(() => import("../pages/admin/group/AdminGroupDetail"))
+const AdminGroupList = async(() => import("../pages/admin/group/AdminGroupList"));
+const AdminGroupDetail = async(() => import("../pages/admin/group/AdminGroupDetail"));
+const AdminGroupRegist = async(() => import("../pages/admin/group/AdminGroupRegist"));
+
 // Member components
 const MemberProfile = async(() => import("../pages/member/Profile"));
 
@@ -151,22 +153,22 @@ const groundInspectionRoute = {
 };
 
 const adminMemberRoute = {
-  id: "유저",
+  id: "회원",
   path: "/admin/members",
-  header: "회원 관리",
-  group: "회원 관리",
+  header: "사용자 관리",
+  group: "사용자 관리",
   icon: <PieChart />,
   containsHome: true,
   auth: true,
   children: [
     {
       path: "/admin/members",
-      name: "유저 목록",
+      name: "회원 목록",
       component: AdminMemberList,
     },
     {
       path: "/admin/members/:idx",
-      name: "유저 상세",
+      name: "회원 상세",
       component: AdminMemberDetail,
     }
   ],
@@ -200,7 +202,7 @@ const adminQuestionRoute = {
 const adminGroupRoute = {
   id: "기관",
   path: "/admin/groups",
-  group: "회원 관리",
+  group: "사용자 관리",
   icon: <PieChart />,
   containsHome: true,
   auth: true,
@@ -211,10 +213,16 @@ const adminGroupRoute = {
       component: AdminGroupList,
     },
     {
+      path: "/admin/groups/regist",
+      name: "기관 등록",
+      component: AdminGroupRegist,
+    },
+    {
       path: "/admin/groups/:idx",
       name: "기관 상세",
       component: AdminGroupDetail,
     },
+    
   ],
   component: null,
 }

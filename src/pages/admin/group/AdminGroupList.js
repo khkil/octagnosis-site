@@ -88,13 +88,18 @@ const AdminGroupList = ({ match }) => {
     })
   }
 
-  const groupDetail = (groupIdx) => {
+  const goDetailPage = (groupIdx) => {
     history.push(`/admin/groups/${groupIdx}`)
   }
 
+  const goRegistPage = () => {
+    history.push(`/admin/groups/regist`)
+  }
+
   useEffect(() => {
-    console.log("useEffect!!");
-    dispatch(getAdminGroupList(params));
+    if(!data){
+      dispatch(getAdminGroupList(params));
+    }
   }, [params]);
 
   const { data, loading } = useSelector(state => state.groupReducer);
@@ -108,7 +113,7 @@ const AdminGroupList = ({ match }) => {
       <Grid justify="space-between" container spacing={10}>
         <MenuBar match={match}/>
         <Grid item>
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" onClick={goRegistPage}>
             <AddIcon />새 기관 추가
           </Button>
         </Grid>
@@ -135,7 +140,7 @@ const AdminGroupList = ({ match }) => {
                     <StyledTableCell align="center">
                       <Link 
                         component="button" 
-                        onClick={() => { groupDetail(idx) } }
+                        onClick={() => { goDetailPage(idx) } }
                       >
                         {name}
                       </Link>
