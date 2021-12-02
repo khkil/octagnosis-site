@@ -70,12 +70,9 @@ const SignIn = () => {
     const { id, password } = e;
     const credentials = { id: id, password: password, role: 'ROLE_ADMIN' };
     dispatch(login(credentials))
-    .then(({ member }) => {
-      const success = Boolean(member && member != null);
-      if(success){
-        if(isRemember){
-          setCookie("admin_id", member.id);
-        }
+    .then(({ success, member }) => {
+      if(success && isRemember){
+        setCookie("admin_id", member.id);
       }
     });
   };

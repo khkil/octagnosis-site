@@ -1,7 +1,7 @@
 import * as types from "../../constants";
 
-const token = localStorage.getItem("token");
-const initialState = { isLoggedIn: token !== null, isAdmin: false, loading: false, data: null, error: '' };
+const accessToken = localStorage.getItem("accessToken");
+const initialState = { isLoggedIn: accessToken !== null, isAdmin: false, loading: false, data: null, error: '' };
 
 export default function reducer(state = initialState, action) {
   

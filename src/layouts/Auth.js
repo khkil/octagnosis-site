@@ -28,7 +28,7 @@ const Root = styled.div`
 
 const Auth = ({ children }) => {
     
-  const { token } = localStorage;
+  const { accessToken } = localStorage;
 
   const authReducer = useSelector(state => state.authReducer);
   const { isLoggedIn, data, error } = authReducer;
@@ -37,22 +37,22 @@ const Auth = ({ children }) => {
   const history = useHistory();
  
   useEffect(() => {
-    if(token){
+    if(accessToken){
       dispatch(getAuthInfo());
     }
   }, []);
 
   if(isLoggedIn && data){
-    const { token, member, error } = data;
-    if(token){
-      localStorage.setItem("token", data.token);
+    const { accessToken, member, error } = data;
+    if(accessToken){
+      localStorage.setItem("accessToken", data.accessToken);
     };
     const { role } = (member ? member : data);
     //const redirectPath = (role === types.ROLE_ADMIN ? "/admin" : "/");
     const redirectPath = (role === types.ROLE_ADMIN ? "/admin" : "/");
     return redirectPath && <Redirect to={redirectPath}/>;
   }else if(error){
-    localStorage.removeItem("token");
+    localStorage.removeItem("accessToken");
   }
  
   return (

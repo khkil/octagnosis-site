@@ -22,7 +22,7 @@ export const login = (credentials) => {
 }
 
 export const logout = () => {
-  localStorage.removeItem('token');
+  localStorage.removeItem('accessToken');
 }
 
 export const checkId = (id) => {
@@ -43,12 +43,12 @@ export const checkId = (id) => {
 }
 
 export const getAuthInfo = () => {
-  const token = localStorage.getItem('token');
+  const accessToken = localStorage.getItem('accessToken');
   return new Promise((resolve, reject) => {
     axios
       .get('/api/auth/info', {
         headers: {
-          Authorization: `${token}`
+          Authorization: `${accessToken}`
         }
       })
       .then((response) => {

@@ -22,7 +22,7 @@ const jss = create({
 });
 
 
-const token = localStorage.getItem("token");
+const accessToken = localStorage.getItem("accessToken");
 function App() {
 
   const theme = useSelector((state) => state.themeReducer);

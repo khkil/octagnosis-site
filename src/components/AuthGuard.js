@@ -12,13 +12,13 @@ const AuthGuard = ({ children, path }) => {
     path.indexOf("admin") > -1 
     || path.indexOf("ground") > -1
   );
-  const token = localStorage.getItem("token");
+  const accessToken = localStorage.getItem("accessToken");
   
   useEffect(() => {
-    if(token){
+    if(accessToken){
       dispatch(getAuthInfo());
     }
-  }, [token]);
+  }, [accessToken]);
 
   const redirectPath = `/${isAdminPage ? "admin" : "auth"}/login`;
 

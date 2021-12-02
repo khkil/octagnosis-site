@@ -7,7 +7,7 @@ export const login = (credentials) => async dispatch => {
  
   dispatch({ type: types.AUTH_LOGIN_REQUEST });
   try{
-    const data = await authService.login(credentials);
+    const { data } = await authService.login(credentials);
     dispatch({ type: types.AUTH_LOGIN_SUCCESS, data: data });
     return data;
   }catch(e){
@@ -108,9 +108,9 @@ export const signUp = (credentials, history) => async dispatch =>{
   try {
     const data = await authService.signUp(credentials);
     dispatch({ type: types.AUTH_SIGN_UP_SUCCESS, data: data });
-    if (data.token) {
-      const { token } = data;
-      localStorage.setItem('token', token);
+    if (data.accessToken) {
+      const { accessToken } = data;
+      localStorage.setItem('accessToken', accessToken);
       history.push(redirectPath);
     }
 
