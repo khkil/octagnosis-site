@@ -1,8 +1,5 @@
 import axios from "../utils/axios";
-
-axios.interceptors.request.use((config) => {
-  return config;
-});
+import { getRefreshToken } from "./tokenService";
 
 export const login = (credentials) => {
   return new Promise((resolve, reject) => {
@@ -42,15 +39,48 @@ export const checkId = (id) => {
   });
 }
 
+export const validateAccessToken = () => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/auth/reissue-token', params)
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+export const reissueAccessToken = () => {
+  return new Promise((resolve, reject) => {
+    const refreshToken = getRefreshToken();
+    axios
+      .post('/api/auth/reissue-token', {
+        headers: {
+          refreshToken: refreshToken
+        }
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export const getAuthInfo = () => {
   const accessToken = localStorage.getItem('accessToken');
   return new Promise((resolve, reject) => {
     axios
-      .get('/api/auth/info', {
-        headers: {
-          Authorization: `${accessToken}`
-        }
-      })
+      .get('/api/auth/info')
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);

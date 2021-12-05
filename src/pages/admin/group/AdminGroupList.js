@@ -46,6 +46,7 @@ import Paging from "../../../components/common/Paging";
 import queryString from "query-string";
 import { getAdminGroupList } from "../../../redux/actions/groupActions";
 import Loader from "../../../components/Loader";
+import { CLEAR_GROUP } from "../../../constants";
 
 const Divider = styled(MuiDivider)(spacing);
 const Paper = styled(MuiPaper)(spacing);
@@ -97,9 +98,10 @@ const AdminGroupList = ({ match }) => {
   }
 
   useEffect(() => {
-    if(!data){
       dispatch(getAdminGroupList(params));
-    }
+      return () => {
+        dispatch({ type: CLEAR_GROUP});
+      }
   }, [params]);
 
   const { data, loading } = useSelector(state => state.groupReducer);

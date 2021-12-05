@@ -1,7 +1,5 @@
 import axios from "../utils/axios";
 
-axios.defaults.headers.common['Authorization'] = localStorage.getItem("accessToken");
-
 export const getMemberList = (params) => {
   return new Promise((resolve, reject) => {
     axios

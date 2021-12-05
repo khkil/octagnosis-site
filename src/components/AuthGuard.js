@@ -23,12 +23,13 @@ const AuthGuard = ({ children, path }) => {
   const redirectPath = `/${isAdminPage ? "admin" : "auth"}/login`;
 
   const { data, isLoggedIn } = useSelector(state => state.authReducer);
-  if (!isLoggedIn) return <Redirect to={redirectPath} />;
+  //if (!isLoggedIn) return <Redirect to={redirectPath} />;
   if(isAdminPage && isLoggedIn && data){
     const { role } = data.member ? data.member : data;
-    if(role !== types.ROLE_ADMIN) return <Redirect to="/" />;
+    /* if(role !== types.ROLE_ADMIN) 
+    return <Redirect to="/" />; */
   }
-  if (!data) return null;
+  //if (!data) return null;
   return children;
 
 }

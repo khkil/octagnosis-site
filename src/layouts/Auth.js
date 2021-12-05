@@ -43,16 +43,17 @@ const Auth = ({ children }) => {
   }, []);
 
   if(isLoggedIn && data){
-    const { accessToken, member, error } = data;
+    const { accessToken, refreshToken, member, error } = data;
     if(accessToken){
-      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
     };
     const { role } = (member ? member : data);
-    //const redirectPath = (role === types.ROLE_ADMIN ? "/admin" : "/");
     const redirectPath = (role === types.ROLE_ADMIN ? "/admin" : "/");
     return redirectPath && <Redirect to={redirectPath}/>;
   }else if(error){
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
   }
  
   return (

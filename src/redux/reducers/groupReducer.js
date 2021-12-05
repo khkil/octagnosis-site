@@ -5,6 +5,9 @@ const initialState = { loading: false, data: null, error: null, selected: null }
 export default function reducer(state = initialState, actions) {
   switch (actions.type) {
     
+    case types.CLEAR_GROUP : 
+      return initialState;
+
     case types.GROUP_LIST_REQUEST:
       return {
         state,
