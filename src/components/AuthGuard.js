@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { getAuthInfo } from "../redux/actions/authActions";
+import { validateToken } from "../redux/actions/authActions";
 import * as types from "../constants";
 
 const AuthGuard = ({ children, path }) => {
@@ -16,7 +16,7 @@ const AuthGuard = ({ children, path }) => {
   
   useEffect(() => {
     if(accessToken){
-      dispatch(getAuthInfo());
+      dispatch(validateToken());
     }
   }, [accessToken]);
 

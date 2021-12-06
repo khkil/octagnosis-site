@@ -45,7 +45,6 @@ export const updateMember = (idx, member) => {
         reject(response.data);
       })
       .catch((error) => {
-        console.log(3);
         reject(error);
       });
   });

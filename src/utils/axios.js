@@ -12,12 +12,17 @@ axios.interceptors.request.use(
   (config) => {
     const accessToken = getAccessToken();
     const refreshToken = getRefreshToken();
+
+    console.log("==========================" + config.url + "================================")
+    console.log("accessToken : " ,accessToken);
+    console.log("refreshToken : ", refreshToken)
     if(accessToken){
       config.headers['Authorization'] = accessToken;
     }
     if(refreshToken){
       config.headers['refreshToken'] = refreshToken;
     }
+    console.log("========================================================================")
     return config;
   },
   (e) => {
@@ -32,17 +37,16 @@ axios.interceptors.response.use(
   (e) => {
     const { response, config } = e;
     if(response.status === 403){
-      reissueAccessToken()
+      const test = await reissueAccessToken();
+      console.log(test);
+      /* reissueAccessToken()
       .then(res => {
         const { data, success } = res;
         if(success){
-          console.log(data.accessToken);
           setAccessToken(data.accessToken);
-
         }
-      })  
-      .catch(e => {
-      })
+      }); */  
+      
     }
     return Promise.reject(e);
   }

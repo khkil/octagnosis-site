@@ -16,6 +16,22 @@ export const login = (credentials) => async dispatch => {
   }
 } 
 
+
+export const validateToken = () => async dispatch => {
+  dispatch({ type: types.AUTH_GET_INFO_REQUEST });
+  try {
+    const data = await authService.validateToken();
+    dispatch({ type: types.AUTH_GET_INFO_SUCCESS, data: data });
+
+  } catch (e) {
+    console.error(e);
+    dispatch({
+      type: types.AUTH_GET_INFO_FAILURE,
+      error: e
+    })
+  }
+}
+
 export const checkId = (id) => async dispatch => {
 
   dispatch({ type: types.AUTH_CHECK_ID_REQUEST });

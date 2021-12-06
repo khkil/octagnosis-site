@@ -6,12 +6,14 @@ const initialState = { isLoggedIn: accessToken !== null, isAdmin: false, loading
 export default function reducer(state = initialState, action) {
   
   switch (action.type) {
-    case types.AUTH_GET_INFO_REQUEST:
+    case types.AUTH_GET_INFO_REQUEST :
+    case types.AUTH_VALIDATE_REQUEST :
       return {
         ...state,
         loading: true
       };
-    case types.AUTH_GET_INFO_SUCCESS:
+    case types.AUTH_GET_INFO_SUCCESS :
+    case types.AUTH_VALIDATE_SUCCESS :
       return {
         ...state,
         isLoggedIn: true,
@@ -20,6 +22,7 @@ export default function reducer(state = initialState, action) {
       };
 
     case types.AUTH_GET_INFO_FAILURE:
+    case types.AUTH_VALIDATE_FAILURE :
       return {
         ...state,
         isLoggedIn: false,
@@ -88,19 +91,22 @@ export default function reducer(state = initialState, action) {
         error: action.error
       };
 
-    case types.AUTH_FIND_ID_REQUEST, types.AUTH_CHECK_ID_REQUEST:
+    case types.AUTH_FIND_ID_REQUEST : 
+    case types.AUTH_CHECK_ID_REQUEST:
       return {
         ...initialState,
         loading: true
       };
 
-    case types.AUTH_FIND_ID_SUCCESS, types.AUTH_CHECK_ID_SUCCESS:
+    case types.AUTH_FIND_ID_SUCCESS :
+    case types.AUTH_CHECK_ID_SUCCESS:
       return {
         ...state,
         loading: false,
         data: action.data
       };
-    case types.AUTH_FIND_ID_FAILURE, types.AUTH_CHECK_ID_FAILURE:
+    case types.AUTH_FIND_ID_FAILURE :
+    case types.AUTH_CHECK_ID_FAILURE :
       return {
         ...state,
         loading: false,

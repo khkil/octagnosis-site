@@ -12,7 +12,22 @@ export const login = (credentials) => {
         reject(response.data);
       })
       .catch((error) => {
-        console.log(3);
+        reject(error);
+      });
+  });
+}
+
+export const validateToken = () => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/auth/validate-token')
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
         reject(error);
       });
   });
