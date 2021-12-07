@@ -22,8 +22,8 @@ const MainPage = ({ history }) => {
   const [value, setValue] = useState(0);
 
   useEffect(() => {
-    console.log(history);
-  })
+    
+  }, [])
 
   return (
     <Container style={style}>

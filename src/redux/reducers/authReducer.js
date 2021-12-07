@@ -7,13 +7,15 @@ export default function reducer(state = initialState, action) {
   
   switch (action.type) {
     case types.AUTH_GET_INFO_REQUEST :
-    case types.AUTH_VALIDATE_REQUEST :
+    case types.VALIDATE_TOKEN_REQUEST :
+    case types.REISSUE_TOKEN_REQUEST :
       return {
         ...state,
         loading: true
       };
     case types.AUTH_GET_INFO_SUCCESS :
-    case types.AUTH_VALIDATE_SUCCESS :
+    case types.VALIDATE_TOKEN_SUCCESS :
+    case types.REISSUE_TOKEN_SUCCESS :
       return {
         ...state,
         isLoggedIn: true,
@@ -22,11 +24,19 @@ export default function reducer(state = initialState, action) {
       };
 
     case types.AUTH_GET_INFO_FAILURE:
-    case types.AUTH_VALIDATE_FAILURE :
+    case types.VALIDATE_TOKEN_FAILURE :
       return {
         ...state,
         isLoggedIn: false,
         loading: false,
+        error: action.error
+      };
+    case types.REISSUE_TOKEN_FAILURE :
+      return {
+        ...state,
+        isLoggedIn: false,
+        loading: false,
+        data: null,
         error: action.error
       };
 

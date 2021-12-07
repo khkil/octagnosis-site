@@ -47,7 +47,6 @@ const InfoType = ({ type }) => {
 
   useEffect(() => {
     if(data && data.success){
-      console.log(history);
 
     }else if(error){
       setShowErrorMsg(true);

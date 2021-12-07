@@ -1,5 +1,6 @@
 import * as types from "../../constants";
 import * as authService from "../../services/authService";
+import { setAccessToken } from "../../services/tokenService";
 import { timeout } from "../../utils/util";
 
 
@@ -18,18 +19,25 @@ export const login = (credentials) => async dispatch => {
 
 
 export const validateToken = () => async dispatch => {
-  dispatch({ type: types.AUTH_GET_INFO_REQUEST });
+  dispatch({ type: types.VALIDATE_TOKEN_REQUEST });
   try {
     const data = await authService.validateToken();
-    dispatch({ type: types.AUTH_GET_INFO_SUCCESS, data: data });
-
+    dispatch({ type: types.VALIDATE_TOKEN_SUCCESS, data: data });
   } catch (e) {
-    console.error(e);
-    dispatch({
-      type: types.AUTH_GET_INFO_FAILURE,
-      error: e
-    })
+    dispatch({ type: types.VALIDATE_TOKEN_FAILURE, error: e });
   }
+}
+
+export const reissueToken = () => async dispatch => {
+  dispatch({ type: types.REISSUE_TOKEN_REQUEST});
+  try {
+    const { data } = await authService.reissueAccessToken();
+    setAccessToken(data.accessToken);
+    dispatch({ type: types.REISSUE_TOKEN_SUCCESS, data: data });
+  } catch (e) {
+    dispatch({ type: types.REISSUE_TOKEN_FAILURE, error: e });
+  }
+  
 }
 
 export const checkId = (id) => async dispatch => {

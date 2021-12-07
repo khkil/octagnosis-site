@@ -1,5 +1,5 @@
 import axios from "../utils/axios";
-import { getRefreshToken } from "./tokenService";
+import { getRefreshToken, setAccessToken } from "./tokenService";
 
 export const login = (credentials) => {
   return new Promise((resolve, reject) => {

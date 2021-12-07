@@ -128,7 +128,6 @@ const AdminMemberList = ({ location, match, history }) => {
     
   }
   useEffect(() => {
-    console.log(history);
     dispatch(getMemberList(query));
   }, [location]);
 
@@ -144,11 +143,6 @@ const AdminMemberList = ({ location, match, history }) => {
     })
   }, [searchParam]);
 
-
-
-  console.log(response);
-  
-  
   return (
     <React.Fragment>
       <Helmet title="회원 목록" />
