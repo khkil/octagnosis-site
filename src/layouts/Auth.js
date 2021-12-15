@@ -5,6 +5,7 @@ import { Redirect, useHistory } from "react-router-dom";
 import { getAuthInfo } from "../redux/actions/authActions";
 import { useDispatch, useSelector } from "react-redux";
 import * as types from "../constants";
+import { getAccessToken } from "../services/tokenService";
 
 const GlobalStyle = createGlobalStyle`
   html,
@@ -37,25 +38,15 @@ const Auth = ({ children }) => {
   const history = useHistory();
  
   useEffect(() => {
+    const accessToken = getAccessToken();
     if(accessToken){
-      dispatch(getAuthInfo());
+     dispatch(getAuthInfo());
     }
-  }, []);
+  }, [dispatch]);
 
-  if(isLoggedIn && data){
-    const { accessToken, refreshToken, member, error } = data;
-    if(accessToken){
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-    };
-    const { role } = (member ? member : data);
-    const redirectPath = (role === types.ROLE_ADMIN ? "/admin" : "/");
-    return redirectPath && <Redirect to={redirectPath}/>;
-  }else if(error){
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
+  if(isLoggedIn){
+    return <Redirect to="/admin"/>;
   }
- 
   return (
     <Root>
       <CssBaseline />

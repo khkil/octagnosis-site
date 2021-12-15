@@ -32,7 +32,6 @@ export const reissueToken = () => async dispatch => {
   dispatch({ type: types.REISSUE_TOKEN_REQUEST});
   try {
     const { data } = await authService.reissueAccessToken();
-    setAccessToken(data.accessToken);
     dispatch({ type: types.REISSUE_TOKEN_SUCCESS, data: data });
   } catch (e) {
     dispatch({ type: types.REISSUE_TOKEN_FAILURE, error: e });

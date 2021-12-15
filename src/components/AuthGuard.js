@@ -14,10 +14,10 @@ const AuthGuard = ({ children, path }) => {
   const accessToken = getAccessToken();
   
   useEffect(() => {
-    console.log("this is authguard");
+    /* console.log("this is authguard");
     if(accessToken && isLoggedIn){
       dispatch(validateToken());
-    }
+    } */
   }, [accessToken, path]);
 
   if(!isLoggedIn && !data){

@@ -20,7 +20,7 @@ axios.interceptors.request.use(
       config.headers['Authorization'] = accessToken;
     }
     if(refreshToken){
-      config.headers['refreshToken'] = refreshToken;
+      config.headers['refresh-token'] = refreshToken;
     }
 
     //dispatch(validateToken());
@@ -40,6 +40,15 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   (config) => {
+
+    const { headers } = config;
+    const accessToken = getAccessToken();
+    const newAccessToken = headers.authorization;
+    
+    if(newAccessToken && accessToken !== newAccessToken){
+      setAccessToken(newAccessToken);
+    }
+    
     return config;
   },
   (e) => {

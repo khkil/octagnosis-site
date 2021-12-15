@@ -1,5 +1,5 @@
 import axios from "../utils/axios";
-import { getRefreshToken, setAccessToken } from "./tokenService";
+import { getRefreshToken, setAccessToken, setRefreshToken } from "./tokenService";
 
 export const login = (credentials) => {
   return new Promise((resolve, reject) => {
@@ -7,6 +7,13 @@ export const login = (credentials) => {
       .post('/api/auth/login', credentials)
       .then((response) => {
         if (response.status === 200) {
+          const accessToken = response.headers["authorization"];
+          const refreshToken = response.headers["refresh-token"];
+
+          console.log(response.headers)
+          setAccessToken(accessToken)
+          setRefreshToken(refreshToken);
+
           resolve(response.data);
         }
         reject(response.data);
@@ -81,7 +88,7 @@ export const reissueAccessToken = () => {
       })
       .then((response) => {
         if (response.status === 200) {
-          resolve(response.data);
+          setAccessToken(response.data.accessToken);
         }
         reject(response.data);
       })
