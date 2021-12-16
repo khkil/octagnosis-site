@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled, { createGlobalStyle } from "styled-components/macro";
 import { CssBaseline } from "@material-ui/core";
 import { Redirect, useHistory } from "react-router-dom";
-import { getAuthInfo } from "../redux/actions/authActions";
+import { getAuthInfo, validateToken } from "../redux/actions/authActions";
 import { useDispatch, useSelector } from "react-redux";
 import * as types from "../constants";
 import { getAccessToken } from "../services/tokenService";
@@ -40,7 +40,7 @@ const Auth = ({ children }) => {
   useEffect(() => {
     const accessToken = getAccessToken();
     if(accessToken){
-     dispatch(getAuthInfo());
+     dispatch(validateToken());
     }
   }, [dispatch]);
 

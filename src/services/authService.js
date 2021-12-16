@@ -88,7 +88,7 @@ export const reissueAccessToken = () => {
       })
       .then((response) => {
         if (response.status === 200) {
-          setAccessToken(response.data.accessToken);
+          resolve(response);
         }
         reject(response.data);
       })

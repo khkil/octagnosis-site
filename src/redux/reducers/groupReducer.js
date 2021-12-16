@@ -10,7 +10,7 @@ export default function reducer(state = initialState, actions) {
 
     case types.GROUP_LIST_REQUEST:
       return {
-        state,
+        ...state,
         loading: true
       };
 

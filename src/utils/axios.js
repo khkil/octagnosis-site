@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 import { reissueToken } from "../redux/actions/authActions";
 import store from "../redux/store/index";
 import { reissueAccessToken, validateToken } from "../services/authService";
@@ -23,14 +24,6 @@ axios.interceptors.request.use(
       config.headers['refresh-token'] = refreshToken;
     }
 
-    //dispatch(validateToken());
-    
-
-    /* console.log("==========================" + config.url + "================================")
-    console.log("accessToken : " ,accessToken);
-    console.log("refreshToken : ", refreshToken)
-    console.log("========================================================================") */
-
     return config;
   },
   (e) => {
@@ -53,10 +46,19 @@ axios.interceptors.response.use(
   },
   (e) => {
     const originalConfig = e.config;
-    const { response, config } = e;
-    if(response.status === 403 && config.url === '/api/auth/validate-token' && !originalConfig.retry){
+    const { response } = e;
+    if(response.status === 403){
       originalConfig.retry = true;
-      dispatch(reissueToken());
+      reissueAccessToken()
+      .then(response => {
+        const { authorization } = response.headers;
+        setAccessToken(authorization);
+        location.reload();
+      }) 
+      .catch(e => {
+        console.error(e);
+        location.href = "/admin/login";
+      })
     }
     return Promise.reject(e);
   }
