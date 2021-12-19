@@ -5,9 +5,10 @@ import CommonLayout from "../layouts/CommonLayout";
 
 const initRoutes = (Layout, routes) => {
 
+  console.log(routes);
   return (
     routes.map((route, index) => { 
-      const { component: Component, children, path, auth } = route;
+      const { component: Component, title, path, auth, children } = route;
       return children ? (
         [route, ...children].map((element, index) => {
           return (
@@ -18,7 +19,7 @@ const initRoutes = (Layout, routes) => {
               path={element.path}
               exact
               render={(props) => (
-                <Layout>
+                <Layout title={element.title}>
                   <element.component {...props} />
                 </Layout> 
               )}
@@ -32,7 +33,7 @@ const initRoutes = (Layout, routes) => {
           auth={auth}
           exact
           render={(props) => (
-            <Layout>
+            <Layout title={title}>
               <Component {...props} />
             </Layout> 
           )}

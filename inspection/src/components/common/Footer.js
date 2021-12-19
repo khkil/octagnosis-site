@@ -1,11 +1,12 @@
 import React from 'react';
+import footerLogo from '../../assets/images/common/logo_g.png';
 
 const Footer = () => {
 
   return (
     <div id="footer" className="bg-navy">
         <div className="container">
-            <img src="../img/common/logo_g.png" alt=""/>
+            <img src={footerLogo} alt=""/>
             <div className="txt-wrap">
                 <p className="copyright">Copyright 2004. 한국진로적성센터. All rights reserved.</p>
                 <div className="company">
