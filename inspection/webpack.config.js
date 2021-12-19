@@ -18,6 +18,7 @@ module.exports = webpackEnv => {
     mode,
     entry: path.resolve(SRC_PATH, 'index.js'),
     output : {
+      publicPath: '/',
       path : path.resolve(__dirname, 'dist'), // 경로
       filename : 'app.bundle.js' // 하나로 묶일 javascrpit 파일
     },
@@ -66,6 +67,7 @@ module.exports = webpackEnv => {
       open: true,
       overlay: true,
       stats: 'errors-warnings',
+      historyApiFallback: true,
     },
   };
 };
