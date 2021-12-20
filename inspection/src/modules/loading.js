@@ -15,6 +15,8 @@ const loading = handleActions({
   }),
   [END_LOADING] : (state, action) => ({
     ...state,
-    [action.payload] : true,
+    [action.payload] : false,
   })
 }, initialState);
+
+export default loading;

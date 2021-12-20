@@ -68,6 +68,9 @@ module.exports = webpackEnv => {
       overlay: true,
       stats: 'errors-warnings',
       historyApiFallback: true,
+      proxy: {
+        '/api': 'http://localhost:8088'
+      }
     },
   };
 };

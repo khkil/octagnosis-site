@@ -1,11 +1,17 @@
 import React, { useMemo } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 const CustomHelmet = ({ title }) => {
 
   const fullTitle = useMemo(() => `옥타그노시스 - ${title}`, [title]);
   return (
-    <Helmet title={fullTitle}/>
+    <>
+      <HelmetProvider>
+        <Helmet>
+          <title>{fullTitle}</title>
+        </Helmet>
+      </HelmetProvider>
+    </>
   )
 }
 
