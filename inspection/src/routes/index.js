@@ -11,14 +11,14 @@ const mainPageRoute = {
 }
 
 const startPageRoute = {
-  path: "/inspections/:insepectionIdx/pages/start",
+  path: "/inspections/:inspectionIdx/pages/start",
   title: "시작 페이지",
   auth: true,
   component: startPage
 }
 
 const endPageRoute = {
-  path: "/inspections/:insepectionIdx/pages/end",
+  path: "/inspections/:inspectionIdx/pages/end",
   title: "시작 페이지",
   auth: true,
   component: startPage

@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import { Container, Box } from '@mui/material';
+import { Container, Box, Grid } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchInspectionList, FETCH_INPECTION_LIST } from "../../modules/inspection"
 import Loader from '../../components/ui/Loader';
+import MainPageInspection from '../../components/inspection/MainPageInspection';
 
 const MainPage = () => {
 
@@ -14,17 +15,26 @@ const MainPage = () => {
   }));
 
   useEffect(() => {
+    if(inspectionList.length > 0) return;
     const params = {
       payYn : "Y"
     }
     dispatch(fetchInspectionList(params));
   }, []);
 
-  console.log("inspectionReducer", inspectionList);
+  if(isLoading) return <Loader/>;
   return (
     <Container maxWidth="xl">
       <Box>
-        <Loader/>
+        <Grid container spacing={2} columns={16}>
+          {inspectionList.map(({ inspectionIdx, inspectionName }) => (
+            <MainPageInspection 
+              key={inspectionIdx}
+              inspectionIdx={inspectionIdx} 
+              inspectionName={inspectionName}
+            />
+          ))}
+        </Grid>
       </Box>
     </Container>
   )

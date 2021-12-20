@@ -5,7 +5,6 @@ import CommonLayout from "../layouts/CommonLayout";
 
 const initRoutes = (Layout, routes) => {
 
-  console.log(routes);
   return (
     routes.map((route, index) => { 
       const { component: Component, title, path, auth, children } = route;
