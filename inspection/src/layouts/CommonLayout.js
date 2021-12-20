@@ -6,7 +6,7 @@ import CustomHelmet from '../components/common/CustomHelmet';
 import Footer from '../components/common/Footer';
 import Header from '../components/common/Header';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   content: {
     flexGrow: 1,
     padding: 10,
