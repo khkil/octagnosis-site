@@ -4,7 +4,7 @@ import { fetchInspectionListApi } from "../api/inspectionApi";
 
 import { startLoading, endLoading } from "./loading"
 
-const FETCH_INPECTION_LIST = "inspection/FETCH_INPECTION_LIST";
+export const FETCH_INPECTION_LIST = "inspection/FETCH_INPECTION_LIST";
 const FETCH_INPECTION_LIST_SUCCESS = "inspection/FETCH_INPECTION_LIST_SUCCESS";
 const FETCH_INPECTION_LIST_FAILURE = "inspection/FETCH_INPECTION_LIST_FAILURE";
 
@@ -21,12 +21,14 @@ function* inpectionListSaga(action) {
     
   }catch(e){
     yield put(fetchInspectionListFailure(e));
+    
+  }finally{
+    yield put(endLoading(FETCH_INPECTION_LIST))
   }
-  yield put(endLoading(FETCH_INPECTION_LIST))
 }
 
 export function* inspectionSaga() {
-  yield takeLatest(FETCH_INPECTION_LIST, (inpectionListSaga) );
+  yield takeLatest(FETCH_INPECTION_LIST, inpectionListSaga);
 }
 
 const initialState = {
@@ -44,7 +46,7 @@ const inspection = handleActions({
   [FETCH_INPECTION_LIST_FAILURE]: (state, action) => ({
     ...state,
     error: action.payload
-  })
+  }),
 
 }, initialState );
 
