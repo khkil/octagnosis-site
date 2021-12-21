@@ -13,7 +13,8 @@ import logger from 'redux-logger';
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
   rootReducer, 
-  composeWithDevTools(applyMiddleware(sagaMiddleware, logger))
+  //composeWithDevTools(applyMiddleware(sagaMiddleware, logger))
+  composeWithDevTools(applyMiddleware(sagaMiddleware))
 )
 sagaMiddleware.run(rootSaga);
 ReactDOM.render(

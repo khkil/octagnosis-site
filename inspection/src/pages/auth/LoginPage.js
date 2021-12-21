@@ -10,11 +10,16 @@ import {
   Link,
   Container,
   Box,
+  CircularProgress,
 } from "@mui/material";
+import { LoadingButton } from '@mui/lab';
 import { makeStyles } from '@mui/styles';
 import { Formik } from "formik";
 import * as Yup from "yup";
 
+import headlineLogo from '../../assets/images/common/headline.png';
+import { useDispatch, useSelector } from "react-redux";
+import { loginRequest, LOGIN_REQUEST } from "../../modules/auth";
 const useStyles = makeStyles({
   root: {
     justifyContent: "center",
@@ -29,9 +34,23 @@ const useStyles = makeStyles({
 
 const LoginPage = () => {
  
+
+  const dispatch = useDispatch();
+
+  const { isLoading, isLoggenIn } = useSelector(({ loading, auth }) => ({
+    isLoading: loading[LOGIN_REQUEST],
+    isLoggenIn: auth.isLoggenIn
+  }));
+
+  const handleSubmit = (params) => {
+    dispatch(loginRequest(params));
+  }
+
+
   const classes = useStyles();
   return (
     <Container>
+       
       <Box container spacing={0} justify="center" direction="row">
         <Grid
           container
@@ -45,24 +64,24 @@ const LoginPage = () => {
             elevation={2}
             className={classes.form}
           >
-            <Grid item>
-              <Typography component="h1" variant="h5">
-                로그인
-              </Typography>
-            </Grid>
+            {/* <Grid item m={4}>
+              <img src={headlineLogo}/>
+            </Grid> */}
             <Grid item>
               <Formik 
                 initialValues={{ 
-                  id: "", password: "" 
+                  id: "user", 
+                  password: "1234" 
                 }}
                 validationSchema={Yup.object().shape({
                   id: Yup.string().required("아이디를 입력하세요"),
                   password: Yup.string().max(255).required("비밀번호를 입력하세요"),
                 })}
-                onSubmit={(data, { setSubmitting }) => {
-                  setSubmitting(true);
+                onSubmit={(data, props) => {
+                  handleSubmit(data);
+                  /* setSubmitting(true);
                   console.log(data);
-                  setSubmitting(false);
+                  setSubmitting(false); */
                 }}
               >
               {({ values, handleChange, handleSubmit, touched, errors }) => (
@@ -78,7 +97,6 @@ const LoginPage = () => {
                         value={values.id}
                         error={Boolean(touched.id && errors.id)}
                         helperText={touched.id && errors.id}
-                        
                         autoFocus
                       />
                     </Grid>
@@ -95,20 +113,24 @@ const LoginPage = () => {
                       />
                     </Grid>
                     <Grid item mb={2}>
-                      <Button
+                      <LoadingButton
+                        type="submit"
                         style={{'background': '#27313e'}}
                         fullWidth
-                        type="submit"
-                        className="button-block"
+                        loading={isLoading}
+                        variant="outlined"
                       >
-                        <Typography style={{'color': 'white'}}>로그인</Typography>
-                      </Button>
+                        {isLoading ? <CircularProgress size={24} style={{color: "white"}} /> : <Typography style={{'color': 'white'}}>로그인</Typography>}
+                      </LoadingButton>
                     </Grid>
                   </Grid>
                 </form> 
               )}
+              
 
               </Formik>
+
+             
               {/* <form onSubmit={handleSubmit}>
                 <Grid container direction="column" spacing={2}>
                   <Grid item>
@@ -139,14 +161,14 @@ const LoginPage = () => {
                 </Grid>
               </form> */}
             </Grid>
-            <Grid item>
+            {/* <Grid item>
               <Link href="#" style={{float: "left"}}>
                 회원 가입
               </Link>
               <Link href="#" style={{float: "right"}}>
                 계정 찾기
               </Link>
-            </Grid>
+            </Grid> */}
           </Paper>
         </Grid>
       </Box>
