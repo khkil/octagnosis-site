@@ -16,3 +16,20 @@ export const loginApi = (params) => {
       });
   });
 }
+
+export const validateTokenApi = () => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`/api/auth/validate-token`)
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+
+}

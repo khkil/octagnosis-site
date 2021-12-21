@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { validateTokenRequest, VALIDATE_TOKEN_REQUEST } from '../../modules/auth';
 import { getAccessToken } from '../../utils/tokenUtil';
 
-const AuthGuard = ({ children }) => {
+const GuestGuard = ({ children }) => {
 
   const dispatch = useDispatch();
   const { isLoading, isLoggedIn } = useSelector(({ auth, loading }) => ({
@@ -18,7 +18,7 @@ const AuthGuard = ({ children }) => {
     }
   }, [dispatch])
 
-  if(!isLoggedIn) return <Redirect to="/auth/login"/>;
+  if(isLoggedIn) return <Redirect to="/"/>;
   return (
     <>
       {children}
@@ -26,4 +26,4 @@ const AuthGuard = ({ children }) => {
   )
 }
 
-export default AuthGuard;
+export default GuestGuard;

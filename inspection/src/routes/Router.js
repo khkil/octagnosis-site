@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { authLayoutRoutes, commonLayoutRoutes } from ".";
-import AuthGuard from "../components/guards/AuthGuard";
+import Guard from "../components/guards";
 import AuthLayout from "../layouts/AuthLayout";
 import CommonLayout from "../layouts/CommonLayout";
 
@@ -21,10 +21,11 @@ const initRoutes = (Layout, routes) => {
               exact
               render={(props) => (
                 <>
-                  {element.auth && <AuthGuard/>}
-                  <Layout title={element.title}>
-                    <element.component {...props} />
-                  </Layout> 
+                  <Guard auth={element.auth}>
+                    <Layout title={element.title}>
+                      <element.component {...props} />
+                    </Layout> 
+                  </Guard>
                 </>
               )}
             />
@@ -38,10 +39,11 @@ const initRoutes = (Layout, routes) => {
           exact
           render={(props) => (
             <>
-              {auth && <AuthGuard/>}
-              <Layout title={title}>
-                <Component {...props} />
-              </Layout> 
+              <Guard auth={auth}>
+                <Layout title={title}>
+                  <Component {...props} />
+                </Layout> 
+              </Guard>
             </>
           )}
         />

@@ -30,6 +30,7 @@ function* inpectionDetailSaga(action) {
     yield put(fetchInspectionDetailSuccess(data));
     
   }catch(e){
+    console.error(e);
     yield put(fetchInspectionDetailFailure(e));
     
   }finally{
@@ -47,6 +48,7 @@ function* inpectionListSaga(action) {
     yield put(fetchInspectionListSuccess(data));
     
   }catch(e){
+    console.error(e);
     yield put(fetchInspectionListFailure(e));
     
   }finally{
