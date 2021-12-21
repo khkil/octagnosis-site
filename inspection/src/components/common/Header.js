@@ -26,7 +26,6 @@ const useStyles = makeStyles({
 
 
 const Header = () => {
-
   
   const classes = useStyles();
   const params = useParams();
@@ -40,10 +39,8 @@ const Header = () => {
 
   const { inspectionName, questionCnt } = inspectionDetail;
   useEffect(() => {
-    console.log("inspectionIdx", inspectionIdx);
-    if(inspectionIdx){
-      dispatch(fetchInspectionDetail(inspectionIdx));
-    }
+    if(!inspectionIdx) return;
+    dispatch(fetchInspectionDetail(inspectionIdx));
   }, []);
 
   return (

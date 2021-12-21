@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { commonLayoutRoutes } from ".";
+import { authLayoutRoutes, commonLayoutRoutes } from ".";
+import AuthGuard from "../components/guards/AuthGuard";
+import AuthLayout from "../layouts/AuthLayout";
 import CommonLayout from "../layouts/CommonLayout";
 
 const initRoutes = (Layout, routes) => {
@@ -13,14 +15,17 @@ const initRoutes = (Layout, routes) => {
           return (
             element.component &&
             <Route
-              auth={auth}
+              auth={element.auth}
               key={index}
               path={element.path}
               exact
               render={(props) => (
-                <Layout title={element.title}>
-                  <element.component {...props} />
-                </Layout> 
+                <>
+                  {element.auth && <AuthGuard/>}
+                  <Layout title={element.title}>
+                    <element.component {...props} />
+                  </Layout> 
+                </>
               )}
             />
           );
@@ -32,9 +37,12 @@ const initRoutes = (Layout, routes) => {
           auth={auth}
           exact
           render={(props) => (
-            <Layout title={title}>
-              <Component {...props} />
-            </Layout> 
+            <>
+              {auth && <AuthGuard/>}
+              <Layout title={title}>
+                <Component {...props} />
+              </Layout> 
+            </>
           )}
         />
       ) : null;
@@ -46,7 +54,8 @@ const initRoutes = (Layout, routes) => {
 const Routes = () => (
   <Router>
     <Switch>
-    {initRoutes(CommonLayout, commonLayoutRoutes)}
+      {initRoutes(CommonLayout, commonLayoutRoutes)}
+      {initRoutes(AuthLayout, authLayoutRoutes)}
       <Route
         render={() => (
           <div>
