@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 import headerIcon from '../../assets/images/common/logo_octa.png';
-import Progress from './Progress';
-import Button from '@mui/material/Button';
-import { useLocation, useParams } from 'react-router-dom';
+import Progress from '../question/Progress';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchInspectionDetail, FETCH_INPECTION_DETAIL } from '../../modules/inspection';
+import UserInfoTab from './UserInfoTab';
 
 const useStyles = makeStyles({
   header: {
@@ -15,13 +15,6 @@ const useStyles = makeStyles({
     textIndent: "-9999px",
     background: `url(${headerIcon})`
   },
-  btns: {
-    position: "relative",
-    //left: "20%"
-  },
-  btn: {
-    background : "white"
-  }
 })
 
 
@@ -59,10 +52,7 @@ const Header = () => {
             questionCnt={questionCnt}
           />
         }
-        <div className={classes.btns}>
-          <Button variant="contained">로그인</Button>
-          <Button variant="contained">회원가입</Button>
-        </div>
+        <UserInfoTab/>
       </div>
     </div>
   )

@@ -17,6 +17,22 @@ export const loginApi = (params) => {
   });
 }
 
+export const logoutApi = () => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`/api/auth/logout`)
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export const validateTokenApi = () => {
   return new Promise((resolve, reject) => {
     axios

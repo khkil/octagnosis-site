@@ -6,9 +6,13 @@ export const setAllTokens = (headers) => {
   const refreshToken = headers[REFRESH_TOKEN];
   if(refreshToken && accessToken){
     setAccessToken(accessToken);
-    setAccessToken(refreshToken);
+    setRefreshToken(refreshToken);
   }
+}
 
+export const removeAllToken = () => {
+  localStorage.removeItem("refreshToken");
+  localStorage.removeItem("accessToken");
 }
 
 export const setRefreshToken = (refreshToken) => {

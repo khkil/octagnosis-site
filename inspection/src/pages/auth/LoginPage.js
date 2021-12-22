@@ -45,9 +45,8 @@ const LoginPage = () => {
   const handleSubmit = (params) => {
     dispatch(loginRequest(params));
   }
-
-
   const classes = useStyles();
+  
   return (
     <Container>
        
@@ -64,9 +63,9 @@ const LoginPage = () => {
             elevation={2}
             className={classes.form}
           >
-            {/* <Grid item m={4}>
+            <Grid item m={4}>
               <img src={headlineLogo}/>
-            </Grid> */}
+            </Grid>
             <Grid item>
               <Formik 
                 initialValues={{ 

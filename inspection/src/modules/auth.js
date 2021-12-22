@@ -2,11 +2,13 @@ import { createAction, handleActions } from "redux-actions";
 import { takeLatest, call, put, delay } from "redux-saga/effects";
 import { startLoading, endLoading } from "./loading"
 import { DELAY_TIME } from "../utils/sagaUtil";
-import { loginApi, validateTokenApi } from "../api/authApi";
+import { loginApi, logoutApi, validateTokenApi } from "../api/authApi";
+import { getAccessToken, removeAllToken } from "../utils/tokenUtil";
 
-export const LOGIN_REQUEST = "login/LOGIN_REQUEST";
-const LOGIN_REQUEST_SUCCESS = "login/LOGIN_REQUEST_SUCCESS";
-const LOGIN_REQUEST_FAILURE = "login/LOGIN_REQUEST_FAILURE";
+/* 로그인 */
+export const LOGIN_REQUEST = "auth/LOGIN_REQUEST";
+const LOGIN_REQUEST_SUCCESS = "auth/LOGIN_REQUEST_SUCCESS";
+const LOGIN_REQUEST_FAILURE = "auth/LOGIN_REQUEST_FAILURE";
 
 export const loginRequest = createAction(LOGIN_REQUEST);
 const loginSuccess = createAction(LOGIN_REQUEST_SUCCESS, response => ({
@@ -28,10 +30,36 @@ function* loginSaga(action) {
     yield put(endLoading(LOGIN_REQUEST))
   }
 }
+/* 로그아웃 */
 
-export const VALIDATE_TOKEN_REQUEST = "login/VALIDATE_TOKEN_REQUEST";
-const VALIDATE_TOKEN_SUCCESS = "login/VALIDATE_TOKEN_SUCCESS";
-const VALIDATE_TOKEN_FAILURE = "login/VALIDATE_TOKEN_FAILURE";
+export const LOGOUT_REQUEST = "auth/LOGOUT_REQUEST";
+const LOGOUT_REQUEST_SUCCESS = "auth/LOGOUT_REQUEST_SUCCESS";
+const LOGOUT_REQUEST_FAILURE = "auth/LOGOUT_REQUEST_FAILURE";
+
+export const logoutRequest = createAction(LOGOUT_REQUEST);
+const logoutSuccess = createAction(LOGOUT_REQUEST_SUCCESS, data => data);
+const logoutFailure = createAction(LOGOUT_REQUEST_FAILURE, error => error);
+
+function* logoutSaga(action) {
+
+  yield put(startLoading(LOGOUT_REQUEST));
+  try{
+    yield delay(DELAY_TIME);
+    const response = yield call(logoutApi, action.payload);
+    yield put(logoutSuccess(response));
+  }catch(e){
+    yield put(logoutFailure(e));
+  }finally{
+    yield put(endLoading(LOGOUT_REQUEST));
+    removeAllToken();
+  }
+}
+
+
+/* 토큰 유효성 검사 */
+export const VALIDATE_TOKEN_REQUEST = "auth/VALIDATE_TOKEN_REQUEST";
+const VALIDATE_TOKEN_SUCCESS = "auth/VALIDATE_TOKEN_SUCCESS";
+const VALIDATE_TOKEN_FAILURE = "auth/VALIDATE_TOKEN_FAILURE";
 
 export const validateTokenRequest = createAction(VALIDATE_TOKEN_REQUEST);
 const validateTokenSuccess = createAction(VALIDATE_TOKEN_SUCCESS, response => ({
@@ -54,14 +82,16 @@ function* validateTokenSaga(action) {
   }
 }
 
+/**/
 
 export function* authSaga() {
   yield takeLatest(LOGIN_REQUEST, loginSaga);
+  yield takeLatest(LOGOUT_REQUEST, logoutSaga);
   yield takeLatest(VALIDATE_TOKEN_REQUEST, validateTokenSaga);
 }
 
 const initialState = {
-  isLoggedIn: false,
+  isLoggedIn: getAccessToken() != null,
   username: null,
   error: null
 }
@@ -77,6 +107,16 @@ const auth = handleActions({
     ...state,
     isLoggedIn: false,
     username: null,
+    error: action.payload
+  }),
+
+  [LOGOUT_REQUEST_SUCCESS]: () => (state) => ({
+    ...state,
+    ...initialState
+  }),
+  [LOGOUT_REQUEST_FAILURE]: (state, action) => ({
+    ...state,
+    ...initialState,
     error: action.payload
   }),
 

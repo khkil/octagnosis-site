@@ -26,7 +26,7 @@ const MainPage = () => {
   return (
     <Container maxWidth="xl">
       <Box>
-        <Grid container spacing={2} columns={16}>
+        <Grid container columns={16}>
           {inspectionList.map(({ inspectionIdx, inspectionName }) => (
             <MainPageInspection 
               key={inspectionIdx}
