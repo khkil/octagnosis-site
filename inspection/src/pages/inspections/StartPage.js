@@ -1,12 +1,16 @@
 import React from 'react';
 import { Container, Box } from '@mui/material';
 import footerLogo from '../../assets/images/common/headline.png';
+import { useSelector } from 'react-redux';
 
 const StartPage = () => {
 
+  const { username } = useSelector(({ auth }) => ({
+    username: auth.username
+  }));
+
   return (
     <Container maxWidth="xl">
-
       <Box className="start-wrap">
         <p className="txt1">
           교육전문가들이 선택한 <br/>
@@ -16,7 +20,7 @@ const StartPage = () => {
         <img src={footerLogo} alt="" className="mt25"/>
         <p className="txt2">
           <span>옥타그노시스 (OGS 옥스) 검사를 받으시는 </span><br/>
-          <span>000님 환영합니다.</span>
+          <span>{username}님 환영합니다.</span>
         </p>
         <Box className="bx">
           <p className="txt1">

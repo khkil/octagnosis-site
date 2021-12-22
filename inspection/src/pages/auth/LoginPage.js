@@ -128,37 +128,6 @@ const LoginPage = () => {
               
 
               </Formik>
-
-             
-              {/* <form onSubmit={handleSubmit}>
-                <Grid container direction="column" spacing={2}>
-                  <Grid item>
-                    <TextField
-                      fullWidth
-                      id="outlined-required"
-                      label="아이디"
-                      autoFocus
-                    />
-                  </Grid>
-                  <Grid item>
-                    <TextField
-                      fullWidth
-                      id="outlined-required"
-                      label="비밀번호"
-                    />
-                  </Grid>
-                  <Grid item mb={2}>
-                    <Button
-                      style={{'background': '#27313e'}}
-                      fullWidth
-                      type="submit"
-                      className="button-block"
-                    >
-                      <Typography style={{'color': 'white'}}>로그인</Typography>
-                    </Button>
-                  </Grid>
-                </Grid>
-              </form> */}
             </Grid>
             {/* <Grid item>
               <Link href="#" style={{float: "left"}}>

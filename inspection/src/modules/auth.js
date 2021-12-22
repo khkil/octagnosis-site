@@ -51,7 +51,7 @@ function* logoutSaga(action) {
     yield put(logoutFailure(e));
   }finally{
     yield put(endLoading(LOGOUT_REQUEST));
-    removeAllToken();
+    yield call(removeAllToken);
   }
 }
 
