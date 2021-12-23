@@ -87,7 +87,7 @@ const Routes = () => (
   <Router>
 
     <Switch>
-      {childRoutes(InspectionLayout, inspectionRoutes)}
+      {childRoutes(DashboardLayout, inspectionRoutes)}
       {childRoutes(AuthLayout, authLayoutRoutes)}
       {childRoutes(DashboardLayout, groundUtilRoutes)}
       {childRoutes(DashboardLayout, dashboardLayoutRoutes)}

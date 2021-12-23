@@ -7,7 +7,7 @@ function GuestGuard({ children }) {
   const auth = useSelector((state) => state.authReducer);
 
   if (auth.user) {
-    return <Redirect to="/" />;
+    return <Redirect to="/admin" />;
   }
 
   return children;

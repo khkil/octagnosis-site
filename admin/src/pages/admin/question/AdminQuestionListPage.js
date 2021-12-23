@@ -233,10 +233,9 @@ const QuestionList = memo(({ results, selectedResult, inspectionIdx }) => {
 
   const addQuestion = () => {
     const usedQuestions = questions.filter(question => question.delYn === "N");
-    const nextNumber = Math.max(...usedQuestions.map(({ questionNumber }) => questionNumber )) + 1;
+    const nextNumber = usedQuestions.length > 0 ? Math.max(...usedQuestions.map(({ questionNumber }) => questionNumber )) + 1 : 1;
     const nextOrder = Math.max(...usedQuestions.map(({ questionOrder }) => questionOrder )) + 1;
     const resultIdx = results.find((result, index) => index === selectedResult).resultIdx;
-    console.log(resultIdx);
 
     const initialQuestion = {
       inspectionIdx: inspectionIdx,

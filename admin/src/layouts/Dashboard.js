@@ -100,6 +100,7 @@ const Dashboard = ({ children, routes, width }) => {
             open={mobileOpen}
             onClose={handleDrawerToggle}
           />
+          
         </Hidden>
         <Hidden smDown implementation="css">
           <Sidebar
