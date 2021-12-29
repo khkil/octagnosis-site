@@ -20,10 +20,7 @@ const Header = () => {
   return (
     <AppBar className={classes.appBar} style={{backgroundColor : "#27313e"}}>
       <Toolbar>
-        <Typography variant="h6" noWrap>
-          마이스허브 마스터
-        </Typography>
-   
+        <img src="/public/images/logo_octa.png"/>
       </Toolbar>
     </AppBar>
   );

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchInspectionList, FETCH_INPECTION_LIST_REQUEST } from "../../modules/inspection"
 import Loader from '../../components/ui/Loader';
-import MainPageInspection from '../../components/inspection/MainPageInspection';
+import MainPageInspection from '../../components/inspections/MainPageInspection';
 
 const MainPage = () => {
 

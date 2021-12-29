@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 import headerIcon from '../../assets/images/common/logo_octa.png';
-import Progress from '../question/Progress';
+import ProgressBar from '../inspections/ProgressBar';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchInspectionDetail, FETCH_INPECTION_DETAIL } from '../../modules/inspection';
@@ -34,7 +34,7 @@ const Header = () => {
   useEffect(() => {
     if(!inspectionIdx) return;
     dispatch(fetchInspectionDetail(inspectionIdx));
-  }, []);
+  }, [inspectionIdx]);
 
   return (
     
@@ -46,7 +46,7 @@ const Header = () => {
           </a>
         </h1>
         {inspectionIdx &&
-          <Progress 
+          <ProgressBar 
             inspectionIdx={inspectionIdx}
             inspectionName={inspectionName}
             questionCnt={questionCnt}

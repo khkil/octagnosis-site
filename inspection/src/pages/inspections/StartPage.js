@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Box } from '@mui/material';
 import footerLogo from '../../assets/images/common/headline.png';
 import { useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 
 const StartPage = () => {
 
@@ -9,6 +10,13 @@ const StartPage = () => {
     username: auth.username
   }));
 
+  const history = useHistory();
+  const { inspectionIdx } = useParams();
+
+  const startInspection = () => {
+    history.push(`/inspections/${inspectionIdx}/pages/1`);
+  }
+  
   return (
     <Container maxWidth="xl">
       <Box className="start-wrap">
@@ -33,7 +41,9 @@ const StartPage = () => {
               <span>모든 문항에 <span className="txt-blue">성의있고, 솔직하게</span></span> <br/>
               <span> 답변해 주시면 감사하겠습니다. </span> 
           </p>
-          <Box className="btn-wrap mt40"><button className="btn lg blue">검사 시작하기</button></Box>
+          <Box className="btn-wrap mt40">
+            <button className="btn lg blue" onClick={startInspection}>검사 시작하기</button>
+          </Box>
         </Box>
       </Box>
     </Container>

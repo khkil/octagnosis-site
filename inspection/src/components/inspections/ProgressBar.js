@@ -3,14 +3,14 @@ import { makeStyles } from '@mui/styles';
 import timeIcon from '../../assets/images/icon/ic_time.png';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { Grid } from '@mui/material';
-import Timer from './Timer';
+import Timer from '../questions/Timer';
 
 const useStyles = makeStyles({
   
 })
 
 
-const Progress = ({ inspectionIdx, inspectionName, questionCnt }) => {
+const ProgressBar = ({ inspectionIdx, inspectionName, questionCnt }) => {
   const classes = useStyles();
   const history = useHistory();
   
@@ -29,4 +29,4 @@ const Progress = ({ inspectionIdx, inspectionName, questionCnt }) => {
   )
 }
 
-export default Progress;
+export default ProgressBar;
