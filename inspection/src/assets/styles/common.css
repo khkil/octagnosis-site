@@ -27,6 +27,14 @@ body{ display: flex; flex-direction: column; background: rgb(247, 249, 252);}
 #header .progress .bar-wrap{ margin-top: 10px; width: 380px; height: 4px; background: #ffffff; }
 #header .progress .bar-wrap .bar{ height: 4px; background: #FFD62C; }
 #header .progress .bar-wrap .value{ transform: translateX(-50%); font-weight: 700; color: #FFD62C; display: inline-block; }
+
+#header .user{ display: flex; align-items: center; margin-left: 40px; column-gap: 15px; }
+#header .user button{flex: none;font-size: 14px;text-align: center;}
+#header .user button::before{content: "";width: 36px;height: 36px;border-radius: 50%;display: block;margin: 0 auto 2px;background-repeat: no-repeat;background-position: center;}
+#header .user button.btn-login::before{background-color: #3D7AED; background-image: url('../images/icon/ic_login.png');}
+#header .user button.btn-logout::before{ background-color: #3D7AED; background-image: url('../images/icon/ic_logout.png'); }
+#header .user button.btn-join::before{ background-color: #418B89; background-image: url('../images/icon/ic_join.png'); }
+#header .user button.btn-mypage::before{ background-color: #418B89; background-image: url('../images/icon/ic_mypage.png'); }
  
 /*-------------------------------------------------------------------
     @footer

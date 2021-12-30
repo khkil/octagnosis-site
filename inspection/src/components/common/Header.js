@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { makeStyles } from '@mui/styles';
 import headerIcon from '../../assets/images/common/logo_octa.png';
 import ProgressBar from '../inspections/ProgressBar';
@@ -22,19 +22,20 @@ const Header = () => {
   
   const classes = useStyles();
   const params = useParams();
-  const { inspectionIdx } = params;
 
   const dispatch = useDispatch();
-  const { isLoading, inspectionDetail } = useSelector(({ loading, inspection }) => ({
+  const { inspectionDetail } = useSelector(({ loading, inspection }) => ({
     isLoading: loading[FETCH_INPECTION_DETAIL],
     inspectionDetail: inspection.selected
   }));
 
-  const { inspectionName, questionCnt } = inspectionDetail;
+  const { inspectionIdx, inspectionName, totalPage } = inspectionDetail;
   useEffect(() => {
-    if(!inspectionIdx) return;
-    dispatch(fetchInspectionDetail(inspectionIdx));
-  }, [inspectionIdx]);
+    if(!params.inspectionIdx || inspectionIdx) return;
+    dispatch(fetchInspectionDetail(params.inspectionIdx));
+  }, []);
+
+  const isProgessPage = useMemo(() => params.page && !isNaN(params.page) && params.page > 0, [params.page]);
 
   return (
     
@@ -45,11 +46,11 @@ const Header = () => {
             옥타그노시스 검사
           </a>
         </h1>
-        {inspectionIdx &&
+        {(isProgessPage && inspectionIdx) &&
           <ProgressBar 
-            inspectionIdx={inspectionIdx}
             inspectionName={inspectionName}
-            questionCnt={questionCnt}
+            totalPage={totalPage}
+            page={params.page}
           />
         }
         <UserInfoTab/>

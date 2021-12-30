@@ -11,8 +11,6 @@ axios.interceptors.request.use(
     const accessToken = getAccessToken();
     const refreshToken = getRefreshToken();
 
-    console.log("accessToken : ", accessToken);
-    console.log("refreshToken : ", refreshToken);
 
     if(accessToken){
       config.headers[ACCESS_TOKEN] = accessToken;
@@ -20,7 +18,6 @@ axios.interceptors.request.use(
     if(refreshToken){
       config.headers[REFRESH_TOKEN] = refreshToken;
     }
-    console.log(config);
     return config;
   },
   (e) => {

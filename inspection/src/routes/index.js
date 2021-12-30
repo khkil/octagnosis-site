@@ -1,13 +1,13 @@
 import React from "react";
 import LoginPage from "../pages/auth/LoginPage";
 import MainPage from "../pages/common/MainPage";
+import EndPage from "../pages/inspections/EndPage";
 import ProgressPage from "../pages/inspections/ProgressPage";
 import StartPage from "../pages/inspections/StartPage";
 
 const mainPageRoute = {
   path: "/",
   title: "메인 페이지",
-  auth: true,
   component: MainPage
 
 }
@@ -27,13 +27,11 @@ const progressPageRoute = {
   component: ProgressPage
 }
 
-
-
 const endPageRoute = {
   path: "/inspections/:inspectionIdx/pages/end",
-  title: "시작 페이지",
+  title: "끝 페이지",
   auth: true,
-  component: StartPage
+  component: EndPage
 }
 
 const loginPageRoute = {
@@ -44,8 +42,8 @@ const loginPageRoute = {
 export const commonLayoutRoutes = [
   mainPageRoute,
   startPageRoute,
+  endPageRoute,
   progressPageRoute,
-  endPageRoute
 ]
 
 export const authLayoutRoutes = [
