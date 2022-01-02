@@ -4,7 +4,7 @@ import Timer from '../questions/Timer';
 
 const ProgressBar = memo(({ inspectionName, totalPage, page }) => {
 
-  const currentProgress = useMemo(() => (100 / totalPage * (page - 1) ), [page]);
+  const currentProgress = useMemo(() => Math.round(100 / totalPage * (page - 1) ), [page]);
   const overallProgress = useMemo(() => 100 - currentProgress, [currentProgress]);
 
   return (
