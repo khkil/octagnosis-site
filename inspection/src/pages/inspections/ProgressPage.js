@@ -17,11 +17,6 @@ const ProgressPage = ({ match, history }) => {
     totalPage: inspection.selected.totalPage
   }));
 
-  const goNextPage = () => {
-    const nextPage = Number(page) === totalPage ? "end" : Number(page) + 1;
-    history.push(`/inspections/${inspectionIdx}/pages/${nextPage}`);
-  };
-
   useEffect(() => {
     const params = {
       inspectionIdx: inspectionIdx,
@@ -37,7 +32,11 @@ const ProgressPage = ({ match, history }) => {
   if(questionList.length === 0) return null;
   return (
     <Container>
-      <QuestionForm questionList={questionList}/>
+      <QuestionForm 
+        inspectionIdx={inspectionIdx}
+        questionList={questionList}
+        totalPage={totalPage}
+      />
     </Container>
   )
 }

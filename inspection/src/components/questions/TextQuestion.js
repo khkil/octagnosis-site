@@ -9,7 +9,6 @@ const TextQuestion = memo(({ questionIdx, questionText, answers, handleChange, v
       <p className="num">1</p>
       <div>
         <p className="txt-question">{questionText}</p>
-
         <div className="inp-wrap v1 mt10">
           {answers.map(({ answerIdx, answerText, filePath }, index) => (
             <Answer
