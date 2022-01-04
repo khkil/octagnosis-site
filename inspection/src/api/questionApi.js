@@ -1,6 +1,6 @@
 import axios from "../utils/axios";
 
-export const onePageQuestionFormApi = ({ inspectionIdx, page }) => {
+export const onePageQuestionApi = ({ inspectionIdx, page }) => {
   return new Promise((resolve, reject) => {
     axios
       .get(`/api/questions/inspections/${inspectionIdx}/pages/${page}`)

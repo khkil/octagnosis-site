@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import { Container, Box } from '@mui/material';
 import QuestionForm from '../../components/questions/QuestionForm';
 import { useDispatch, useSelector } from 'react-redux';
-import { onePageQuestionFormRequest, ONE_PAGE_QUESTION_LIST_REQUEST } from '../../modules/question';
+import { clearQuestion, onePageQuestionRequest, ONE_PAGE_QUESTION_LIST_REQUEST } from '../../modules/question';
 import Loader from '../../components/ui/Loader';
 
 
@@ -27,15 +27,17 @@ const ProgressPage = ({ match, history }) => {
       inspectionIdx: inspectionIdx,
       page: page
     }
-    dispatch(onePageQuestionFormRequest(params));
+    dispatch(onePageQuestionRequest(params));
+    return () => {
+      dispatch(clearQuestion());
+    }
   }, [page]);
 
+  if(isLoading) return <Loader/>;
+  if(questionList.length === 0) return null;
   return (
     <Container>
-
       <QuestionForm questionList={questionList}/>
-
-
     </Container>
   )
 }

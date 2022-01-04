@@ -35,14 +35,14 @@ i[class^='ic-']{}
 
 .inp-item.radio input[type='radio']{ position: absolute; width: 0; height: 0; opacity: 0; overflow: hidden; top: 0; left: 0; }
 
-.inp-item.radio.v1 input[type='radio'] + label{ display: flex; align-items: center; background: #F0F3F5; padding: 8px 25px 8px 8px; border-radius: 500px; min-width: 140px; cursor: pointer; }
-.inp-item.radio.v1 input[type='radio'] + label .num{ flex: none; width: 20px; height: 20px; line-height: 20px; color: #ffffff; background: #858E96; border-radius: 50%; text-align: center; margin-right: 10px; font-size: 14px; font-weight: 700; }
-.inp-item.radio.v1 input[type='radio'] + label .txt{ font-size: 16px; flex: 1 0; text-align: center; }
-.inp-item.radio.v1 input[type='radio'] + label .num + .txt{ text-align: left; }
+.inp-item.radio.v1 /* input[type='radio'] + */ label{ display: flex; align-items: center; background: #F0F3F5; padding: 8px 25px 8px 8px; border-radius: 500px; min-width: 140px; cursor: pointer; }
+.inp-item.radio.v1 /* input[type='radio'] + */ label .num{ flex: none; width: 20px; height: 20px; line-height: 20px; color: #ffffff; background: #858E96; border-radius: 50%; text-align: center; margin-right: 10px; font-size: 14px; font-weight: 700; }
+.inp-item.radio.v1 /* input[type='radio'] + */ label .txt{ font-size: 16px; flex: 1 0; text-align: center; }
+.inp-item.radio.v1 /* input[type='radio'] + */ label .num + .txt{ text-align: left; }
 .inp-item.radio.v1 input[type='radio']:checked + label{ background: #3D7AED; }
 .inp-item.radio.v1 input[type='radio']:checked + label .num{ color: #3D7AED; background: #ffffff; }
 .inp-item.radio.v1 input[type='radio']:checked + label .txt{ color: #ffffff; }
-
+.inp-item.radio.v1 label.selected { background: #3D7AED; color: #ffffff; }
 .inp-item.radio.v2 input[type='radio'] + label{ height: 165px; border-radius: 10px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #F0F3F5; position: relative; }
 .inp-item.radio.v2 input[type='radio'] + label .img-wrap{ position: relative; height: 100%; width: 100%; overflow: hidden; flex: none; }
 .inp-item.radio.v2 input[type='radio'] + label .img-wrap::before{ content: ""; position: absolute; width: 100%; height: 100%; background: rgba(61, 122, 237, 0.5) url('../images/icon/ic_img_radio_check_on.png') no-repeat center; display: none; top: 0; left: 0; }
@@ -81,7 +81,7 @@ i[class^='ic-']{}
 .tbl-wrap.v1{}
 
 /* question */
-.question{ display: flex; border-bottom: 1px solid #E6E6E6; padding-bottom: 20px; align-items: center; flex-wrap: wrap; }
+.question{ display: flex; border-bottom: 1px solid #E6E6E6; padding-bottom: 10px; align-items: center; flex-wrap: wrap; }
 .question > .num{ flex: none; width: 40px; height: 40px; line-height: 40px; text-align: center; color: #ffffff; background: #27313E; border-radius: 50%; margin-right: 30px; }
 .question .txt-question{ font-size: 16px; font-weight: 700; color: #212529; }
 

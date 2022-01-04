@@ -1,18 +1,25 @@
-import React from 'react';
+import { Field } from 'formik';
+import React, { useCallback, useMemo } from 'react';
 
-const Answer = ({ answerIdx, answerText, answerScore, filePath, index }) => {
+const Answer = ({ questionIdx, answerIdx, answerText, filePath, index, handleChange, values }) => {
+  
+  const key = useMemo(() => (`question_${questionIdx}`), [questionIdx]);
 
   return (
     <div className="inp-item radio v1">
-        <input type="radio" name="answer" value=""/>
-        <label>
-            <p className="num">{index + 1}</p>
-            <p className="txt">{answerText}</p>
-            {/* <div className="img-wrap">
-                <img src="../img/temp/@temp_radio01.png" alt=""/>
-            </div> */}
-        </label>
-        
+      <label className={values[key] == answerIdx ? "selected" : ""}>
+        <Field
+          type="radio"
+          name={key} 
+          value={answerIdx} 
+          onChange={handleChange}
+        />
+        <p className="num">{index + 1}</p>
+        <p className="txt">{answerText}</p>
+        {/* <div className="img-wrap">
+          <img src="../img/temp/@temp_radio01.png" alt=""/>
+        </div> */}
+      </label>
     </div>
   )
 }

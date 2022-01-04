@@ -8,15 +8,21 @@ import { Box } from '@mui/material';
 
 const QuestionForm = ({ questionList }) => {
 
-  return (
+  const validationSchema = Yup.object().shape(questionList.reduce((result, { questionIdx }) => {
+    result[`question_${questionIdx}`] = Yup.string().required("문항을 선택해주세요")
+    return result;
+  }, {}));
 
+  const inintialValues = questionList.reduce((result, { questionIdx }) => {
+    result[`question_${questionIdx}`] = ""
+    return result;
+  }, {});
+
+  return (
+    
     <Formik
-        initialValues={{
-          answer:""
-        }}
-        validationSchema={Yup.object().shape({
-          answer: Yup.string().required("아이디를 입력하세요"),
-        })}
+        initialValues={inintialValues}
+        validationSchema={validationSchema}
         onSubmit={(data) => {
           alert(1);
           console.log("data", data);
@@ -24,8 +30,13 @@ const QuestionForm = ({ questionList }) => {
       >
       {({ values, handleChange, touched, errors }) => (
         <Form>
-
-          {/* {questionList.map(({ questionIdx, questionText, questionNumber, questionType, answers }) => (
+          {questionList.map(({ 
+            questionIdx, 
+            questionText, 
+            questionNumber, 
+            questionType, 
+            answers 
+          }) => (
             questionType === TEXT_QUESTION  ? 
               <TextQuestion 
                 key={questionIdx} 
@@ -33,6 +44,8 @@ const QuestionForm = ({ questionList }) => {
                 questionNumber={questionNumber}
                 questionText={questionText}
                 answers={answers}
+                handleChange={handleChange}
+                values={values}
               /> : 
             questionType === IMAGE_QUESTION  ? 
               <ImageQuestion 
@@ -40,32 +53,12 @@ const QuestionForm = ({ questionList }) => {
                 questionIdx={questionIdx}
                 questionNumber={questionNumber}
                 questionText={questionText}
-                answers={answers}
+                handleChange={handleChange}
+                values={values}
               /> : null
             )
-          )} */}
-
-            <label>
-              <Field 
-                type="radio" 
-                name="answer" 
-                value="One" 
-                error={Boolean(touched.answer && errors.answer)}
-                errorText={touched.answer && errors.answer} 
-              />
-              One
-            </label>
-            <ErrorMessage name="answer" />
-            <label>
-              <Field 
-                type="radio" 
-                name="answer" 
-                value="Two" 
-                error={Boolean(touched.answer && errors.answer)}
-                errorText={touched.answer && errors.answer} 
-              />
-              Two
-            </label>
+          )} 
+        
           <Box className="btn-wrap mt40">
             <button type="submit" className="btn yellow md">다음</button>
           </Box>

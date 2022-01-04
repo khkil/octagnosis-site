@@ -5,7 +5,6 @@ import Routes from "./routes/Router";
 
 
 import  "./assets/styles/reset.css";
-import  "./assets/styles/fonts.css";
 import  "./assets/styles/utility.css";
 import  "./assets/styles/common.css";
 import  "./assets/styles/style.css";
