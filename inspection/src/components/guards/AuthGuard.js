@@ -17,9 +17,7 @@ const AuthGuard = ({ children }) => {
     if(accessToken){
       dispatch(validateTokenRequest())
     }
-    if(!isLoggedIn){
-      //alert("로그인이 필요한 서비스 입니다.");
-    } 
+    
   }, [dispatch])
 
   //if(!isLoggedIn) return <Redirect to="/auth/login"/>;

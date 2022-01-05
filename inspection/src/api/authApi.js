@@ -49,3 +49,20 @@ export const validateTokenApi = () => {
   });
 
 }
+
+
+export const reissueAccessTokenApi = () => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/auth/reissue-token')
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
