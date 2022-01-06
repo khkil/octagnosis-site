@@ -3,7 +3,6 @@ import { makeStyles } from '@mui/styles';
 import { Button, Grid } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutRequest } from '../../modules/auth';
-import { removeAllToken } from '../../utils/tokenUtil';
 import { useHistory } from 'react-router-dom';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';

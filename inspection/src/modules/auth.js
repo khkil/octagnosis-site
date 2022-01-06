@@ -3,7 +3,6 @@ import { takeLatest, call, put, delay } from "redux-saga/effects";
 import { startLoading, endLoading } from "./loading"
 import { DELAY_TIME } from "../utils/sagaUtil";
 import { loginApi, logoutApi, validateTokenApi } from "../api/authApi";
-import { getAccessToken, removeAllToken } from "../utils/tokenUtil";
 
 /* 로그인 */
 export const LOGIN_REQUEST = "auth/LOGIN_REQUEST";
@@ -51,7 +50,6 @@ function* logoutSaga(action) {
     yield put(logoutFailure(e));
   }finally{
     yield put(endLoading(LOGOUT_REQUEST));
-    yield call(removeAllToken);
   }
 }
 
@@ -91,7 +89,7 @@ export function* authSaga() {
 }
 
 const initialState = {
-  isLoggedIn: getAccessToken() != null,
+  isLoggedIn: false,
   username: null,
   error: null
 }
