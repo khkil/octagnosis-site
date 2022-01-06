@@ -3,7 +3,7 @@ import axios from "../utils/axios";
 export const fetchInspectionListApi = (params) => {
   return new Promise((resolve, reject) => {
     axios
-      .get(`/api/inspections`, {
+      .get(`/api/public/inspections`, {
         params: params
       })
       .then((response) => {
@@ -21,7 +21,7 @@ export const fetchInspectionListApi = (params) => {
 export const fetchInspectionDetailApi = (inspectionIdx) => {
   return new Promise((resolve, reject) => {
     axios
-      .get(`/api/inspections/${inspectionIdx}`)
+      .get(`/api/public/inspections/${inspectionIdx}`)
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);

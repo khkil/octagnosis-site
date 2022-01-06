@@ -13,15 +13,11 @@ const GuestGuard = ({ children }) => {
     isLoggedIn: auth.isLoggedIn
   }));
 
-  /* useEffect(() => {
-    const accessToken = getAccessToken();
-    if(accessToken){
-      dispatch(validateTokenRequest())
-    }
-  }, [dispatch]) */
+  useEffect(() => {
+    dispatch(validateTokenRequest());
+  }, [dispatch])
 
-  if(isLoading) return null;
-  if(isLoggedIn && pathname !== "/") return <Redirect to="/"/>;
+  if(isLoggedIn && pathname !== "/") return <Redirect to="/"/>
   return (
     <>
       {children}

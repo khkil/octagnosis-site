@@ -13,10 +13,7 @@ const AuthGuard = ({ children }) => {
     isLoggedIn: auth.isLoggedIn
   }))
   useEffect(() => {
-    const accessToken = getAccessToken();
-    if(accessToken){
-      dispatch(validateTokenRequest())
-    }
+    dispatch(validateTokenRequest());
     
   }, [dispatch])
 

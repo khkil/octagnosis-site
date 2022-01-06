@@ -9,16 +9,7 @@ axios.create({
 
 axios.interceptors.request.use(
   (config) => {
-    const accessToken = getAccessToken();
-    const refreshToken = getRefreshToken();
-
-
-    if(accessToken){
-      config.headers[ACCESS_TOKEN] = accessToken;
-    }
-    if(refreshToken){
-      config.headers[REFRESH_TOKEN] = refreshToken;
-    }
+ 
     return config;
   },
   (e) => {
@@ -28,9 +19,6 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   (config) => {
-
-    setAllTokens(config.headers);
-    
     return config;
   },
   (e) => {
@@ -38,18 +26,13 @@ axios.interceptors.response.use(
     const { response } = e;
 
     if(response.status === 401){
-      originalConfig.retry = true;
-      reissueAccessTokenApi()
-      .then(response => {
-        const { authorization } = response.headers;
-        setAccessToken(authorization);
-        location.reload();
-        return Promise.resolve();
-      }) 
-      .catch(e => {
-        alert("유효하지 않은 인증 정보입니다.")
-        location.href = "/";
-      })
+      const loginPageUrl = "/auth/login";
+      const mainPageUrl = "/";
+      const { pathname } = window.location;
+      if(loginPageUrl !== pathname && mainPageUrl !== pathname){
+        alert("로그인이 필요한 서비스 입니다.");
+        location.href = "/auth/login";
+      }
     }
     return Promise.reject(e);
   }
