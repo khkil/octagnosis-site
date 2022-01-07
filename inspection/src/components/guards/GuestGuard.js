@@ -16,7 +16,6 @@ const GuestGuard = ({ children }) => {
     dispatch(validateTokenRequest());
   }, [dispatch])
 
-  if(isLoading) return null;
   if(isLoggedIn && pathname !== "/") return <Redirect to="/"/>
   return (
     <>

@@ -20,10 +20,10 @@ axios.interceptors.response.use(
   },
   (e) => {
     const { response } = e;
-
+    
     if(response.status === 401){
-      const mainPageUrl = "/";
       const { pathname } = window.location;
+      const mainPageUrl = "/";
       if(pathname.indexOf("auth") === -1 && mainPageUrl !== pathname){
         alert("로그인이 필요한 서비스 입니다.");
         location.href = "/auth/login";

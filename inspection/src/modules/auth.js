@@ -10,10 +10,7 @@ const LOGIN_REQUEST_SUCCESS = "auth/LOGIN_REQUEST_SUCCESS";
 const LOGIN_REQUEST_FAILURE = "auth/LOGIN_REQUEST_FAILURE";
 
 export const loginRequest = createAction(LOGIN_REQUEST);
-const loginSuccess = createAction(LOGIN_REQUEST_SUCCESS, response => ({
-  success: response.success,
-  username: response.data.username
-}));
+const loginSuccess = createAction(LOGIN_REQUEST_SUCCESS, response => response);
 const loginFailure = createAction(LOGIN_REQUEST_FAILURE, error => error);
 
 function* loginSaga(action) {
@@ -36,7 +33,7 @@ const LOGOUT_REQUEST_SUCCESS = "auth/LOGOUT_REQUEST_SUCCESS";
 const LOGOUT_REQUEST_FAILURE = "auth/LOGOUT_REQUEST_FAILURE";
 
 export const logoutRequest = createAction(LOGOUT_REQUEST);
-const logoutSuccess = createAction(LOGOUT_REQUEST_SUCCESS, data => data);
+const logoutSuccess = createAction(LOGOUT_REQUEST_SUCCESS, response => response);
 const logoutFailure = createAction(LOGOUT_REQUEST_FAILURE, error => error);
 
 function* logoutSaga(action) {
@@ -60,10 +57,7 @@ const VALIDATE_TOKEN_SUCCESS = "auth/VALIDATE_TOKEN_SUCCESS";
 const VALIDATE_TOKEN_FAILURE = "auth/VALIDATE_TOKEN_FAILURE";
 
 export const validateTokenRequest = createAction(VALIDATE_TOKEN_REQUEST);
-const validateTokenSuccess = createAction(VALIDATE_TOKEN_SUCCESS, response => ({
-  success: response.success,
-  username: response.data.username
-}));
+const validateTokenSuccess = createAction(VALIDATE_TOKEN_SUCCESS, response => response);
 const validateTokenFailure = createAction(VALIDATE_TOKEN_FAILURE, error => error);
 
 function* validateTokenSaga(action) {
@@ -90,7 +84,7 @@ export function* authSaga() {
 
 const initialState = {
   isLoggedIn: false,
-  username: null,
+  user: null,
   error: null
 }
 
@@ -98,13 +92,13 @@ const auth = handleActions({
   
   [LOGIN_REQUEST_SUCCESS]: (state, action) => ({
     ...state,
-    username: action.payload.username,
-    isLoggedIn: action.payload.success
+    user: action.payload.data,
+    isLoggedIn: true
   }),
   [LOGIN_REQUEST_FAILURE]: (state, action) => ({
     ...state,
     isLoggedIn: false,
-    username: null,
+    user: null,
     error: action.payload
   }),
 
@@ -120,13 +114,13 @@ const auth = handleActions({
 
   [VALIDATE_TOKEN_SUCCESS]: (state, action) => ({
     ...state,
-    username: action.payload.username,
-    isLoggedIn: action.payload.success
+    user: action.payload.data,
+    isLoggedIn: true
   }),
   [VALIDATE_TOKEN_FAILURE]: (state, action) => ({
     ...state,
     isLoggedIn: false,
-    username: null,
+    user: null,
     error: action.payload
   }),
 }, initialState)

@@ -36,6 +36,10 @@ const UserInfoTab = () => {
     dispatch(logoutRequest());
   }
 
+  const goMyPage = () => {
+    history.push("/mypage")    
+  }
+
   const goLoginPage = () => {
     history.push("/auth/login")    
   }
@@ -46,7 +50,7 @@ const UserInfoTab = () => {
 
   return (
     <Grid className={classes.root}>
-      <Button className={classes.tab} startIcon={<InfoIcon />}  variant="contained">내 정보</Button>
+      <Button className={classes.tab} startIcon={<InfoIcon />}  variant="contained" onClick={goMyPage}>내 정보</Button>
 
       {isLoggedIn ? 
         <Button variant="contained" color="error" startIcon={<LogoutIcon />} onClick={logout}>로그아웃</Button> :
