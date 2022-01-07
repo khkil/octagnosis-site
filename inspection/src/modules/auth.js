@@ -3,6 +3,7 @@ import { takeLatest, call, put, delay } from "redux-saga/effects";
 import { startLoading, endLoading } from "./loading"
 import { DELAY_TIME } from "../utils/sagaUtil";
 import { loginApi, logoutApi, validateTokenApi } from "../api/authApi";
+import { goLoginPage } from "../utils/common";
 
 /* 로그인 */
 export const LOGIN_REQUEST = "auth/LOGIN_REQUEST";
@@ -84,7 +85,7 @@ export function* authSaga() {
 
 const initialState = {
   isLoggedIn: false,
-  user: null,
+  member: {},
   error: null
 }
 
@@ -92,13 +93,13 @@ const auth = handleActions({
   
   [LOGIN_REQUEST_SUCCESS]: (state, action) => ({
     ...state,
-    user: action.payload.data,
+    member: action.payload.data,
     isLoggedIn: true
   }),
   [LOGIN_REQUEST_FAILURE]: (state, action) => ({
     ...state,
     isLoggedIn: false,
-    user: null,
+    member: {},
     error: action.payload
   }),
 
@@ -114,13 +115,13 @@ const auth = handleActions({
 
   [VALIDATE_TOKEN_SUCCESS]: (state, action) => ({
     ...state,
-    user: action.payload.data,
+    member: action.payload.data,
     isLoggedIn: true
   }),
   [VALIDATE_TOKEN_FAILURE]: (state, action) => ({
     ...state,
     isLoggedIn: false,
-    user: null,
+    member: {},
     error: action.payload
   }),
 }, initialState)

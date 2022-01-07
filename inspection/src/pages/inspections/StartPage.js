@@ -7,7 +7,7 @@ import { useHistory, useParams } from 'react-router-dom';
 const StartPage = () => {
 
   const { username } = useSelector(({ auth }) => ({
-    username: auth.username
+    username: auth.member.name
   }));
 
   const history = useHistory();
