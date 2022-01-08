@@ -31,7 +31,7 @@ const MemberProgressList = () => {
 
   return (
     <Box mt={2}>
-      <Card mb={6}>
+      <Card mb={6} style={{minHeight: 500}}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
             검사 상태
@@ -51,10 +51,7 @@ const MemberProgressList = () => {
               />
             </Grid>
           </Grid>
-
-          <Button variant="contained" color="primary" mt={3}>
-            Save changes
-          </Button>
+         
         </CardContent>
       </Card>
     </Box>

@@ -8,13 +8,17 @@ const useStyles = makeStyles({
     alignItems: "center",
     display: "flex",
     minHeight: "100%",
-    height: "80vh",
+    height: props => `${props.height}vh`,
     color: "#27313e"
   },
 })
 
-const Loader = () => {
-  const classes = useStyles();
+const Loader = ({ height }) => {
+  
+  const classes = useStyles({
+    height: height ? height : "80"
+  });
+  
   return (
     <div className={classes.root}>
       <CircularProgress style={{'color': '#27313e'}} m={2} />

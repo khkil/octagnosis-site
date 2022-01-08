@@ -5,24 +5,32 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../components/ui/Loader';
 import MemberInfo from '../../components/member/MemberInfo';
 import MemberProgressList from '../../components/member/MemberProgressList';
-import { fetchMemberProgressList } from '../../modules/member';
+import { fetchMemberProgressList, FETCH_MEMBER_PROGRESS_LIST_REQUEST } from '../../modules/member';
 
 const MyPage = () => {
 
   const dispatch = useDispatch();
-  const { memberIdx } = useSelector(({ auth }) => ({
-    memberIdx: auth.member
+  const { member, progressList, isLoading } = useSelector(({ auth, member, loading }) => ({
+    member: auth.member,
+    progressList: member.progressList,
+    isLoading: loading[FETCH_MEMBER_PROGRESS_LIST_REQUEST]
   }));
-  console.log(memberIdx);
+  
   useEffect(() => {
-    
-    //dispatch(fetchMemberProgressList(memberIdx));
+    const { idx } = member;
+    dispatch(fetchMemberProgressList(idx));
   }, []);
 
   return (
     <Container maxWidth="xl">
-      <MemberProgressList/>
-      <MemberInfo/>
+      <MemberInfo 
+        id={member.id}
+        name={member.name}
+      />
+      {isLoading ? 
+        (<Loader height={50}/>) : 
+        (<MemberProgressList progressList={progressList}/>)
+      }
     </Container>
   )
 }

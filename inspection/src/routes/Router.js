@@ -27,20 +27,11 @@ const PrivateRoute = ({ ...rest }) => {
 
 const PublicRoute = ({ ...rest }) => {
 
-  const dispatch = useDispatch();
-
-  const { isLoading, isLoggedIn } = useSelector(({ auth, loading }) => ({
-    isLoading: loading[VALIDATE_TOKEN_REQUEST],
+  const { isLoggedIn } = useSelector(({ auth }) => ({
     isLoggedIn: auth.isLoggedIn
   }));
 
-  const loadingCompleted = useMemo(() => (isLoading != null && !Boolean(isLoading)), [isLoading]);
-
-  useEffect(() => {
-    dispatch(validateTokenRequest());
-  }, [isLoggedIn]);
-
-  if(loadingCompleted && isLoggedIn && location.pathname !== "/") return <Redirect to="/"/>;
+  if(isLoggedIn && location.pathname !== "/") return <Redirect to="/"/>;
   return <Route {...rest}/>;
 }
 
@@ -55,7 +46,6 @@ const initRoutes = (Layout, routes) => {
             element.component &&
             element.auth ? (
               <PrivateRoute
-                auth={element.auth}
                 key={index}
                 path={element.path}
                 exact
@@ -67,7 +57,6 @@ const initRoutes = (Layout, routes) => {
               />
             ) : (
               <PublicRoute
-                auth={element.auth}
                 key={index}
                 path={element.path}
                 exact
@@ -85,7 +74,6 @@ const initRoutes = (Layout, routes) => {
           <PrivateRoute
             key={index}
             path={path}
-            auth={auth}
             exact
             render={(props) => (
               <Layout title={title}>
@@ -97,7 +85,6 @@ const initRoutes = (Layout, routes) => {
           <PublicRoute
             key={index}
             path={path}
-            auth={auth}
             exact
             render={(props) => (
               <Layout title={title}>

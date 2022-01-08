@@ -3,7 +3,7 @@ import { Container, Box, Grid, Card, CardContent, TextField, Button, Typography 
 
 import Loader from '../ui/Loader';
 
-const MemberInfo = () => {
+const MemberInfo = ({ id, name }) => {
 
   useEffect(() => {
   
@@ -20,19 +20,18 @@ const MemberInfo = () => {
           <Grid container spacing={3} mb={3}>
             <Grid item md={6}>
               <TextField
-                id="first-name"
-                label="First name"
+                label="아이디"
                 variant="outlined"
+                defaultValue={id}
                 fullWidth
                 my={2}
               />
             </Grid>
             <Grid item md={6}>
               <TextField
-                id="last-name"
-                label="Last name"
+                label="이름"
                 variant="outlined"
-                defaultValue="Lavender"
+                defaultValue={name}
                 fullWidth
                 my={2}
               />
