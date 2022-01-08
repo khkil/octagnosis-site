@@ -22,6 +22,7 @@ const ProgressPage = ({ match, history }) => {
       inspectionIdx: inspectionIdx,
       page: page
     }
+    console.log("render");
     dispatch(onePageQuestionRequest(params));
     return () => {
       dispatch(clearQuestion());

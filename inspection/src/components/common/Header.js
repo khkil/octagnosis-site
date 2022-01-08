@@ -25,7 +25,7 @@ const Header = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { inspectionDetail } = useSelector(({ loading, inspection }) => ({
+  const { inspectionDetail, isLoading } = useSelector(({ loading, inspection }) => ({
     isLoading: loading[FETCH_INPECTION_DETAIL],
     inspectionDetail: inspection.selected
   }));
