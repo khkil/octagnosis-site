@@ -27,7 +27,7 @@ const MyPage = () => {
         id={member.id}
         name={member.name}
       />
-      {isLoading ? 
+      {(isLoading == null || isLoading) ? 
         (<Loader height={50}/>) : 
         (<MemberProgressList progressList={progressList}/>)
       }

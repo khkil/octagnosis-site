@@ -1,61 +1,54 @@
-import React, { useEffect } from 'react';
-import { Container, Box, Grid, Card, CardContent, TextField, Button, Typography, LinearProgress } from '@mui/material';
+import * as React from 'react';
+import { styled } from '@mui/material/styles';
+import { tableCellClasses } from '@mui/material/TableCell';
+import { Box, Table, TableBody, TableContainer, TableHead, TableRow, Paper, TableCell, Card, Typography } from '@mui/material';
+import MemberProgress from './MemberProgress';
 
-import Loader from '../../components/ui/Loader';
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: "#27313e",
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
 
-function LinearProgressWithLabel(props) {
-  return (
-    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-      <Box sx={{ minWidth: 35 }}>
-        <Typography variant="body2" color="text.secondary">{`${Math.round(
-          props.value,
-        )}%`}</Typography>
-      </Box>
-      <Box sx={{ width: '100%', mr: 1 }}>
-        <LinearProgress variant="determinate" {...props} />
-      </Box>
-      <Box sx={{ minWidth: 35 }}>
-        <Typography variant="body2" color="text.secondary">{`${Math.round(
-          props.value,
-        )}%`}</Typography>
-      </Box>
-    </Box>
-  );
-}
 
-const MemberProgressList = () => {
-
-  useEffect(() => {
-  
-  }, []);
-
+const MemberProgressList = ({ progressList }) => {
   return (
     <Box mt={2}>
-      <Card mb={6} style={{minHeight: 500}}>
-        <CardContent>
+      <Card mb={6}>
+        <Box p={2}>
           <Typography variant="h6" gutterBottom>
             검사 상태
           </Typography>
-
-          <Grid container spacing={6} mb={3}>
-            <Grid item md={10}>
-            <LinearProgressWithLabel value={30} />
-            </Grid>
-            <Grid item md={2}>
-              <TextField
-                id="zip"
-                label="Zip"
-                variant="outlined"
-                fullWidth
-                my={2}
-              />
-            </Grid>
-          </Grid>
-         
-        </CardContent>
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell style={{ width: "10%" }} align="center" >검사명</StyledTableCell>
+                  <StyledTableCell style={{ width: "80%" }} align="center">검사 상태</StyledTableCell>
+                  <StyledTableCell style={{ width: "10%" }} align="center">결제 상태</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {progressList.concat(progressList).map(({ inspectionIdx, inspectionName, userCount, totalCount }) => (
+                  <MemberProgress 
+                    key={inspectionIdx}
+                    inspectionIdx={inspectionIdx}
+                    inspectionName={inspectionName}
+                    userCount={userCount}
+                    totalCount={totalCount}
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
       </Card>
     </Box>
-  )
+  );
 }
 
 export default MemberProgressList;
