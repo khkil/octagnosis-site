@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useEffect, useMemo } from 'react';
-import { Box, Grid, Typography, LinearProgress, Button, TableRow, TableCell } from '@mui/material';
+import { Box, Grid, Typography, LinearProgress, Button, TableRow, TableCell, Table } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { styled } from '@mui/material/styles';
 import { useHistory } from 'react-router-dom';
@@ -71,7 +71,7 @@ const MemberProgress = ({ inspectionIdx, inspectionName, userCount, totalCount, 
       </TableCell>
       <TableCell align="center">
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Box sx={{ width: '83%', mr: 1 }}>
+          <Box sx={{ width: '96%', mr: 1 }}>
             <LinearProgress className={classes.progressBar} variant="determinate" value={progressValue} />
           </Box>
           <Box>
@@ -79,12 +79,15 @@ const MemberProgress = ({ inspectionIdx, inspectionName, userCount, totalCount, 
               {`${progressValue}%`}
             </Typography>
           </Box>
-          <ProgessButton 
-            inspectionIdx={inspectionIdx}
-            progressValue={progressValue}
-            currentPage={currentPage}
-          />
+          
         </Box>
+      </TableCell>
+      <TableCell>
+        <ProgessButton 
+          inspectionIdx={inspectionIdx}
+          progressValue={progressValue}
+          currentPage={currentPage}
+        />
       </TableCell>
       <TableCell align="center">결제 완료</TableCell>
     </StyledTableRow>

@@ -33,13 +33,11 @@ const QuestionForm = ({ inspectionIdx, questionList, totalPage }) => {
   }));
 
   const handleSubmit = (data) => {
-    dispatch(startLoading(ONE_PAGE_QUESTION_LIST_REQUEST));
     insertMemberAnswer({
       answerMap: data,
       memberIdx: memberIdx
     })
     .then(() => {
-      dispatch(endLoading(ONE_PAGE_QUESTION_LIST_REQUEST));
       goNextPage(history, inspectionIdx, page);
     });
   }

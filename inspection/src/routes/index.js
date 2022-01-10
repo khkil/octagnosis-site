@@ -1,4 +1,5 @@
 import React from "react";
+import KaKaoLoginCallback from "../components/auth/KaKaoLoginCallback";
 import LoginPage from "../pages/auth/LoginPage";
 import MainPage from "../pages/common/MainPage";
 import MyPage from "../pages/common/MyPage";
@@ -46,6 +47,13 @@ const loginPageRoute = {
   title: "시작 페이지",
   component: LoginPage
 }
+
+const kakaoLoginCallbackRoute = {
+  path: "/auth/login/kakao",
+  title: "카카오 로그인 중",
+  component: KaKaoLoginCallback
+}
+
 export const commonLayoutRoutes = [
   mainPageRoute,
   myPageRoute,
@@ -55,5 +63,6 @@ export const commonLayoutRoutes = [
 ]
 
 export const authLayoutRoutes = [
-  loginPageRoute
+  loginPageRoute,
+  kakaoLoginCallbackRoute
 ]

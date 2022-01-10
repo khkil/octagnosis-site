@@ -10,5 +10,6 @@ export const PRODUCT_ENV = "production";
 export const TEXT_QUESTION = "TEXT";
 export const IMAGE_QUESTION = "IMAGE";
 
+export const KAKAO_API_KEY = "912d51fdaa37d227fda10a2696fe6895";
 /* export const TEXT_QUESTION = "IMAGE";
 export const IMAGE_QUESTION = "TEXT"; */

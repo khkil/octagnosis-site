@@ -20,6 +20,7 @@ import * as Yup from "yup";
 import headlineLogo from '../../assets/images/common/headline.png';
 import { useDispatch, useSelector } from "react-redux";
 import { loginRequest, LOGIN_REQUEST } from "../../modules/auth";
+import KakaoLogin from "../../components/auth/KakaoLogin"
 const useStyles = makeStyles({
   root: {
     justifyContent: "center",
@@ -121,6 +122,7 @@ const LoginPage = () => {
                       >
                         {isLoading ? <CircularProgress size={24} style={{color: "white"}} /> : <Typography style={{'color': 'white'}}>로그인</Typography>}
                       </LoadingButton>
+                      <KakaoLogin/>
                     </Grid>
                   </Grid>
                 </form> 

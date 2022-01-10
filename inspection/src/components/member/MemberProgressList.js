@@ -28,7 +28,8 @@ const MemberProgressList = ({ progressList }) => {
               <TableHead>
                 <TableRow>
                   <StyledTableCell style={{ width: "10%" }} align="center" >검사명</StyledTableCell>
-                  <StyledTableCell style={{ width: "80%" }} align="center">검사 상태</StyledTableCell>
+                  <StyledTableCell style={{ width: "67%" }} align="center">검사 상태</StyledTableCell>
+                  <StyledTableCell style={{ width: "13%" }} align="center"></StyledTableCell>
                   <StyledTableCell style={{ width: "10%" }} align="center">결제 상태</StyledTableCell>
                 </TableRow>
               </TableHead>
