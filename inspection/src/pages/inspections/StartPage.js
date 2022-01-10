@@ -14,7 +14,10 @@ const StartPage = () => {
   const { inspectionIdx } = useParams();
 
   const startInspection = () => {
-    history.push(`/inspections/${inspectionIdx}/pages/1`);
+    history.push({
+      pathname: `/inspections/${inspectionIdx}/pages/1`,
+      state: 0
+    });
   }
   
   return (

@@ -33,13 +33,20 @@ const MemberProgressList = ({ progressList }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {progressList.concat(progressList).map(({ inspectionIdx, inspectionName, userCount, totalCount }) => (
+                {progressList.map(({ 
+                  inspectionIdx, 
+                  inspectionName, 
+                  userCount, 
+                  totalCount,
+                  currentPage
+                }) => (
                   <MemberProgress 
                     key={inspectionIdx}
                     inspectionIdx={inspectionIdx}
                     inspectionName={inspectionName}
                     userCount={userCount}
                     totalCount={totalCount}
+                    currentPage={currentPage}
                   />
                 ))}
               </TableBody>

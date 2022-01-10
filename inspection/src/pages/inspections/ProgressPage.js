@@ -6,7 +6,7 @@ import { clearQuestion, onePageQuestionRequest, ONE_PAGE_QUESTION_LIST_REQUEST }
 import Loader from '../../components/ui/Loader';
 
 
-const ProgressPage = ({ match, history }) => {
+const ProgressPage = ({ match, location, history }) => {
 
   const dispatch = useDispatch();
   const { inspectionIdx, page } = match.params;
@@ -18,11 +18,16 @@ const ProgressPage = ({ match, history }) => {
   }));
 
   useEffect(() => {
+
+    const { state } = location;
+    if(isNaN(page) || Number(page) - 1 !== state ){
+      history.push(`/inspections/${inspectionIdx}/pages/start`);
+    }
+    
     const params = {
       inspectionIdx: inspectionIdx,
       page: page
     }
-    console.log("render");
     dispatch(onePageQuestionRequest(params));
     return () => {
       dispatch(clearQuestion());

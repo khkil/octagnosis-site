@@ -5,10 +5,12 @@ import { DELAY_TIME } from "../utils/sagaUtil";
 import { memberProgressListApi } from "../api/memberApi";
 
 export const FETCH_MEMBER_PROGRESS_LIST_REQUEST = "member/FETCH_MEMBER_PROGRESS_LIST_REQUEST";
+export const CLEAR_MEMBER_PROGRESS_LIST = "member/CLEAR_MEMBER_PROGRESS_LIST";
 const FETCH_MEMBER_PROGRESS_LIST_SUCCESS = "member/FETCH_MEMBER_PROGRESS_LIST_SUCCESS";
 const FETCH_MEMBER_PROGRESS_LIST_FAILURE = "member/FETCH_MEMBER_PROGRESS_LIST_FAILURE";
 
 export const fetchMemberProgressList = createAction(FETCH_MEMBER_PROGRESS_LIST_REQUEST);
+export const clearMemberProgressList = createAction(CLEAR_MEMBER_PROGRESS_LIST);
 const fetchMemberProgressListSuccess = createAction(FETCH_MEMBER_PROGRESS_LIST_SUCCESS, data => data);
 const fetchMemberProgressListFailure = createAction(FETCH_MEMBER_PROGRESS_LIST_FAILURE, e => e);
 
@@ -46,6 +48,10 @@ const member = handleActions({
   [FETCH_MEMBER_PROGRESS_LIST_FAILURE]: (state, action) => ({
     ...state,
     error: action.payload
+  }),
+  [CLEAR_MEMBER_PROGRESS_LIST]: (state, action) => ({
+    ...state,
+    progressList: []
   }),
  
 

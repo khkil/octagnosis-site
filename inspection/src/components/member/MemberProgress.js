@@ -19,10 +19,17 @@ const useStyles = makeStyles({
   progressBar: {
     height: "25px !important",
   },
+  startBtn: {
+    background: "#007434 !important"
+  },
+  resultBtn: {
+    background: "#27313e !important"
+  }
 });
 
-const ProgessButton = memo(({ inspectionIdx, progressValue }) => {
+const ProgessButton = memo(({ inspectionIdx, progressValue, currentPage }) => {
 
+  const classes = useStyles();
   const history = useHistory();
 
   const goStartPage = useCallback(() => {
@@ -30,21 +37,23 @@ const ProgessButton = memo(({ inspectionIdx, progressValue }) => {
   }, [inspectionIdx, progressValue]);
 
   const goProgressPage = useCallback(() => {
-    const page = 1; //to-do : page 수 check
-    history.push(`/inspections/${inspectionIdx}/pages/${page}`)
+    const nextPage = (currentPage && !isNaN(currentPage) ? Number(currentPage) + 1 : "start");
+    history.push({
+      pathname: `/inspections/${inspectionIdx}/pages/${nextPage}`,
+      state: currentPage
+    })
   }, [inspectionIdx, progressValue]);
 
   const goResultPage = useCallback(() => {
-    const page = 1; //to-do : result page 추후 구현
     history.push(`/inspections/${inspectionIdx}/pages/result`)
   }, [inspectionIdx, progressValue]);
 
   return (
     <Box ml={2}>
       {progressValue === 0 ? (
-        <Button variant="contained" onClick={goStartPage}>검사 시작하기</Button>
+        <Button variant="contained" className={classes.startBtn} onClick={goStartPage}>검사 시작하기</Button>
       ): progressValue === 100 ?  (
-        <Button variant="contained" onClick={goResultPage}>결과 보러가기</Button>
+        <Button variant="contained" className={classes.resultBtn} onClick={goResultPage}>결과 보러가기</Button>
       ) : ( 
         <Button variant="contained" onClick={goProgressPage}>검사 이어하기</Button>
       )}
@@ -53,7 +62,7 @@ const ProgessButton = memo(({ inspectionIdx, progressValue }) => {
   )
 });
 
-const MemberProgress = ({ inspectionIdx, inspectionName, userCount, totalCount }) => {
+const MemberProgress = ({ inspectionIdx, inspectionName, userCount, totalCount, currentPage }) => {
 
   const classes = useStyles();
   const progressValue = useMemo(() => Math.round(userCount / totalCount * 100), [userCount, totalCount]);
@@ -76,6 +85,7 @@ const MemberProgress = ({ inspectionIdx, inspectionName, userCount, totalCount }
           <ProgessButton 
             inspectionIdx={inspectionIdx}
             progressValue={progressValue}
+            currentPage={currentPage}
           />
         </Box>
       </TableCell>

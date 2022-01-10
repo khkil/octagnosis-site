@@ -33,7 +33,10 @@ const QuestionForm = ({ inspectionIdx, questionList, totalPage }) => {
 
   const goNextPage = () => {
     const nextPage = Number(page) === totalPage ? "end" : Number(page) + 1;
-    history.push(`/inspections/${inspectionIdx}/pages/${nextPage}`);
+    history.push({
+      pathname: `/inspections/${inspectionIdx}/pages/${nextPage}`,
+      state: Number(page)
+    });
   };
 
   const handleSubmit = (data) => {
@@ -91,7 +94,6 @@ const QuestionForm = ({ inspectionIdx, questionList, totalPage }) => {
         <Box className="btn-wrap mt40">
           <button type="submit" className="btn yellow md">다음</button>
         </Box>
-        {JSON.stringify(values)}
       </Form>
 
     )}
