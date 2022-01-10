@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Container, Box } from '@mui/material';
 import QuestionForm from '../../components/questions/QuestionForm';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,7 +20,7 @@ const ProgressPage = ({ match, location, history }) => {
   useEffect(() => {
 
     const { state } = location;
-    if(isNaN(page) || Number(page) - 1 !== state ){
+    if(state === undefined || (Number(page) - 1 !== Number(state)) ){
       history.push(`/inspections/${inspectionIdx}/pages/start`);
     }
     

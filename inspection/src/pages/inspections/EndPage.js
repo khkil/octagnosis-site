@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-const EndPage = () => {
+const EndPage = ({ progressDetail}) => {
 
+  useEffect(() => {
+    console.log(progressDetail);
+  }, [])
   return(
     <div>
       end page

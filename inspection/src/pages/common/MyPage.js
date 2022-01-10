@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../components/ui/Loader';
 import MemberInfo from '../../components/member/MemberInfo';
 import MemberProgressList from '../../components/member/MemberProgressList';
-import { clearMemberProgressList, fetchMemberProgressList, FETCH_MEMBER_PROGRESS_LIST_REQUEST } from '../../modules/member';
+import { clearMemberProgress, fetchMemberProgressList, FETCH_MEMBER_PROGRESS_LIST_REQUEST } from '../../modules/member';
 
 const MyPage = () => {
 
@@ -20,7 +20,7 @@ const MyPage = () => {
     const { idx } = member;
     dispatch(fetchMemberProgressList(idx));
     return () => {
-      dispatch(clearMemberProgressList());
+      dispatch(clearMemberProgress());
     }
   }, []);
 

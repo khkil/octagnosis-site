@@ -34,7 +34,7 @@ function* inpectionDetailSaga(action) {
     yield put(fetchInspectionDetailFailure(e));
     
   }finally{
-    yield put(endLoading(FETCH_INPECTION_LIST_REQUEST))
+    yield put(endLoading(FETCH_INPECTION_DETAIL))
   }
 }
 

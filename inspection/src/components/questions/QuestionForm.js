@@ -10,6 +10,7 @@ import { insertMemberAnswer } from '../../api/answerApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { endLoading, startLoading } from '../../modules/loading';
 import { ONE_PAGE_QUESTION_LIST_REQUEST } from '../../modules/question';
+import { goNextPage } from '../../utils/common';
 
 const QuestionForm = ({ inspectionIdx, questionList, totalPage }) => {
 
@@ -31,14 +32,6 @@ const QuestionForm = ({ inspectionIdx, questionList, totalPage }) => {
     memberIdx: auth.member.idx,
   }));
 
-  const goNextPage = () => {
-    const nextPage = Number(page) === totalPage ? "end" : Number(page) + 1;
-    history.push({
-      pathname: `/inspections/${inspectionIdx}/pages/${nextPage}`,
-      state: Number(page)
-    });
-  };
-
   const handleSubmit = (data) => {
     dispatch(startLoading(ONE_PAGE_QUESTION_LIST_REQUEST));
     insertMemberAnswer({
@@ -47,7 +40,7 @@ const QuestionForm = ({ inspectionIdx, questionList, totalPage }) => {
     })
     .then(() => {
       dispatch(endLoading(ONE_PAGE_QUESTION_LIST_REQUEST));
-      goNextPage();
+      goNextPage(history, inspectionIdx, page);
     });
   }
 

@@ -1,27 +1,50 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Box } from '@mui/material';
 import footerLogo from '../../assets/images/common/headline.png';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
+import { clearMemberProgress, fetchMemberProgressDetail, FETCH_MEMBER_PROGRESS_DETAIL_REQUEST } from '../../modules/member';
+import Loader from '../../components/ui/Loader';
+import ContinueDialog from '../../components/inspections/ContinueDialog';
+import { goNextPage } from '../../utils/common';
 
 const StartPage = () => {
 
-  const { username } = useSelector(({ auth }) => ({
-    username: auth.member.name
-  }));
-
+  const dispatch = useDispatch();
   const history = useHistory();
   const { inspectionIdx } = useParams();
+  const { memberIdx, memberName, progressDetail, isLoading } = useSelector(({ auth, member, loading }) => ({
+    memberIdx: auth.member.idx,
+    memberName: auth.member.name,
+    progressDetail: member.progressDetail,
+    isLoading: loading[FETCH_MEMBER_PROGRESS_DETAIL_REQUEST]
+  }));
 
   const startInspection = () => {
-    history.push({
-      pathname: `/inspections/${inspectionIdx}/pages/1`,
-      state: 0
-    });
+    goNextPage(history, inspectionIdx, 0);
   }
+
+  useEffect(() => {
+    dispatch(fetchMemberProgressDetail({
+      memberIdx: memberIdx,
+      inspectionIdx: inspectionIdx
+    }));
+
+    return () => {
+      dispatch(clearMemberProgress());
+    }
+
+  }, []);
   
+  if(isLoading) return <Loader/>;
+  if(!progressDetail.inspectionIdx) return null;
   return (
     <Container maxWidth="xl">
+      <ContinueDialog 
+        inspectionIdx={inspectionIdx}
+        memberIdx={memberIdx}
+        progressDetail={progressDetail}
+      />
       <Box className="start-wrap">
         <p className="txt1">
           교육전문가들이 선택한 <br/>
@@ -31,7 +54,7 @@ const StartPage = () => {
         <img src={footerLogo} alt="" className="mt25"/>
         <p className="txt2">
           <span>옥타그노시스 (OGS 옥스) 검사를 받으시는 </span><br/>
-          <span>{username}님 환영합니다.</span>
+          <span>{memberName}님 환영합니다.</span>
         </p>
         <Box className="bx">
           <p className="txt1">

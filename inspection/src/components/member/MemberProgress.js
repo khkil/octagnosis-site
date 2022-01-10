@@ -3,6 +3,7 @@ import { Box, Grid, Typography, LinearProgress, Button, TableRow, TableCell } fr
 import { makeStyles } from '@mui/styles';
 import { styled } from '@mui/material/styles';
 import { useHistory } from 'react-router-dom';
+import { goNextPage } from '../../utils/common';
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
@@ -33,15 +34,11 @@ const ProgessButton = memo(({ inspectionIdx, progressValue, currentPage }) => {
   const history = useHistory();
 
   const goStartPage = useCallback(() => {
-    history.push(`/inspections/${inspectionIdx}/pages/start`)
+    goNextPage(history, inspectionIdx, 0);
   }, [inspectionIdx, progressValue]);
 
   const goProgressPage = useCallback(() => {
-    const nextPage = (currentPage && !isNaN(currentPage) ? Number(currentPage) + 1 : "start");
-    history.push({
-      pathname: `/inspections/${inspectionIdx}/pages/${nextPage}`,
-      state: currentPage
-    })
+    goNextPage(history, inspectionIdx, currentPage);
   }, [inspectionIdx, progressValue]);
 
   const goResultPage = useCallback(() => {
