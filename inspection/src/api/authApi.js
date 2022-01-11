@@ -17,6 +17,22 @@ export const loginApi = (params) => {
   });
 }
 
+export const kakaoLoginApi = (code) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`/api/auth/login/kakao`, {params: {code}})
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export const logoutApi = () => {
   return new Promise((resolve, reject) => {
     axios

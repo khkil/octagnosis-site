@@ -1,9 +1,24 @@
+import React, { useEffect } from "react";
+import queryString from 'query-string'
 import { Button } from "@mui/material";
-import React from "react";
-import { KAKAO_API_KEY } from "../../constants";
-const KaKaoLoginCallback = () => {
+import { kakaoLoginApi } from "../../api/authApi";
+const KaKaoLoginCallback = ({ location }) => {
 
+  useEffect(() => {
+    const { code } = queryString.parse(location.search);
+    if(code){
+      kakaoLoginApi(code)
+      .then(data => {
+        console.log(data);
+      })
+      .catch(e => {
+        console.error(e);
+      })
+      console.log(code);
+    }else{
 
+    }
+  }, [])
 
   return (
     <div>

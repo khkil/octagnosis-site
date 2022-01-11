@@ -12,8 +12,8 @@ const KakaoLogin = () => {
     <div>
       <div>
         <Button
-            style={{"background": "#FADF0A"}}
-            onClick={clickKakaoLoginHandler}>
+          style={{"background": "#FADF0A"}}
+          onClick={clickKakaoLoginHandler}>
           카카오 로그인
         </Button>
       </div>
