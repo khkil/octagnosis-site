@@ -116,7 +116,7 @@ const LoginPage = () => {
                     <Grid item mb={-1}>
                       <LoadingButton
                         type="submit"
-                        style={{'background': '#27313e', height: "57px"}}
+                        style={{'background': '#27313e', height: "52px"}}
                         fullWidth
                         loading={isLoading}
                         variant="outlined"

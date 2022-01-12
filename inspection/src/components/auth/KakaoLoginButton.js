@@ -17,7 +17,7 @@ const KakaoLoginButton = () => {
       <Button
         fullWidth
         style={{"background": "rgb(249 224 0)"}}
-        startIcon={<img src={kakaoLogoImage} style={{height: "57px", padding: "5px"}}/>}
+        startIcon={<img src={kakaoLogoImage} style={{height: "40px", padding: "4px"}}/>}
         onClick={clickKakaoLoginHandler}
       >
         <Typography color={"black"} >카카오로 로그인</Typography>

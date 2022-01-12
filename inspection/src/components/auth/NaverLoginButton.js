@@ -9,7 +9,7 @@ const NaverLoginButton = () => {
       <Button
         fullWidth
         style={{background: "#03c75a"}}
-        startIcon={<img src={NaverLogoImage} style={{height: "57px", width: "100%"}}/>}
+        startIcon={<img src={NaverLogoImage} style={{height: "40px", width: "100%"}}/>}
         onClick={() => { alert(1); }}>
           <Typography color={"black"}>네이버로 로그인</Typography>
       </Button>
