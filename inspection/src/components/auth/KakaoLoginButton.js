@@ -13,7 +13,7 @@ const KakaoLoginButton = () => {
   }
 
   return (
-    <Grid item>
+    <Grid item mb={-1}>
       <Button
         fullWidth
         style={{"background": "rgb(249 224 0)"}}

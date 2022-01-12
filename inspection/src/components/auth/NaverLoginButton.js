@@ -5,7 +5,7 @@ import NaverLogoImage from "../../assets/images/login/naver_logo.png"
 const NaverLoginButton = () => {
 
   return (
-    <Grid item>
+    <Grid item mb={-1}> 
       <Button
         fullWidth
         style={{background: "#03c75a"}}
