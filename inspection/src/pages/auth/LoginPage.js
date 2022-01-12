@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   TextField,
@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { LoadingButton } from '@mui/lab';
 import { makeStyles } from '@mui/styles';
-import { Formik } from "formik";
+import { ErrorMessage, Formik } from "formik";
 import * as Yup from "yup";
 
 import headlineLogo from '../../assets/images/common/headline.png';
@@ -25,8 +25,9 @@ import NaverLoginButton from "../../components/auth/NaverLoginButton";
 const useStyles = makeStyles({
   root: {
     justifyContent: "center",
-    minHeight: "90vh",
-    padding: 350,
+    paddingRight: "30%",
+    paddingLeft: "30%",
+    paddingTop: "250px",
   },
   form: {
     padding: 25,
@@ -39,12 +40,15 @@ const LoginPage = () => {
 
   const dispatch = useDispatch();
 
-  const { isLoading, isLoggenIn } = useSelector(({ loading, auth }) => ({
+  const { isLoading, error } = useSelector(({ loading, auth }) => ({
     isLoading: loading[LOGIN_REQUEST],
-    isLoggenIn: auth.isLoggenIn
+    error: auth.error
   }));
 
+  const [attempted, setAttempted] = useState(false);
+
   const handleSubmit = (params) => {
+    setAttempted(true);
     dispatch(loginRequest(params));
   }
   const classes = useStyles();
@@ -52,7 +56,7 @@ const LoginPage = () => {
   return (
     <Container>
        
-      <Box container spacing={0} justify="center" direction="row">
+      <Box container spacing={0} justify="center" >
         <Grid
           container
           direction="column"
@@ -113,6 +117,13 @@ const LoginPage = () => {
                         helperText={touched.password && errors.password}
                       />
                     </Grid>
+                    {(attempted && !isLoading && error != null) ? (
+                      <Typography name="invalidUser" mb={-2} color={"red"} p={1}>
+                         아이디 또는 비밀번호가 잘못 입력 되었습니다.
+                      </Typography>
+                    ): (
+                      <Grid m={1.5}/>
+                    )}
                     <Grid item mb={-1}>
                       <LoadingButton
                         type="submit"

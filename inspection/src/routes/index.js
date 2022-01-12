@@ -63,6 +63,8 @@ const kakaoLoginCallbackRoute = {
 
 export const commonLayoutRoutes = [
   mainPageRoute,
+  loginPageRoute,
+  signupPageRoute,
   myPageRoute,
   startPageRoute,
   endPageRoute,
@@ -70,7 +72,5 @@ export const commonLayoutRoutes = [
 ]
 
 export const authLayoutRoutes = [
-  loginPageRoute,
-  signupPageRoute,
   kakaoLoginCallbackRoute
 ]

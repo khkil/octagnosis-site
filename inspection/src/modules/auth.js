@@ -94,16 +94,16 @@ const auth = handleActions({
   [LOGIN_REQUEST_SUCCESS]: (state, action) => ({
     ...state,
     member: action.payload.data,
-    isLoggedIn: true
+    isLoggedIn: true,
+    error: null
   }),
   [LOGIN_REQUEST_FAILURE]: (state, action) => ({
     ...state,
     isLoggedIn: false,
-    member: {},
     error: action.payload
   }),
 
-  [LOGOUT_REQUEST_SUCCESS]: () => (state) => ({
+  [LOGOUT_REQUEST_SUCCESS]: (state) => ({
     ...state,
     ...initialState
   }),
@@ -116,7 +116,8 @@ const auth = handleActions({
   [VALIDATE_TOKEN_SUCCESS]: (state, action) => ({
     ...state,
     member: action.payload.data,
-    isLoggedIn: true
+    isLoggedIn: true,
+    error: null
   }),
   [VALIDATE_TOKEN_FAILURE]: (state, action) => ({
     ...state,
