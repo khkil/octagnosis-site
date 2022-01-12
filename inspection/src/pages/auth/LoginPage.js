@@ -20,7 +20,8 @@ import * as Yup from "yup";
 import headlineLogo from '../../assets/images/common/headline.png';
 import { useDispatch, useSelector } from "react-redux";
 import { loginRequest, LOGIN_REQUEST } from "../../modules/auth";
-import KakaoLogin from "../../components/auth/KakaoLogin"
+import KakaoLoginButton from "../../components/auth/KakaoLoginButton"
+import NaverLoginButton from "../../components/auth/NaverLoginButton";
 const useStyles = makeStyles({
   root: {
     justifyContent: "center",
@@ -112,18 +113,19 @@ const LoginPage = () => {
                         helperText={touched.password && errors.password}
                       />
                     </Grid>
-                    <Grid item mb={2}>
+                    <Grid item mb={-1}>
                       <LoadingButton
                         type="submit"
-                        style={{'background': '#27313e'}}
+                        style={{'background': '#27313e', height: "57px"}}
                         fullWidth
                         loading={isLoading}
                         variant="outlined"
                       >
                         {isLoading ? <CircularProgress size={24} style={{color: "white"}} /> : <Typography style={{'color': 'white'}}>로그인</Typography>}
                       </LoadingButton>
-                      <KakaoLogin/>
                     </Grid>
+                    <KakaoLoginButton/>
+                    <NaverLoginButton/>
                   </Grid>
                 </form> 
               )}
