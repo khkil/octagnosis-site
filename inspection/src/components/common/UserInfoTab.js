@@ -37,7 +37,7 @@ const UserInfoTab = () => {
   }
 
   const goMyPage = () => {
-    history.push("/mypage")    
+    history.push("/my-page")    
   }
 
   const goLoginPage = () => {

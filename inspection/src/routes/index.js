@@ -15,7 +15,7 @@ const mainPageRoute = {
 }
 
 const myPageRoute = {
-  path: "/mypage",
+  path: "/my-page",
   title: "마이 페이지",
   auth: true,
   component: MyPage
@@ -50,7 +50,7 @@ const loginPageRoute = {
 }
 
 const signupPageRoute = {
-  path: "/auth/signup",
+  path: "/auth/sign-up",
   title: "회원가입 페이지",
   component: SignupPage
 }

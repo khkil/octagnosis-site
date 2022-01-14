@@ -17,7 +17,7 @@ const KaKaoLoginCallback = ({ location }) => {
         }else{
           alert("기타 정보를 입력해주세요.");
           history.push({
-            pathname: `/auth/signup`,
+            pathname: `/auth/sign-up`,
             state: {
               userId: data.id,
               username: data.name
