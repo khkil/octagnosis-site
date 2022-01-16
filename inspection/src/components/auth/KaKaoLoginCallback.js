@@ -11,7 +11,7 @@ const KaKaoLoginCallback = ({ location }) => {
     const { code } = queryString.parse(location.search);
     if(code){
       kakaoLoginApi(code)
-      .then(( { success, data } ) => {
+      .then(({ success, data }) => {
         if(success){
           history.push("/")
         }else{
