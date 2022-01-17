@@ -30,7 +30,7 @@ function* signUpSaga(action) {
 
 /* 로그인 */
 export const LOGIN_REQUEST = "auth/LOGIN_REQUEST";
-const LOGIN_REQUEST_SUCCESS = "auth/LOGIN_REQUEST_SUCCESS";
+export const LOGIN_REQUEST_SUCCESS = "auth/LOGIN_REQUEST_SUCCESS";
 const LOGIN_REQUEST_FAILURE = "auth/LOGIN_REQUEST_FAILURE";
 
 export const loginRequest = createAction(LOGIN_REQUEST);

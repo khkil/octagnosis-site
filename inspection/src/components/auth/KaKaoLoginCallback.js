@@ -3,17 +3,27 @@ import queryString from 'query-string'
 import { Button } from "@mui/material";
 import { kakaoLoginApi } from "../../api/authApi";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginSuccess, LOGIN_REQUEST_SUCCESS } from "../../modules/auth";
 
 const KaKaoLoginCallback = ({ location }) => {
 
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  const loginSuccess = (res) => ({
+    type: LOGIN_REQUEST_SUCCESS,
+    payload: res
+  })
+
   useEffect(() => {
     const { code } = queryString.parse(location.search);
     if(code){
       kakaoLoginApi(code)
-      .then(({ success, data }) => {
-        if(success){
-          history.push("/")
+      .then(res => {
+        const { success, data } = res;
+        if(Boolean(success)){
+          dispatch(loginSuccess(res));
         }else{
           alert("기타 정보를 입력해주세요.");
           history.push({
