@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Container, Box, Grid, Card, CardContent, TextField, Button, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -15,6 +15,16 @@ const MyPage = () => {
     progressList: member.progressList,
     isLoading: loading[FETCH_MEMBER_PROGRESS_LIST_REQUEST]
   }));
+
+  const isOauthUser = useMemo(() => member.id.startsWith("kakao_"), []);
+  const initialValues = useMemo(() => ({
+    ...member,
+    password_confirm: member.password
+  }), [member]);
+
+  const handleSubmit = (data) => {
+    console.log(data);
+  }
   
   useEffect(() => {
     const { idx } = member;
@@ -26,10 +36,22 @@ const MyPage = () => {
 
   return (
     <Container maxWidth="xl">
-      {/* <MemberInfoForm 
-        id={member.id}
-        name={member.name}
-      /> */}
+      <Card
+        sx={{
+          padding: 3,
+          marginTop: 3,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <MemberInfoForm
+          isOauthUser={isOauthUser}
+          initialValues={initialValues}
+          handleSubmit={handleSubmit}
+          submitButtonText="정보수정"
+        />
+      </Card>
       {(isLoading || progressList.length === 0) ? 
         (<Loader height={50}/>) : 
         (<MemberProgressList progressList={progressList}/>)

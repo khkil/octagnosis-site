@@ -14,7 +14,18 @@ const KaKaoLoginCallback = ({ location }) => {
   const loginSuccess = (res) => ({
     type: LOGIN_REQUEST_SUCCESS,
     payload: res
-  })
+  });
+
+  const goSignUpPage = (id, name) => {
+    alert("기타 정보를 입력해주세요.");
+    history.push({
+      pathname: `/auth/sign-up`,
+      state: {
+        userId: id,
+        username: name
+      }
+    })
+  }
 
   useEffect(() => {
     const { code } = queryString.parse(location.search);
@@ -25,14 +36,7 @@ const KaKaoLoginCallback = ({ location }) => {
         if(Boolean(success)){
           dispatch(loginSuccess(res));
         }else{
-          alert("기타 정보를 입력해주세요.");
-          history.push({
-            pathname: `/auth/sign-up`,
-            state: {
-              userId: data.id,
-              username: data.name
-            }
-          })
+          goSignUpPage(data.id, data.name);
         }
       })
       .catch(e => {

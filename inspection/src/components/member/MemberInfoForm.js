@@ -51,6 +51,59 @@ const MemberInfoForm = ({ isOauthUser, initialValues, handleSubmit, submitButton
             <Grid item xs={12} sm={12}>
               <Alert severity="info">기본정보</Alert>
             </Grid>
+            {!isOauthUser && (
+              <>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    name="id"
+                    label="아이디"
+                    type="text"
+                    value={values.id}
+                    onChange={handleChange}
+                    error={Boolean(touched.id && errors.id)}
+                    helperText={touched.id && errors.id}
+                    autoFocus
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    name="name"
+                    label="이름"
+                    type="text"
+                    value={values.name}
+                    onChange={handleChange}
+                    error={Boolean(touched.name && errors.name)}
+                    helperText={touched.name && errors.name}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    name="password"
+                    label="비밀번호"
+                    type="password"
+                    value={values.password}
+                    onChange={handleChange}
+                    error={Boolean(touched.password && errors.password)}
+                    helperText={touched.password && errors.password}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    name="password_confirm"
+                    label="비밀번호 확인"
+                    type="password"
+                    value={values.password_confirm}
+                    onChange={handleChange}
+                    error={Boolean(touched.password_confirm && errors.password_confirm)}
+                    helperText={touched.password_confirm && errors.password_confirm}
+                  />
+                </Grid>
+              </>
+            )}
 
             <Grid item xs={12} sm={6}>
               <TextField
@@ -119,67 +172,13 @@ const MemberInfoForm = ({ isOauthUser, initialValues, handleSubmit, submitButton
                 name="address_sub"
                 label="상세주소"
                 type="text"
-                value={values.address_sub}
+                value={values.address_sub ? values.address_sub : ""}
                 onChange={handleChange}
                 error={Boolean(touched.address_sub && errors.address_sub)}
                 helperText={touched.address_sub && errors.address_sub}
                 
               />
             </Grid>
-          
-            {!isOauthUser && (
-              <>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    name="id"
-                    label="아이디"
-                    type="text"
-                    value={values.id}
-                    onChange={handleChange}
-                    error={Boolean(touched.id && errors.id)}
-                    helperText={touched.id && errors.id}
-                    autoFocus
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    name="name"
-                    label="이름"
-                    type="text"
-                    value={values.name}
-                    onChange={handleChange}
-                    error={Boolean(touched.name && errors.name)}
-                    helperText={touched.name && errors.name}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    name="password"
-                    label="비밀번호"
-                    type="password"
-                    value={values.password}
-                    onChange={handleChange}
-                    error={Boolean(touched.password && errors.password)}
-                    helperText={touched.password && errors.password}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    name="password_confirm"
-                    label="비밀번호 확인"
-                    type="password"
-                    value={values.password_confirm}
-                    onChange={handleChange}
-                    error={Boolean(touched.password_confirm && errors.password_confirm)}
-                    helperText={touched.password_confirm && errors.password_confirm}
-                  />
-                </Grid>
-              </>
-            )}
             <Grid item xs={12} sm={12}>
               <Alert severity="info">현재 (최종) 학력 & 현재 직업 정보</Alert>
             </Grid>
@@ -291,15 +290,17 @@ const MemberInfoForm = ({ isOauthUser, initialValues, handleSubmit, submitButton
               />
             </Grid>
           </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-            style={{'background': '#27313e', height: "52px"}}
-          >
-            {submitButtonText}
-          </Button>
+          <Grid style={{textAlign: "center"}}>
+            <Button
+              type="submit"
+              variant="contained"
+              size="large"
+              sx={{ mt: 3, mb: 2 }}
+              style={{'background': '#27313e', height: "52px"}}
+            >
+              {submitButtonText}
+            </Button>
+          </Grid>
           
           {/* <Grid container justifyContent="flex-end">
             <Grid item>
