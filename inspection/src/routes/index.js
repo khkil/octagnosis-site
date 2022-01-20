@@ -1,5 +1,6 @@
 import React from "react";
 import KaKaoLoginCallback from "../components/auth/KaKaoLoginCallback";
+import NaverLoginCallback from "../components/auth/NaverLoginCallback";
 import LoginPage from "../pages/auth/LoginPage";
 import SignupPage from "../pages/auth/SignupPage";
 import MainPage from "../pages/common/MainPage";
@@ -61,6 +62,11 @@ const kakaoLoginCallbackRoute = {
   component: KaKaoLoginCallback
 }
 
+const naverLoginCallbackRoute = {
+  path: "/auth/login/naver",
+  title: "네이버 로그인 중",
+  component: NaverLoginCallback
+}
 export const commonLayoutRoutes = [
   mainPageRoute,
   loginPageRoute,
@@ -72,5 +78,6 @@ export const commonLayoutRoutes = [
 ]
 
 export const authLayoutRoutes = [
-  kakaoLoginCallbackRoute
+  kakaoLoginCallbackRoute,
+  naverLoginCallbackRoute
 ]

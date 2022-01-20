@@ -16,7 +16,7 @@ const MyPage = () => {
     isLoading: loading[FETCH_MEMBER_PROGRESS_LIST_REQUEST]
   }));
 
-  const isOauthUser = useMemo(() => member.id.startsWith("kakao_"), []);
+  const isOauthUser = useMemo(() => (member.id && (member.id.startsWith("kakao_") || member.id.startsWith("naver_"))), []);
   const initialValues = useMemo(() => ({
     ...member,
     password_confirm: member.password

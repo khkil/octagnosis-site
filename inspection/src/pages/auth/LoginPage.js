@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginRequest, LOGIN_REQUEST } from "../../modules/auth";
 import KakaoLoginButton from "../../components/auth/KakaoLoginButton"
 import NaverLoginButton from "../../components/auth/NaverLoginButton";
+import GoogleLoginButton from "../../components/auth/GoogleLoginButton";
 const useStyles = makeStyles({
   root: {
     justifyContent: "center",
@@ -137,6 +138,7 @@ const LoginPage = () => {
                     </Grid>
                     <KakaoLoginButton/>
                     <NaverLoginButton/>
+                    <GoogleLoginButton/>
                   </Grid>
                 </form> 
               )}
