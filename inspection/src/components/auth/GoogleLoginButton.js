@@ -16,7 +16,7 @@ const GoogleLoginButton = () => {
     <Grid item mb={-1}>
       <Button
         fullWidth
-        style={{ background: "white", boxShadow: "1px 1px 1px 1px #d7d7d7"}}
+        style={{ background: "white", border: "1px solid #ddd"}}
         startIcon={<img src={googleLogoImage} style={{height: "40px", padding: "4px" }}/>}
         onClick={clickKakaoLoginHandler}
       >
