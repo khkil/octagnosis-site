@@ -7,9 +7,9 @@ import { height } from "@mui/system";
 const GoogleLoginButton = () => {
 
   const clickKakaoLoginHandler = () => {
-    const kakaoApiKey = "";
-    const redirectUrl = "";
-    location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoApiKey}&redirect_uri=${redirectUrl}&response_type=code`
+    const googleClientId = "374986953581-6aknlgc3d16e15k504bq89ti8enoo2aa.apps.googleusercontent.com";
+    const redirectUrl = `${origin}/auth/login/google`;
+    location.replace(`https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${redirectUrl}&response_type=code&scope=email%20profile%20openid&access_type=offline`);
   }
 
   return (

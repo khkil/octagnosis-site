@@ -7,9 +7,10 @@ import { height } from "@mui/system";
 const KakaoLoginButton = () => {
 
   const clickKakaoLoginHandler = () => {
+    const { origin } = location;
     const kakaoApiKey = "912d51fdaa37d227fda10a2696fe6895";
-    const redirectUrl = "http://localhost:3000/auth/login/kakao";
-    location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoApiKey}&redirect_uri=${redirectUrl}&response_type=code`
+    const redirectUrl = `${origin}/auth/login/kakao`;
+    location.replace(`https://kauth.kakao.com/oauth/authorize?client_id=${kakaoApiKey}&redirect_uri=${redirectUrl}&response_type=code`);
   }
 
   return (

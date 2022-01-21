@@ -70,6 +70,24 @@ export const naverLoginApi = (code) => {
   });
 }
 
+export const googleLoginApi = (code) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`/api/auth/login/google`, {
+        code: code
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export const logoutApi = () => {
   return new Promise((resolve, reject) => {
     axios
