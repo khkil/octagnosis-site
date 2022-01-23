@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import queryString from 'query-string'
-import { Button } from "@mui/material";
-import { kakaoLoginApi } from "../../api/authApi";
+import { googleLoginApi } from "../../api/authApi";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loginSuccess, LOGIN_REQUEST_SUCCESS } from "../../modules/auth";
+import { LOGIN_REQUEST_SUCCESS } from "../../modules/auth";
 
 const GoogleLoginCallback = ({ location }) => {
 
@@ -30,9 +29,8 @@ const GoogleLoginCallback = ({ location }) => {
   useEffect(() => {
 
     const { code } = queryString.parse(location.search);
-    alert(code);
     if(code){
-      kakaoLoginApi(code)
+      googleLoginApi(code)
       .then(res => {
         const { success, data } = res;
         console.log(data);

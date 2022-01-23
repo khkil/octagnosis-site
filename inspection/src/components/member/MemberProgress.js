@@ -28,7 +28,7 @@ const useStyles = makeStyles({
   }
 });
 
-const ProgessButton = memo(({ inspectionIdx, progressValue, currentPage }) => {
+const ProgessButton = memo(({ inspectionIdx, progressValue, currentPage, totalCount }) => {
 
   const classes = useStyles();
   const history = useHistory();
@@ -38,11 +38,11 @@ const ProgessButton = memo(({ inspectionIdx, progressValue, currentPage }) => {
   }, [inspectionIdx, progressValue]);
 
   const goProgressPage = useCallback(() => {
-    goNextPage(history, inspectionIdx, currentPage);
+    goNextPage(history, inspectionIdx, currentPage, totalCount);
   }, [inspectionIdx, progressValue]);
 
   const goResultPage = useCallback(() => {
-    history.push(`/inspections/${inspectionIdx}/pages/result`)
+    history.push(`/inspections/${inspectionIdx}/pages/end`)
   }, [inspectionIdx, progressValue]);
 
   return (
@@ -87,6 +87,7 @@ const MemberProgress = ({ inspectionIdx, inspectionName, userCount, totalCount, 
           inspectionIdx={inspectionIdx}
           progressValue={progressValue}
           currentPage={currentPage}
+          totalCount={totalCount}
         />
       </TableCell>
       <TableCell align="center">결제 완료</TableCell>

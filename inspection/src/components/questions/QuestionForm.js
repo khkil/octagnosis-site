@@ -8,9 +8,7 @@ import * as Yup from "yup";
 import { Box } from '@mui/material';
 import { insertMemberAnswer } from '../../api/answerApi';
 import { useDispatch, useSelector } from 'react-redux';
-import { endLoading, startLoading } from '../../modules/loading';
-import { ONE_PAGE_QUESTION_LIST_REQUEST } from '../../modules/question';
-import { goNextPage } from '../../utils/common';
+import { goProgressPage } from '../../utils/common';
 
 const QuestionForm = ({ inspectionIdx, questionList, totalPage }) => {
 
@@ -38,7 +36,7 @@ const QuestionForm = ({ inspectionIdx, questionList, totalPage }) => {
       memberIdx: memberIdx
     })
     .then(() => {
-      goNextPage(history, inspectionIdx, page);
+      goProgressPage(history, inspectionIdx, page, totalPage);
     });
   }
 

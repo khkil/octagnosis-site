@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { deleteProgressApi } from '../../api/memberApi';
-import { goNextPage } from '../../utils/common';
+import { goProgressPage } from '../../utils/common';
 import AlertDialog from '../common/AlertDialog';
 
 const ContinueDialog = ({ inspectionIdx, memberIdx, progressDetail }) => {
@@ -14,7 +14,7 @@ const ContinueDialog = ({ inspectionIdx, memberIdx, progressDetail }) => {
     deleteProgressApi(memberIdx, inspectionIdx)
     .then(({ success }) => {
       if(success){
-        goNextPage(history, inspectionIdx, 0);
+        goProgressPage(history, inspectionIdx, 0);
       }else{
         alert("오류 발생");
       }
@@ -26,7 +26,7 @@ const ContinueDialog = ({ inspectionIdx, memberIdx, progressDetail }) => {
   }
 
   const continueInspection = () => {
-    goNextPage(history, inspectionIdx, currentPage);
+    goProgressPage(history, inspectionIdx, currentPage);
   }
 
   useEffect(() => {

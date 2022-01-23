@@ -6,7 +6,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { clearMemberProgress, fetchMemberProgressDetail, FETCH_MEMBER_PROGRESS_DETAIL_REQUEST } from '../../modules/member';
 import Loader from '../../components/ui/Loader';
 import ContinueDialog from '../../components/inspections/ContinueDialog';
-import { goNextPage } from '../../utils/common';
+import { goProgressPage } from '../../utils/common';
 
 const StartPage = () => {
 
@@ -21,7 +21,7 @@ const StartPage = () => {
   }));
 
   const startInspection = () => {
-    goNextPage(history, inspectionIdx, 0);
+    goProgressPage(history, inspectionIdx, 0);
   }
 
   useEffect(() => {
