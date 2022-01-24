@@ -3,7 +3,7 @@ import { Box, Grid, Typography, LinearProgress, Button, TableRow, TableCell, Tab
 import { makeStyles } from '@mui/styles';
 import { styled } from '@mui/material/styles';
 import { useHistory } from 'react-router-dom';
-import { goNextPage } from '../../utils/common';
+import { goProgressPage } from '../../utils/common';
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
@@ -33,12 +33,12 @@ const ProgessButton = memo(({ inspectionIdx, progressValue, currentPage, totalCo
   const classes = useStyles();
   const history = useHistory();
 
-  const goStartPage = useCallback(() => {
-    goNextPage(history, inspectionIdx, 0);
+  const startInspection = useCallback(() => {
+    goProgressPage(history, inspectionIdx, 0);
   }, [inspectionIdx, progressValue]);
 
-  const goProgressPage = useCallback(() => {
-    goNextPage(history, inspectionIdx, currentPage, totalCount);
+  const continueInspection = useCallback(() => {
+    goProgressPage(history, inspectionIdx, currentPage, totalCount);
   }, [inspectionIdx, progressValue]);
 
   const goResultPage = useCallback(() => {
@@ -48,11 +48,11 @@ const ProgessButton = memo(({ inspectionIdx, progressValue, currentPage, totalCo
   return (
     <Box ml={2}>
       {progressValue === 0 ? (
-        <Button variant="contained" className={classes.startBtn} onClick={goStartPage}>검사 시작하기</Button>
+        <Button variant="contained" className={classes.startBtn} onClick={startInspection}>검사 시작하기</Button>
       ): progressValue === 100 ?  (
         <Button variant="contained" className={classes.resultBtn} onClick={goResultPage}>결과 보러가기</Button>
       ) : ( 
-        <Button variant="contained" onClick={goProgressPage}>검사 이어하기</Button>
+        <Button variant="contained" onClick={continueInspection}>검사 이어하기</Button>
       )}
       
     </Box>

@@ -14,7 +14,7 @@ const MemberInfoForm = ({ isOauthUser, initialValues, handleSubmit, submitButton
     phone: Yup.string().required("휴대전화를 입력하세요").matches(phoneRegExp, '휴대폰 번호 양식에 맞게 입력하세요'),
     email: Yup.string().required("이메일을 입력하세요").email("이메일 형식에 맞게 입력하세요"),
     address: Yup.string().required("주소를 입력하세요"),
-    //address_sub: Yup.string().required("상세주소를 입력하세요"),
+    //addressSub: Yup.string().required("상세주소를 입력하세요"),
     school: Yup.string().required("학교명을 입력하세요"),
     education: Yup.string().required("학력을 선택하세요"),
     grade: Yup.string().required("학년을 입력하세요"),
@@ -169,13 +169,13 @@ const MemberInfoForm = ({ isOauthUser, initialValues, handleSubmit, submitButton
             <Grid item xs={12} sm={4}>
               <TextField
                 fullWidth
-                name="address_sub"
+                name="addressSub"
                 label="상세주소"
                 type="text"
-                value={values.address_sub ? values.address_sub : ""}
+                value={values.addressSub ? values.addressSub : ""}
                 onChange={handleChange}
-                error={Boolean(touched.address_sub && errors.address_sub)}
-                helperText={touched.address_sub && errors.address_sub}
+                error={Boolean(touched.addressSub && errors.addressSub)}
+                helperText={touched.addressSub && errors.addressSub}
                 
               />
             </Grid>

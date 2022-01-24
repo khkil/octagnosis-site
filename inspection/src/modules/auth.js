@@ -2,7 +2,7 @@ import { createAction, handleActions } from "redux-actions";
 import { takeLatest, call, put, delay } from "redux-saga/effects";
 import { startLoading, endLoading } from "./loading"
 import { DELAY_TIME } from "../utils/sagaUtil";
-import { loginApi, logoutApi, signUpApi, validateTokenApi } from "../api/authApi";
+import { loginApi, logoutApi, signUpApi, updateMemberApi, validateTokenApi } from "../api/authApi";
 import { goLoginPage } from "../utils/common";
 
 /* 회원가입 */
@@ -98,6 +98,30 @@ function* validateTokenSaga(action) {
   }
 }
 
+/* 회원정보 수정 */
+export const UPDATE_MEMBER_REQUEST = "auth/UPDATE_MEMBER_REQUEST";
+const UPDATE_MEMBER_SUCCESS = "auth/UPDATE_MEMBER_SUCCESS";
+const UPDATE_MEMBER_FAILURE = "auth/UPDATE_MEMBER_FAILURE";
+
+export const updateMemberRequest = createAction(UPDATE_MEMBER_REQUEST);
+const updateMemberSuccess = createAction(UPDATE_MEMBER_SUCCESS, response => response);
+const updateMemberFailure = createAction(UPDATE_MEMBER_FAILURE, error => error);
+
+function* updateMemberSaga(action) {
+
+  yield put(startLoading(UPDATE_MEMBER_REQUEST));
+  try{
+    //yield delay(DELAY_TIME);
+    const response = yield call(updateMemberApi, action.payload);
+    yield put(updateMemberSuccess(response));
+    yield call(() => { alert("수정에 성공하였습니다.") });
+  }catch(e){
+    yield put(updateMemberFailure(e));
+  }finally{
+    yield put(endLoading(UPDATE_MEMBER_REQUEST))
+  }
+}
+
 /**/
 
 export function* authSaga() {
@@ -105,6 +129,7 @@ export function* authSaga() {
   yield takeLatest(LOGIN_REQUEST, loginSaga);
   yield takeLatest(LOGOUT_REQUEST, logoutSaga);
   yield takeLatest(VALIDATE_TOKEN_REQUEST, validateTokenSaga);
+  yield takeLatest(UPDATE_MEMBER_REQUEST, updateMemberSaga);
 }
 
 const initialState = {
@@ -157,6 +182,17 @@ const auth = handleActions({
   [VALIDATE_TOKEN_FAILURE]: (state, action) => ({
     ...state,
     isLoggedIn: false,
+    member: {},
+    error: action.payload
+  }),
+  [UPDATE_MEMBER_SUCCESS]: (state, action) => ({
+    ...state,
+    member: action.payload.data,
+    isLoggedIn: true,
+    error: null
+  }),
+  [UPDATE_MEMBER_FAILURE]: (state, action) => ({
+    ...state,
     member: {},
     error: action.payload
   }),

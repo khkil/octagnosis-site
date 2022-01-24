@@ -6,6 +6,7 @@ import Loader from '../../components/ui/Loader';
 import MemberInfoForm from '../../components/member/MemberInfoForm';
 import MemberProgressList from '../../components/member/MemberProgressList';
 import { clearMemberProgress, fetchMemberProgressList, FETCH_MEMBER_PROGRESS_LIST_REQUEST } from '../../modules/member';
+import { updateMemberRequest } from '../../modules/auth';
 
 const MyPage = () => {
 
@@ -23,7 +24,7 @@ const MyPage = () => {
   }), [member]);
 
   const handleSubmit = (data) => {
-    console.log(data);
+    dispatch(updateMemberRequest(data));
   }
   
   useEffect(() => {

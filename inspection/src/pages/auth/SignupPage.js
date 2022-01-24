@@ -23,7 +23,7 @@ const SignupPage = ({ location }) => {
     phone: "",
     email: "",
     address: "",
-    address_sub: "",
+    addressSub: "",
     school: "",
     education: "",
     grade: "",

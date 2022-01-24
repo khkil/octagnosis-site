@@ -120,3 +120,19 @@ export const validateTokenApi = () => {
   });
 
 }
+
+export const updateMemberApi = (params) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(`/api/members`, params)
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
