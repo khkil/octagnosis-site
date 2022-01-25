@@ -34,6 +34,25 @@ const ProgressPage = ({ match, location, history }) => {
     }
   }, [page]);
 
+/*   useEffect(() => {
+
+    const preventGoBack = (e) => {
+      e.preventDefault();
+    };
+
+    return history.listen((location) => {
+      if (history.action === "PUSH") {
+        alert("push");
+        preventGoBack();
+      }
+  
+      if (history.action === "POP") {
+        alert("pop");
+        preventGoBack();
+      }
+    });
+  }, [history]) */
+
   if(isLoading) return <Loader/>;
   if(questionList.length === 0) return null;
   return (

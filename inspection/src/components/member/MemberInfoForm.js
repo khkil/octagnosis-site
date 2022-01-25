@@ -5,10 +5,12 @@ import { Formik } from 'formik';
 import * as Yup from "yup";
 import FindAddressPopup from "../../components/common/FindAddressPopup"
 import { phoneRegExp } from '../../utils/common';
+import MemberIdVerificationButton from './MemberIdVerificationButton';
 
 
 const MemberInfoForm = ({ isOauthUser, initialValues, handleSubmit, submitButtonText }) => {
 
+  const [idVerificated, setIdVerificated] = useState(false);
   const [openAddressPopup, setOpenAddressPopup] = useState(false);
   const [schema, setSchema] = useState({
     phone: Yup.string().required("휴대전화를 입력하세요").matches(phoneRegExp, '휴대폰 번호 양식에 맞게 입력하세요'),
@@ -33,8 +35,14 @@ const MemberInfoForm = ({ isOauthUser, initialValues, handleSubmit, submitButton
     if(!isOauthUser){
       setSchema({
         ...schema,
-        password: Yup.string().required("비밀번호 입력하세요"),
-        password_confirm: Yup.string().required("비밀번호 확인을 입력하세요"),
+        id: Yup.string()
+          .required("아이디를 입력하세요")
+          .test("idVerificated", "아이디 중복확인을 해주세요", (value) => (idVerificated)),
+        name: Yup.string().required("이름을 입력하세요"),
+        /* password: Yup.string().required("비밀번호를 입력하세요"),
+        password_confirm: Yup.string()
+          .required("비밀번호 확인을 입력하세요")
+          .oneOf([Yup.ref('password'), null],'패스워드가 일치하지 않습니다.'), */
       });
     }
   }, []);
@@ -47,23 +55,33 @@ const MemberInfoForm = ({ isOauthUser, initialValues, handleSubmit, submitButton
     >
       {({ values, setValues, handleChange, handleSubmit, touched, errors  }) => (
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          {/* <Box>
+            <Typography>{JSON.stringify(initialValues)}</Typography>
+            <Typography>{JSON.stringify(schema)}</Typography>
+          </Box> */}
+          {errors.id}
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <Alert severity="info">기본정보</Alert>
             </Grid>
             {!isOauthUser && (
               <>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4.2}>
                   <TextField
                     fullWidth
                     name="id"
                     label="아이디"
                     type="text"
                     value={values.id}
-                    onChange={handleChange}
                     error={Boolean(touched.id && errors.id)}
                     helperText={touched.id && errors.id}
                     autoFocus
+                  />
+                </Grid>
+                <Grid item xs={12} sm={1.8}>
+                  <MemberIdVerificationButton
+                    idVerificated={idVerificated}
+                    setIdVerificated={setIdVerificated}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -73,33 +91,8 @@ const MemberInfoForm = ({ isOauthUser, initialValues, handleSubmit, submitButton
                     label="이름"
                     type="text"
                     value={values.name}
-                    onChange={handleChange}
                     error={Boolean(touched.name && errors.name)}
                     helperText={touched.name && errors.name}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    name="password"
-                    label="비밀번호"
-                    type="password"
-                    value={values.password}
-                    onChange={handleChange}
-                    error={Boolean(touched.password && errors.password)}
-                    helperText={touched.password && errors.password}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    name="password_confirm"
-                    label="비밀번호 확인"
-                    type="password"
-                    value={values.password_confirm}
-                    onChange={handleChange}
-                    error={Boolean(touched.password_confirm && errors.password_confirm)}
-                    helperText={touched.password_confirm && errors.password_confirm}
                   />
                 </Grid>
               </>
@@ -155,13 +148,11 @@ const MemberInfoForm = ({ isOauthUser, initialValues, handleSubmit, submitButton
               <FindAddressPopup 
                 open={openAddressPopup}
                 setOpen={setOpenAddressPopup}
-                onComplete={data => { 
-                  const { address, zonecode } = data;
+                onComplete={({ address }) => { 
                   setValues({
                     ...values,
                     address: address,
                   })
-                  console.log(data);
                 }}
               />
             </Grid>
@@ -289,6 +280,7 @@ const MemberInfoForm = ({ isOauthUser, initialValues, handleSubmit, submitButton
                 helperText={touched.jobDetail && errors.jobDetail}
               />
             </Grid>
+            
           </Grid>
           <Grid style={{textAlign: "center"}}>
             <Button

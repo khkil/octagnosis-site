@@ -3,10 +3,10 @@ import { Box } from '@mui/material';
 import Answer from '../answers/Answer';
 import { ErrorMessage } from 'formik';
 
-const TextQuestion = memo(({ questionIdx, questionText, answers, handleChange, values }) => {
+const TextQuestion = memo(({ questionIdx, questionNumber, questionText, answers, handleChange, values }) => {
   return (
     <Box className="question">
-      <p className="num">1</p>
+      <p className="num">{questionNumber}</p>
       <div>
         <p className="txt-question">{questionText}</p>
         <div className="inp-wrap v1 mt10">

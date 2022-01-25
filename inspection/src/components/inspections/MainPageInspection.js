@@ -19,7 +19,7 @@ const MainPageInspection = ({ inspectionIdx, inspectionName }) => {
             {inspectionName}
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            adjective
+            {/* adjective */}
           </Typography>
         </CardContent>
         <CardActions>

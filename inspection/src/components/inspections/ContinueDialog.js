@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { Typography } from '@mui/material';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { deleteProgressApi } from '../../api/memberApi';
 import { goProgressPage } from '../../utils/common';
@@ -29,9 +30,10 @@ const ContinueDialog = ({ inspectionIdx, memberIdx, progressDetail }) => {
     goProgressPage(history, inspectionIdx, currentPage);
   }
 
-  useEffect(() => {
-    
-    if(userCount > 0){
+  const showDialog = useMemo(() => (userCount > 0), [userCount]);
+
+  useEffect(() => { 
+    if(showDialog){
       setContinueDialog(true);
     }
     
@@ -41,9 +43,11 @@ const ContinueDialog = ({ inspectionIdx, memberIdx, progressDetail }) => {
       open={continueDialog} 
       setOpen={setContinueDialog}
       title={"검사를 이어서 진행 하시겠습니까?"}
-      content={"취소 버튼 클릭시 이전 문항을 체크했던 이력이 초기화 되고 \n처음 부터 시작가능합니다."}
+      content={<Typography> 취소 버튼 클릭시 이전 문항을 체크했던 이력이 <strong>초기화</strong> 되고 <br/>처음 부터 시작가능합니다.</Typography>}
       onConfirm={continueInspection}
       onCancel={resetInspection}
+      confirmButtonText={<Typography>이어서 하기</Typography>}
+      cancelButtonText={<Typography>처음부터 하기</Typography>}
     />
   )
 }

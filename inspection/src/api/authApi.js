@@ -17,6 +17,25 @@ export const signUpApi = (params) => {
   });
 }
 
+export const checkIdApi = (id) => {
+  const params = {
+    id: id
+  }
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`/api/auth/check-id`, params)
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export const loginApi = (params) => {
   params.role = "ROLE_MEMBER";
   return new Promise((resolve, reject) => {

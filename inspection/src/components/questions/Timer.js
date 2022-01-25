@@ -16,8 +16,8 @@ const Timer = () => {
   const classes = useStyles();
   return (
     <Grid className="timer">
-      <p className={classes.timeIcon}>16</p>
-      <p className="txt-gray">/30</p>
+      {/* <p className={classes.timeIcon}>16</p>
+      <p className="txt-gray">/30</p> */}
     </Grid>
   )
 }

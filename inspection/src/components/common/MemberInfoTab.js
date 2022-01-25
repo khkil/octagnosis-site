@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   }
 })
 
-const UserInfoTab = () => {
+const MemberInfoTab = () => {
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -61,4 +61,4 @@ const UserInfoTab = () => {
   )
 }
 
-export default UserInfoTab;
+export default MemberInfoTab;

@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-const AlertDialog = ({ open, setOpen, title, content, onConfirm, onCancel }) => {
+const AlertDialog = ({ open, setOpen, title, content, onConfirm, onCancel, confirmButtonText, cancelButtonText }) => {
 
   const handleConfirm = () => {
     setOpen(false);
@@ -35,10 +35,10 @@ const AlertDialog = ({ open, setOpen, title, content, onConfirm, onCancel }) => 
         </DialogContent>
         <DialogActions>
           <Button onClick={handleConfirm} variant="contained">
-            확인
+            {confirmButtonText ? confirmButtonText : "확인"}
           </Button>
           <Button onClick={handleCancel} variant="contained" color="error">
-            취소
+            {cancelButtonText ? cancelButtonText : "취소"}
           </Button>
         </DialogActions>
       </Dialog>

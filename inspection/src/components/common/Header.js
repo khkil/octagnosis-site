@@ -5,7 +5,7 @@ import ProgressBar from '../inspections/ProgressBar';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchInspectionDetail, FETCH_INPECTION_DETAIL } from '../../modules/inspection';
-import UserInfoTab from './UserInfoTab';
+import MemberInfoTab from './MemberInfoTab';
 
 const useStyles = makeStyles({
   header: {
@@ -59,7 +59,7 @@ const Header = () => {
             page={params.page}
           />
         }
-        <UserInfoTab/>
+        <MemberInfoTab/>
       </div>
     </div>
   )
