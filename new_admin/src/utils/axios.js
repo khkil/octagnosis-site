@@ -12,9 +12,6 @@ axios.create({
 });
 
 axios.interceptors.request.use((config) => {
-  const { domain_number } = store.getState().domain;
-  const mhxDomain = getMhxDomain();
-  config.headers["MHX_DOMAIN"] = mhxDomain;
   return config;
 });
 

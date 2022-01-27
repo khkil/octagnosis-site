@@ -15,12 +15,15 @@ const Header = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const goMainPage = () => {
+    history.push("/");
+  }
  
 
   return (
     <AppBar className={classes.appBar} style={{backgroundColor : "#27313e"}}>
-      <Toolbar>
-        <img src="/public/images/logo_octa.png"/>
+      <Toolbar onClick={goMainPage}>
+        <img src="/public/images/logo_octa.png" style={{cursor: "pointer"}}/>
       </Toolbar>
     </AppBar>
   );

@@ -62,8 +62,8 @@ const LoginPage = () => {
             elevation={2}
             className={classes.form}
           >
-            <Grid item m={4}>
-              {/* <img src={headlineLogo}/> */}
+            <Grid item m={2}>
+              <Typography variant="h5">옥타그노시스 관리자</Typography>
             </Grid>
             <Grid item>
               <Formik 
