@@ -3,7 +3,7 @@ import axios from "../utils/axios";
 export const memberProgressListApi = (memberIdx) => {
   return new Promise((resolve, reject) => {
     axios
-      .get(`/api/members/${memberIdx}/progress`)
+      .get(`/api/progress`)
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -19,7 +19,7 @@ export const memberProgressListApi = (memberIdx) => {
 export const memberProgressDetailApi = ({ memberIdx, inspectionIdx }) => {
   return new Promise((resolve, reject) => {
     axios
-      .get(`/api/members/${memberIdx}/progress/inspections/${inspectionIdx}`)
+      .get(`/api/progress/inspections/${inspectionIdx}`)
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -35,7 +35,7 @@ export const memberProgressDetailApi = ({ memberIdx, inspectionIdx }) => {
 export const deleteProgressApi = (memberIdx, inspectionIdx) => {
   return new Promise((resolve, reject) => {
     axios
-      .delete(`/api/members/${memberIdx}/progress/inspections/${inspectionIdx}`)
+      .delete(`/api/progress/inspections/${inspectionIdx}`)
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);

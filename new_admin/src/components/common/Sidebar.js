@@ -15,7 +15,7 @@ const Sidebar = () =>  {
  
   return (
     <List
-      style={{marginTop: 55 , height: "100%", background: "#27313e", color: "#e1dada", minHeight: 1200}}
+      style={{marginTop: 55 , height: "100%", background: "#27313e", color: "#e1dada", minHeight: 1250}}
       sx={{ width: '100%', maxWidth: 250, bgcolor: 'background.paper' }}
       component="nav"
       aria-labelledby="nested-list-subheader"

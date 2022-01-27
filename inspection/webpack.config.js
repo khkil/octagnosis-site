@@ -64,6 +64,7 @@ module.exports = webpackEnv => {
    
     devServer: {
       port: 3000,
+      disableHostCheck: true,
       host: 'localhost',
       open: true,
       overlay: true,

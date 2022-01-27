@@ -29,7 +29,7 @@ const questionRoute = {
   children: [
     {
       path: "/manage/questions/octagnosis",
-      name: "옥타그노시스",
+      name: "사고력검사",
       component: LoginPage,
     },
     {
