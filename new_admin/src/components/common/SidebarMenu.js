@@ -5,15 +5,18 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 const SidebarMenu = ({ header, name, path, children, icon }) => {
 
-
-
   const { pathname } = useLocation();
   const history = useHistory();
 
-  const isActived = useMemo((path) => (path === pathname), [pathname]);
+  const isActived = useMemo(() => (pathname.indexOf(path) > -1), [pathname]);
+  const hasChildren = useMemo(() => children && children.filter(({ path }) => path.indexOf(":") === -1).length > 0);
 
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(isActived);
+
   const handleClick = () => {
+    if(!hasChildren){
+      goPage(path);
+    }
     setOpen(!open);
   }
 
@@ -38,11 +41,11 @@ const SidebarMenu = ({ header, name, path, children, icon }) => {
         </ListItemIcon>
 
         <ListItemText primary={name} />
-        {open ? <ExpandLess /> : <ExpandMore />}
+        {hasChildren  && (open ? <ExpandLess /> : <ExpandMore />)}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
-        {children.map((child, index) => (
-          <ListItemButton key={index} sx={{ pl: 4 }} onClick={() => { goPage(child.path) }}>
+        {hasChildren && children.map((child, index) => (
+          <ListItemButton key={index} sx={{ pl: 4 }} onClick={() => { goPage(path + child.path) }}>
             <ListItemIcon>
               <StarBorder />
             </ListItemIcon>

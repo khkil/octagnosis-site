@@ -12,9 +12,8 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
-    marginTop: "5rem",
-    marginLeft: "17rem"
+    padding: theme.spacing(4),
+    marginLeft: "16rem"
   },
 }));
 
@@ -22,7 +21,7 @@ export const CommonLayout = ({ children }) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div>
       <CssBaseline />
       <Header/>
       <Sidebar/>

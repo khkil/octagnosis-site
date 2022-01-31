@@ -19,6 +19,7 @@ import * as Yup from "yup";
 
 import { useDispatch, useSelector } from "react-redux";
 import { loginRequest, LOGIN_REQUEST } from "../../modules/auth";
+import { Redirect } from "react-router-dom";
 const useStyles = makeStyles({
   root: {
     justifyContent: "center",
@@ -36,9 +37,9 @@ const LoginPage = () => {
 
   const dispatch = useDispatch();
 
-  const { isLoading, isLoggenIn } = useSelector(({ loading, auth }) => ({
+  const { isLoading, isLoggedIn } = useSelector(({ loading, auth }) => ({
     isLoading: loading[LOGIN_REQUEST],
-    isLoggenIn: auth.isLoggenIn
+    isLoggedIn: auth.isLoggedIn
   }));
 
   const handleSubmit = (params) => {
@@ -46,6 +47,8 @@ const LoginPage = () => {
   }
   const classes = useStyles();
   
+  console.log("isLoggenIn : ", isLoggedIn);
+  if(isLoggedIn) return <Redirect to="/"/>;
   return (
     <Container>
        

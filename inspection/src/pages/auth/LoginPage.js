@@ -138,7 +138,7 @@ const LoginPage = () => {
                     </Grid>
                     <KakaoLoginButton/>
                     <NaverLoginButton/>
-                    <GoogleLoginButton/>
+                    {/* <GoogleLoginButton/> */}
                   </Grid>
                 </form> 
               )}

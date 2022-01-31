@@ -1,9 +1,32 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React, { useEffect, useMemo } from "react";
+import { BrowserRouter as Router, Redirect, Route, Switch, useLocation } from "react-router-dom";
 import { authLayoutRoutes, commonLayoutRoutes } from ".";
 import CommonLayout from "../components/layouts/CommonLayout";
 import AuthLayout from "../components/layouts/AuthLayout";
 import Guard from "../components/guards";
+import { useDispatch, useSelector } from "react-redux";
+import { validateTokenRequest, VALIDATE_TOKEN_REQUEST } from "../modules/auth";
+
+const PrivateRoute = ({ ...rest }) => {
+
+  const dispatch = useDispatch();
+  const { pathname } = useLocation();
+
+  const { isLoading, isLoggedIn } = useSelector(({ auth, loading }) => ({
+    isLoading: loading[VALIDATE_TOKEN_REQUEST],
+    isLoggedIn: auth.isLoggedIn
+  }));
+
+  const loadingCompleted = useMemo(() => (isLoading != null && !Boolean(isLoading)), [isLoading]);
+
+  useEffect(() => {
+    console.log(location);
+    dispatch(validateTokenRequest());
+  }, []);
+
+  if(loadingCompleted && !isLoggedIn && pathname !== "/auth/login") return <Redirect to="/auth/login"/>;
+  return <Route {...rest}/>;
+}
 
 const initRoutes = (Layout, routes) => {
 
@@ -14,37 +37,29 @@ const initRoutes = (Layout, routes) => {
         [route, ...children].map((element, index) => {
           return (
             element.component &&
-            <Route
+            <PrivateRoute
               auth={element.auth}
               key={index}
-              path={element.path}
+              path={path + element.path}
               exact
               render={(props) => (
-                <>
-                  <Guard auth={element.auth}>
-                    <Layout title={element.title}>
-                      <element.component {...props} />
-                    </Layout> 
-                  </Guard>
-                </>
+                <Layout title={element.title}>
+                  <element.component {...props} />
+                </Layout> 
               )}
             />
           );
         })
       ) : Component ? (
-        <Route
+        <PrivateRoute
           key={index}
           path={path}
           auth={auth}
           exact
           render={(props) => (
-            <>
-              <Guard auth={auth}>
-                <Layout title={title}>
-                  <Component {...props} />
-                </Layout> 
-              </Guard>
-            </>
+            <Layout title={title}>
+              <Component {...props} />
+            </Layout> 
           )}
         />
       ) : null;

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { getMhxDomain } from "./domainUtil";
 let store;
 
 export const injectStore = (_store) => {
