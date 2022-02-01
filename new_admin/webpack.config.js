@@ -66,6 +66,7 @@ module.exports = webpackEnv => {
       port: 3001,
       host: 'localhost',
       open: true,
+      hot: true,
       overlay: true,
       stats: 'errors-warnings',
       historyApiFallback: true,
