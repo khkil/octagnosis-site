@@ -1,11 +1,19 @@
-import * as React from 'react';
+import React, { useMemo } from 'react';
 import { styled } from '@mui/material/styles';
 import { tableCellClasses } from '@mui/material/TableCell';
-import { Paper, Table, TableBody, TableContainer, TableHead, TableRow, TableCell } from '@mui/material';
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableCell,
+} from '@mui/material';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#27313e",
+    backgroundColor: '#27313e',
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -35,36 +43,36 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
 
-const MemberList = ({ memberList }) => {
-  console.log(memberList);
+const MemberList = ({ memberList, pageInfo }) => {
+  const { startRow } = useMemo(() => pageInfo, [pageInfo]);
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-            <StyledTableCell align="right">Calories</StyledTableCell>
-            <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+            <StyledTableCell>#</StyledTableCell>
+            <StyledTableCell align="center">이름</StyledTableCell>
+            <StyledTableCell align="center">Fat&nbsp;(g)</StyledTableCell>
+            <StyledTableCell align="center">Carbs&nbsp;(g)</StyledTableCell>
+            <StyledTableCell align="center">가입일</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.name}>
+          {memberList.map(({ idx, name, cdate }, index) => (
+            <StyledTableRow key={idx}>
               <StyledTableCell component="th" scope="row">
-                {row.name}
+                {startRow + index}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.calories}</StyledTableCell>
-              <StyledTableCell align="right">{row.fat}</StyledTableCell>
-              <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-              <StyledTableCell align="right">{row.protein}</StyledTableCell>
+              <StyledTableCell align="center">{name}</StyledTableCell>
+              <StyledTableCell align="center">{name}</StyledTableCell>
+              <StyledTableCell align="center">{name}</StyledTableCell>
+              <StyledTableCell align="center">{cdate}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
   );
-}
+};
 
 export default MemberList;
