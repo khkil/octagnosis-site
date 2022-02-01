@@ -29,6 +29,7 @@ function* memberListSaga(action) {
 
 const initialState = {
   list: [],
+  pageInfo:{},
   selected: {},
   error: null
 }
@@ -42,7 +43,8 @@ const member = handleActions(
   {
     [FETCH_MEMBER_LIST_SUCCESS]: (state, action) => ({
       ...state,
-      list: action.payload
+      list: action.payload.list,
+      pageInfo: action.payload
     }),
     [FETCH_MEMBER_LIST_FAILURE]: (state, action) => ({
       ...state,
