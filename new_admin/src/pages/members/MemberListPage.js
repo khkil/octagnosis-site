@@ -1,13 +1,23 @@
-import { Paper } from '@mui/material';
-import React, { useEffect } from 'react';
+import { Box, Paper } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import queryString from 'query-string';
 import MenuBar from '../../components/common/MenuBar';
 import MemberList from '../../components/members/MemberList';
-import { fetchMemberList, FETCH_MEMBER_LIST } from '../../modules/member';
+import {
+  clearMember,
+  fetchMemberList,
+  FETCH_MEMBER_LIST,
+} from '../../modules/member';
 import Loader from '../../components/ui/Loader';
+import SearchBar from '../../components/common/SearchBar';
+import Paging from '../../components/common/Paging';
+import { useLocation } from 'react-router-dom';
 
-const MemberListPage = ({ match }) => {
+const MemberListPage = ({ match, history, location }) => {
   const dispatch = useDispatch();
+
+  const query = queryString.parse(location.search);
   const { loading, memberList, pageInfo } = useSelector(
     ({ loading, member }) => ({
       loading: loading[FETCH_MEMBER_LIST],
@@ -16,21 +26,60 @@ const MemberListPage = ({ match }) => {
     }),
   );
 
-  useEffect(() => {
-    dispatch(fetchMemberList());
-  }, []);
+  const [searchText, setSearchText] = useState(query.searchText);
 
+  const searchMember = e => {
+    e.preventDefault();
+    delete query.pageNum;
+    query.searchText = searchText;
+    const stringified = queryString.stringify(query);
+    const { pathname } = location;
+    history.push(`${pathname}?${stringified}`);
+  };
+
+  const test = () => {
+    alert(1);
+  };
+
+  const goPage = page => {
+    query.pageNum = page;
+    const stringified = queryString.stringify(query);
+    const { pathname } = location;
+    history.push(`${pathname}?${stringified}`);
+  };
+
+  useEffect(() => {
+    dispatch(fetchMemberList(query));
+  }, [location.search]);
+
+  if (loading === undefined || loading) return <Loader />;
   return (
-    <div>
+    <Box>
       <MenuBar match={match} />
       {loading === undefined || loading ? (
         <Loader />
       ) : (
-        <Paper p={3}>
-          <MemberList memberList={memberList} pageInfo={pageInfo} />
-        </Paper>
+        <Box>
+          <SearchBar
+            sx={{ mb: 2 }}
+            value={query.searchText}
+            onChange={e => {
+              const { name, value } = e.target;
+              setSearchText(value);
+            }}
+            onSubmit={searchMember}
+          />
+          <Paper p={3}>
+            <MemberList memberList={memberList} startRow={pageInfo.startRow} />
+          </Paper>
+          <Paging
+            pageInfo={pageInfo}
+            page={query.pageNum ? query.pageNum : 1}
+            setPage={goPage}
+          />
+        </Box>
       )}
-    </div>
+    </Box>
   );
 };
 

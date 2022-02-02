@@ -1,39 +1,47 @@
-import { createAction, handleActions } from "redux-actions";
-import { takeLatest, call, put, delay } from "redux-saga/effects";
-import { memberListApi } from "../api/memberApi";
-import { DELAY_TIME } from "../utils/sagaUtil";
-import { startLoading, endLoading } from "./loading"
+import { createAction, handleActions } from 'redux-actions';
+import { takeLatest, call, put, delay } from 'redux-saga/effects';
+import { memberListApi } from '../api/memberApi';
+import { DELAY_TIME } from '../utils/sagaUtil';
+import { startLoading, endLoading } from './loading';
 
-export const FETCH_MEMBER_LIST = "member/FETCH_MEMBER_LIST";
-const FETCH_MEMBER_LIST_SUCCESS = "member/FETCH_MEMBER_LIST_SUCCESS";
-const FETCH_MEMBER_LIST_FAILURE = "member/FETCH_MEMBER_LIST_FAILURE";
+export const CLEAR_MEMBER = 'member/CLEAR_MEMBER';
+export const clearMember = createAction(CLEAR_MEMBER);
+
+/* 회원리스트 */
+export const FETCH_MEMBER_LIST = 'member/FETCH_MEMBER_LIST';
+const FETCH_MEMBER_LIST_SUCCESS = 'member/FETCH_MEMBER_LIST_SUCCESS';
+const FETCH_MEMBER_LIST_FAILURE = 'member/FETCH_MEMBER_LIST_FAILURE';
 
 export const fetchMemberList = createAction(FETCH_MEMBER_LIST);
-const fetchMemberListSuccess = createAction(FETCH_MEMBER_LIST_SUCCESS, data => data);
-const fetchMemberListFailure = createAction(FETCH_MEMBER_LIST_FAILURE, error => error);
+const fetchMemberListSuccess = createAction(
+  FETCH_MEMBER_LIST_SUCCESS,
+  data => data,
+);
+const fetchMemberListFailure = createAction(
+  FETCH_MEMBER_LIST_FAILURE,
+  error => error,
+);
 
 function* memberListSaga(action) {
-
   yield put(startLoading(FETCH_MEMBER_LIST));
-  try{
+  try {
     yield delay(DELAY_TIME);
     const { data } = yield call(memberListApi, action.payload);
     yield put(fetchMemberListSuccess(data));
-  }catch(e){
+  } catch (e) {
     console.error(e);
     yield put(fetchMemberListFailure(e));
-  }finally{
+  } finally {
     yield put(endLoading(FETCH_MEMBER_LIST));
   }
 }
-
+/** */
 const initialState = {
   list: [],
-  pageInfo:{},
+  pageInfo: {},
   selected: {},
-  error: null
-}
-
+  error: null,
+};
 
 export function* memberSaga() {
   yield takeLatest(FETCH_MEMBER_LIST, memberListSaga);
@@ -41,18 +49,18 @@ export function* memberSaga() {
 
 const member = handleActions(
   {
+    [CLEAR_MEMBER]: () => initialState,
     [FETCH_MEMBER_LIST_SUCCESS]: (state, action) => ({
       ...state,
       list: action.payload.list,
-      pageInfo: action.payload
+      pageInfo: action.payload,
     }),
     [FETCH_MEMBER_LIST_FAILURE]: (state, action) => ({
       ...state,
-      error: action.payload
+      error: action.payload,
     }),
-    
   },
-  initialState
+  initialState,
 );
 
 export default member;

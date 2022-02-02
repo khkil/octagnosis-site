@@ -9,7 +9,10 @@ import {
   TableHead,
   TableRow,
   TableCell,
+  Link,
 } from '@mui/material';
+import { useHistory } from 'react-router-dom';
+import SearchBar from '../common/SearchBar';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -31,20 +34,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+const MemberList = ({ memberList, startRow }) => {
+  const history = useHistory();
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
-const MemberList = ({ memberList, pageInfo }) => {
-  const { startRow } = useMemo(() => pageInfo, [pageInfo]);
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -52,20 +44,32 @@ const MemberList = ({ memberList, pageInfo }) => {
           <TableRow>
             <StyledTableCell>#</StyledTableCell>
             <StyledTableCell align="center">이름</StyledTableCell>
-            <StyledTableCell align="center">Fat&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="center">Carbs&nbsp;(g)</StyledTableCell>
+            <StyledTableCell align="center">이메일</StyledTableCell>
+            <StyledTableCell align="center">연락처</StyledTableCell>
             <StyledTableCell align="center">가입일</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {memberList.map(({ idx, name, cdate }, index) => (
+          {memberList.map(({ idx, name, email, phone, cdate }, index) => (
             <StyledTableRow key={idx}>
               <StyledTableCell component="th" scope="row">
                 {startRow + index}
               </StyledTableCell>
-              <StyledTableCell align="center">{name}</StyledTableCell>
-              <StyledTableCell align="center">{name}</StyledTableCell>
-              <StyledTableCell align="center">{name}</StyledTableCell>
+              <StyledTableCell align="center">
+                <Link
+                  href="#"
+                  underline="hover"
+                  variant="subtitle1"
+                  onClick={e => {
+                    e.preventDefault();
+                    history.push(`/manage/members/${idx}`);
+                  }}
+                >
+                  {name}
+                </Link>
+              </StyledTableCell>
+              <StyledTableCell align="center">{email}</StyledTableCell>
+              <StyledTableCell align="center">{phone}</StyledTableCell>
               <StyledTableCell align="center">{cdate}</StyledTableCell>
             </StyledTableRow>
           ))}

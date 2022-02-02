@@ -2,19 +2,19 @@
  * redux-actions 를 이용한 리듀서
  *
  */
-import React from "react";
-import { createAction, handleActions } from "redux-actions";
+import React from 'react';
+import { createAction, handleActions } from 'redux-actions';
 
 // 액션타입 정의
-const START_LOADING = "loading/START_LOADING";
-const END_LOADING = "loading/END_LOADING";
+const START_LOADING = 'loading/START_LOADING';
+const END_LOADING = 'loading/END_LOADING';
 
 // 액션생성자함수
 export const startLoading = createAction(
   START_LOADING,
-  (actionType) => actionType
+  actionType => actionType,
 );
-export const endLoading = createAction(END_LOADING, (actionType) => actionType);
+export const endLoading = createAction(END_LOADING, actionType => actionType);
 
 // init states => 초기화
 const initialState = {};
@@ -23,7 +23,7 @@ const initialState = {};
 const loading = handleActions(
   {
     [START_LOADING]: (state, action) => ({
-      ...state,
+      ...initialState,
       [action.payload]: true, //action.payload=>actionType
     }),
     [END_LOADING]: (state, action) => ({
@@ -31,7 +31,7 @@ const loading = handleActions(
       [action.payload]: false,
     }),
   },
-  initialState
+  initialState,
 );
 
 export default loading;

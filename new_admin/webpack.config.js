@@ -9,7 +9,6 @@ const SRC_PATH = path.resolve(__dirname, 'src');
 const BUILD_PATH = path.resolve(PROJECT_ROOT, 'build');
 const PUBLIC_INDEX = path.resolve(PROJECT_ROOT, 'public', 'index.html');
 
-
 module.exports = webpackEnv => {
   const mode = webpackEnv.WEBPACK_SERVE ? 'development' : 'production';
   const isEnvDevelopment = mode === 'development';
@@ -17,10 +16,10 @@ module.exports = webpackEnv => {
   return {
     mode,
     entry: path.resolve(SRC_PATH, 'index.js'),
-    output : {
+    output: {
       publicPath: '/',
-      path : path.resolve(__dirname, 'dist'), // 경로
-      filename : 'app.bundle.js' // 하나로 묶일 javascrpit 파일
+      path: path.resolve(__dirname, 'dist'), // 경로
+      filename: 'app.bundle.js', // 하나로 묶일 javascrpit 파일
     },
     module: {
       rules: [
@@ -34,10 +33,7 @@ module.exports = webpackEnv => {
         {
           test: /\.css/,
           exclude: /node_modules/,
-          use: [
-            'style-loader',
-            'css-loader'        
-          ],
+          use: ['style-loader', 'css-loader'],
         },
         {
           test: /\.(png|svg|jpg|gif)$/,
@@ -45,7 +41,7 @@ module.exports = webpackEnv => {
         },
         {
           test: /\.(woff|woff2|eot|ttf|otf)$/,
-          use: 'file-loader'
+          use: 'file-loader',
         },
       ],
     },
@@ -61,17 +57,18 @@ module.exports = webpackEnv => {
     cache: {
       type: isEnvDevelopment ? 'memory' : 'filesystem',
     },
-   
+
     devServer: {
       port: 3001,
       host: 'localhost',
+      hot: true,
       open: true,
       overlay: true,
       stats: 'errors-warnings',
       historyApiFallback: true,
       proxy: {
-        '/api': 'http://localhost:8088'
-      }
+        '/api': 'http://localhost:8088',
+      },
     },
   };
 };

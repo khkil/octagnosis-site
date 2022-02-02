@@ -1,13 +1,14 @@
-import React from "react";
-import Pagination from "react-js-pagination";
+import React from 'react';
+import Pagination from 'react-js-pagination';
 
-const Paging = ({ page, setPage, totalCount, displayCount }) => {
+const Paging = ({ page, setPage, pageInfo }) => {
   return (
     <Pagination
+      activeLinkClass="active"
       pageRangeDisplayed={10}
-      totalItemsCount={totalCount}
-      itemsCountPerPage={displayCount}
-      activePage={page}
+      totalItemsCount={pageInfo.total}
+      itemsCountPerPage={pageInfo.pageSize}
+      activePage={Number(page)}
       onChange={setPage}
     />
   );
