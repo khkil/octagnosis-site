@@ -4,23 +4,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import queryString from 'query-string';
 import MenuBar from '../../components/common/MenuBar';
 import MemberList from '../../components/members/MemberList';
-import {
-  clearMember,
-  fetchMemberList,
-  FETCH_MEMBER_LIST,
-} from '../../modules/member';
+import { clearMember, fetchMemberList, FETCH_MEMBER_LIST } from '../../modules/member';
 import Loader from '../../components/ui/Loader';
 import SearchBar from '../../components/common/SearchBar';
 import Paging from '../../components/common/Paging';
 import { useLocation } from 'react-router-dom';
 
 const MemberListPage = ({ match, history, location }) => {
+
   const dispatch = useDispatch();
 
   const query = queryString.parse(location.search);
   const { loading, memberList, pageInfo } = useSelector(
     ({ loading, member }) => ({
-      loading: loading[FETCH_MEMBER_LIST],
+      loading: loading[FETCH_MEMBER_LIST] === undefined || Boolean(loading[FETCH_MEMBER_LIST]),
       memberList: member.list,
       pageInfo: member.pageInfo,
     }),
@@ -32,9 +29,12 @@ const MemberListPage = ({ match, history, location }) => {
     e.preventDefault();
     delete query.pageNum;
     query.searchText = searchText;
-    const stringified = queryString.stringify(query);
+    const searchString = queryString.stringify(query);
     const { pathname } = location;
-    history.push(`${pathname}?${stringified}`);
+    history.push({
+      pathname: pathname,
+      search: searchString
+    });
   };
 
   const test = () => {
@@ -43,20 +43,25 @@ const MemberListPage = ({ match, history, location }) => {
 
   const goPage = page => {
     query.pageNum = page;
-    const stringified = queryString.stringify(query);
+    const searchString = queryString.stringify(query);
     const { pathname } = location;
-    history.push(`${pathname}?${stringified}`);
+    history.push({
+      pathname: pathname,
+      search: searchString
+    });
   };
 
   useEffect(() => {
     dispatch(fetchMemberList(query));
   }, [location.search]);
 
-  if (loading === undefined || loading) return <Loader />;
+  console.log("loading: ", loading);
+
+  if (loading) return <Loader />;
   return (
     <Box>
       <MenuBar match={match} />
-      {loading === undefined || loading ? (
+      {loading ? (
         <Loader />
       ) : (
         <Box>
