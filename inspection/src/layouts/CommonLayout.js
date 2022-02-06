@@ -10,25 +10,22 @@ const useStyles = makeStyles(() => ({
   content: {
     flexGrow: 1,
     padding: 10,
-    minHeight: "68.1rem"
+    minHeight: '68.1rem',
   },
 }));
 
 const CommonLayout = ({ children, title }) => {
-
   const classes = useStyles();
-  
+
   return (
-    <>
+    <Box>
       <CustomHelmet title={title} />
       <Box className={classes.root}>
-        <Header/>
-        <main className={classes.content} >
-          {children}
-        </main>
-        <Footer/>
+        <Header />
+        <main className={classes.content}>{children}</main>
+        <Footer />
       </Box>
-    </>
-  )
-}
+    </Box>
+  );
+};
 export default CommonLayout;

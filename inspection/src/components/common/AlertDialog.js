@@ -6,8 +6,16 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-const AlertDialog = ({ open, setOpen, title, content, onConfirm, onCancel, confirmButtonText, cancelButtonText }) => {
-
+const AlertDialog = ({
+  open,
+  setOpen,
+  title,
+  content,
+  onConfirm,
+  onCancel,
+  confirmButtonText,
+  cancelButtonText,
+}) => {
   const handleConfirm = () => {
     setOpen(false);
     onConfirm();
@@ -25,25 +33,23 @@ const AlertDialog = ({ open, setOpen, title, content, onConfirm, onCancel, confi
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {title}
-        </DialogTitle>
-        <DialogContent style={{whiteSpace: "pre-line"}}>
+        <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+        <DialogContent style={{ whiteSpace: 'pre-line' }}>
           <DialogContentText id="alert-dialog-description">
             {content}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleConfirm} variant="contained">
-            {confirmButtonText ? confirmButtonText : "확인"}
+            {confirmButtonText ? confirmButtonText : '확인'}
           </Button>
           <Button onClick={handleCancel} variant="contained" color="error">
-            {cancelButtonText ? cancelButtonText : "취소"}
+            {cancelButtonText ? cancelButtonText : '취소'}
           </Button>
         </DialogActions>
       </Dialog>
     </div>
   );
-}
+};
 
 export default AlertDialog;

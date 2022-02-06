@@ -4,20 +4,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import queryString from 'query-string';
 import MenuBar from '../../components/common/MenuBar';
 import MemberList from '../../components/members/MemberList';
-import { clearMember, fetchMemberList, FETCH_MEMBER_LIST } from '../../modules/member';
+import {
+  clearMember,
+  fetchMemberList,
+  FETCH_MEMBER_LIST,
+} from '../../modules/member';
 import Loader from '../../components/ui/Loader';
 import SearchBar from '../../components/common/SearchBar';
 import Paging from '../../components/common/Paging';
 import { useLocation } from 'react-router-dom';
 
 const MemberListPage = ({ match, history, location }) => {
-
   const dispatch = useDispatch();
 
   const query = queryString.parse(location.search);
   const { loading, memberList, pageInfo } = useSelector(
     ({ loading, member }) => ({
-      loading: loading[FETCH_MEMBER_LIST] === undefined || Boolean(loading[FETCH_MEMBER_LIST]),
+      loading:
+        loading[FETCH_MEMBER_LIST] === undefined ||
+        Boolean(loading[FETCH_MEMBER_LIST]),
       memberList: member.list,
       pageInfo: member.pageInfo,
     }),
@@ -33,7 +38,7 @@ const MemberListPage = ({ match, history, location }) => {
     const { pathname } = location;
     history.push({
       pathname: pathname,
-      search: searchString
+      search: searchString,
     });
   };
 
@@ -47,7 +52,7 @@ const MemberListPage = ({ match, history, location }) => {
     const { pathname } = location;
     history.push({
       pathname: pathname,
-      search: searchString
+      search: searchString,
     });
   };
 
@@ -55,7 +60,7 @@ const MemberListPage = ({ match, history, location }) => {
     dispatch(fetchMemberList(query));
   }, [location.search]);
 
-  console.log("loading: ", loading);
+  console.log('loading: ', loading);
 
   if (loading) return <Loader />;
   return (
