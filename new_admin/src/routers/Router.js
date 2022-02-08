@@ -31,7 +31,7 @@ const PrivateRoute = ({ ...rest }) => {
     dispatch(validateTokenRequest());
   }, []);
 
-  if (loadingCompleted && !isLoggedIn && pathname !== '/auth/login')
+  if (!isLoggedIn && pathname !== '/auth/login')
     return <Redirect to="/auth/login" />;
   return <Route {...rest} />;
 };
