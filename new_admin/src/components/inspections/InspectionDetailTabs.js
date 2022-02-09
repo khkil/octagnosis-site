@@ -1,33 +1,46 @@
 import React, { useState } from 'react';
-import { withStyles } from '@mui/styles';
-import { Paper, Tab, Tabs } from '@mui/material';
+import { withStyles, makeStyles } from '@mui/styles';
+import { Paper, Tab, Tabs, Typography } from '@mui/material';
 
-const CustomTab = withStyles({
-  selected: {
-    backgroundColor: 'black',
-    transition: 'background-color 0.3s ease-in-out',
+const useStyles = makeStyles(theme => ({
+  indicator: {
+    background: 'none',
   },
-})(Tab);
+  tabs: {
+    "& button[aria-selected='true']": {
+      color: 'white',
+      background: theme.palette.primary.main,
+    },
+  },
+  tab: { border: 'solid 0.5px' },
+}));
 
-const InspectionDetailTabs = () => {
-  const [tabValue, setTabValue] = useState('basic');
+const InspectionDetailTabs = ({ tabValue, setTabValue }) => {
+  const classes = useStyles();
 
   const handleChange = (event, value) => {
     setTabValue(value);
   };
   return (
-    <Paper>
-      <Tabs
-        value={tabValue}
-        onChange={handleChange}
-        indicatiorColor="white"
-        textColor="primary"
-        aria-label="disabled tabs example"
-      >
-        <CustomTab label="기본정보" value="basic" />
-        <CustomTab label="문항관리" value="question" />
-      </Tabs>
-    </Paper>
+    <Tabs
+      className={classes.tabs}
+      value={tabValue}
+      onChange={handleChange}
+      TabIndicatorProps={{ style: { background: 'bl' } }}
+      textColor="primary"
+      aria-label="disabled tabs example"
+    >
+      <Tab
+        className={classes.tab}
+        label={<Typography variant="subtitle1">상세정보</Typography>}
+        value="basic"
+      />
+      <Tab
+        className={classes.tab}
+        label={<Typography variant="subtitle1">문항관리</Typography>}
+        value="question"
+      />
+    </Tabs>
   );
 };
 
