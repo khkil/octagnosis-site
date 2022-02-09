@@ -40,7 +40,7 @@ const MenuBar = ({ match }) => {
         </Breadcrumbs> */}
       </Grid>
       <Box mb={2} mt={2}>
-        <Divider />
+        {/* <Divider /> */}
       </Box>
     </>
   );

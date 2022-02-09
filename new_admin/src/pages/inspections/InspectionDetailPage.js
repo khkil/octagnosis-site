@@ -1,12 +1,16 @@
+import { Box, Paper } from '@mui/material';
 import React from 'react';
+import CustomizedTabs from '../../components/inspections/InspectionDetailTabs';
 import MenuBar from '../../components/common/MenuBar';
 
 const InspectionDetailPage = ({ match }) => {
   return (
-    <div>
+    <Box>
       <MenuBar match={match} />
-      InspectionDetailPage
-    </div>
+      <Paper>
+        <CustomizedTabs />
+      </Paper>
+    </Box>
   );
 };
 
