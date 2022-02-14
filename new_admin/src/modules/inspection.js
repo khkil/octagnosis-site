@@ -4,20 +4,12 @@ import { fetchInspectionDetailApi } from '../api/inspectionApi';
 import { startLoading, endLoading } from './loading';
 
 export const FETCH_INPECTION_DETAIL = 'inspection/FETCH_INPECTION_DETAIL';
-const FETCH_INPECTION_DETAIL_SUCCESS =
-  'inspection/FETCH_INPECTION_DETAIL_SUCCESS';
-const FETCH_INPECTION_DETAIL_FAILURE =
-  'inspection/FETCH_INPECTION_DETAIL_FAILURE';
+const FETCH_INPECTION_DETAIL_SUCCESS = 'inspection/FETCH_INPECTION_DETAIL_SUCCESS';
+const FETCH_INPECTION_DETAIL_FAILURE = 'inspection/FETCH_INPECTION_DETAIL_FAILURE';
 
 export const fetchInspectionDetail = createAction(FETCH_INPECTION_DETAIL);
-const fetchInspectionDetailSuccess = createAction(
-  FETCH_INPECTION_DETAIL_SUCCESS,
-  data => data,
-);
-const fetchInspectionDetailFailure = createAction(
-  FETCH_INPECTION_DETAIL_FAILURE,
-  e => e,
-);
+const fetchInspectionDetailSuccess = createAction(FETCH_INPECTION_DETAIL_SUCCESS, data => data);
+const fetchInspectionDetailFailure = createAction(FETCH_INPECTION_DETAIL_FAILURE, e => e);
 
 function* inpectionDetailSaga(action) {
   yield put(startLoading(FETCH_INPECTION_DETAIL));

@@ -5,6 +5,7 @@ import loading from './loading';
 import { all, call } from 'redux-saga/effects';
 import auth, { authSaga } from './auth';
 import inspection, { inspectionSaga } from './inspection';
+import question, { questionSaga } from './question';
 import member, { memberSaga } from './member';
 
 const persistConfig = {
@@ -18,11 +19,12 @@ const rootReducer = combineReducers({
   auth,
   inspection,
   member,
+  question,
 });
 
 //root saga
 export function* rootSaga() {
-  yield all([authSaga(), memberSaga(), inspectionSaga()]);
+  yield all([authSaga(), memberSaga(), inspectionSaga(), questionSaga()]);
 }
 
 export default persistReducer(persistConfig, rootReducer);
