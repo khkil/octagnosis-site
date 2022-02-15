@@ -1,13 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Box } from '@mui/material';
 import '../../assets/styles/result/reset.css';
 import '../../assets/styles/result/style.css';
 import '../../assets/styles/result/utility.css';
 import PropensityResult from '../../components/inspections/results/PropensityResult';
+import { useSelector } from 'react-redux';
+import { memberRankApi } from '../../api/rankApi';
 
 const ResultPage = ({ match }) => {
+  const [results, setResults] = useState([]);
   useEffect(() => {
     const { inspectionIdx } = match.params;
+    memberRankApi(inspectionIdx)
+      .then(data => {
+        setResults(data);
+      })
+      .catch(e => {
+        alert('server error');
+        console.error(e);
+      });
   }, []);
   return (
     <Container className="report">
@@ -26,7 +37,7 @@ const ResultPage = ({ match }) => {
             응원합니다.
           </p>
         </div>
-        <PropensityResult />
+        <PropensityResult results={results} />
       </div>
       <div className="report-footer">
         <p className="warning">
