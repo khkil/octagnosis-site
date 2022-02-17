@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Container, Box } from '@mui/material';
 import footerLogo from '../../assets/images/common/headline.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { Redirect, useHistory, useParams } from 'react-router-dom';
 import {
   clearMemberProgress,
   fetchMemberProgressDetail,
@@ -49,6 +49,10 @@ const StartPage = () => {
 
   if (isLoading) return <Loader />;
   if (!progressDetail.inspectionIdx) return null;
+  if (progressDetail.totalCount === progressDetail.userCount) {
+    return <Redirect to={`/inspections/${inspectionIdx}/result`} />;
+  }
+
   return (
     <Container maxWidth="xl">
       <ContinueDialog

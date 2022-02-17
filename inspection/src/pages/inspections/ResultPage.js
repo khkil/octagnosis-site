@@ -9,6 +9,10 @@ import { memberRankApi } from '../../api/rankApi';
 
 const ResultPage = ({ match }) => {
   const [results, setResults] = useState([]);
+  const { memberName, rankCount } = useSelector(({ auth, inspection }) => ({
+    memberName: auth.member.name,
+    rankCount: inspection.selected.rankCount,
+  }));
   useEffect(() => {
     const { inspectionIdx } = match.params;
     memberRankApi(inspectionIdx)
@@ -29,7 +33,7 @@ const ResultPage = ({ match }) => {
       <div className="inner">
         <div className="report-title">
           <p className="name">
-            <strong>홍길동</strong>님
+            <strong>{memberName}</strong>님
           </p>
           <p className="txt">
             옥타그노시스 이론에 기반한 옥스(OGS)검사 결과 분석자료입니다. <br />
@@ -37,7 +41,7 @@ const ResultPage = ({ match }) => {
             응원합니다.
           </p>
         </div>
-        <PropensityResult results={results} />
+        <PropensityResult results={results} rankCount={rankCount} />
       </div>
       <div className="report-footer">
         <p className="warning">

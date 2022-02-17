@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 
 const PROJECT_ROOT = path.resolve(__dirname);
 const SRC_PATH = path.resolve(__dirname, "src");
@@ -50,6 +51,9 @@ module.exports = (webpackEnv) => {
     },
     plugins: [
       new HtmlWebpackPlugin({ template: PUBLIC_INDEX }),
+      new FaviconsWebpackPlugin({
+        logo: "public/favicon.ico",
+      }),
       new Dotenv(),
       new CleanWebpackPlugin(),
       new MiniCssExtractPlugin(),

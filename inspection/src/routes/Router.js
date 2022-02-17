@@ -5,7 +5,6 @@ import {
   Redirect,
   Route,
   Switch,
-  useHistory,
 } from 'react-router-dom';
 import { authLayoutRoutes, commonLayoutRoutes } from '.';
 import AuthLayout from '../layouts/AuthLayout';
@@ -16,7 +15,9 @@ const PrivateRoute = ({ ...rest }) => {
   const dispatch = useDispatch();
 
   const { isLoading, isLoggedIn } = useSelector(({ auth, loading }) => ({
-    isLoading: loading[VALIDATE_TOKEN_REQUEST],
+    isLoading:
+      loading[VALIDATE_TOKEN_REQUEST] === undefined ||
+      loading[VALIDATE_TOKEN_REQUEST],
     isLoggedIn: auth.isLoggedIn,
   }));
 
@@ -29,7 +30,7 @@ const PrivateRoute = ({ ...rest }) => {
     dispatch(validateTokenRequest());
   }, []);
 
-  if (loadingCompleted && !isLoggedIn) return <Redirect to="/auth/login" />;
+  if (!isLoggedIn) return <Redirect to="/auth/login" />;
   return <Route {...rest} />;
 };
 

@@ -41,9 +41,7 @@ const ContinueDialog = ({
   const showDialog = useMemo(() => userCount > 0, [userCount]);
 
   useEffect(() => {
-    if (currentPage === totalPage) {
-      goResultPage();
-    } else if (showDialog) {
+    if (showDialog) {
       setContinueDialog(true);
     }
   }, []);
@@ -68,5 +66,3 @@ const ContinueDialog = ({
 };
 
 export default ContinueDialog;
-
-
