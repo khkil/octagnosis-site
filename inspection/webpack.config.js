@@ -51,9 +51,9 @@ module.exports = (webpackEnv) => {
     },
     plugins: [
       new HtmlWebpackPlugin({ template: PUBLIC_INDEX }),
-      new FaviconsWebpackPlugin({
-        logo: "public/favicon.ico",
-      }),
+      /* new FaviconsWebpackPlugin({
+        logo: "public/favicon.png",
+      }), */
       new Dotenv(),
       new CleanWebpackPlugin(),
       new MiniCssExtractPlugin(),

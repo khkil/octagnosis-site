@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import InspectionDetailTabs from '../../components/inspections/InspectionDetailTabs';
 import MenuBar from '../../components/common/MenuBar';
 import InspectionDetailInfo from '../../components/inspections/InspectionDetailInfo';
-import InspectionDetailQuestions from '../../components/inspections/InspectionDetailQuestions';
+import InspectionDetailresultList from '../../components/inspections/InspectionDetailQuestionList';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchInspectionDetail, FETCH_INPECTION_DETAIL } from '../../modules/inspection';
 import question, { fetchQuestionList, FETCH_QUESTION_LIST } from '../../modules/question';
@@ -13,13 +13,13 @@ const InspectionDetailPage = ({ match }) => {
   const dispatch = useDispatch();
   const [tabValue, setTabValue] = useState('basic');
 
-  const { loading, inspectionDetail, questionList } = useSelector(({ loading, inspection, question }) => ({
+  const { loading, inspectionDetail, resultList } = useSelector(({ loading, inspection, question }) => ({
     loading: {
       inspection: loading[FETCH_INPECTION_DETAIL] === undefined || Boolean(loading[FETCH_INPECTION_DETAIL]),
       question: loading[FETCH_QUESTION_LIST] === undefined || Boolean(loading[FETCH_QUESTION_LIST]),
     },
     inspectionDetail: inspection.selected,
-    questionList: question.list,
+    resultList: question.list,
   }));
 
   const inspectionIdx = useMemo(() => location.pathname.split('inspections/')[1], [location.pathname]);
@@ -48,8 +48,8 @@ const InspectionDetailPage = ({ match }) => {
         loading.question ? (
           <Loader />
         ) : (
-          <InspectionDetailQuestions
-            questionList={questionList}
+          <InspectionDetailresultList
+            resultList={resultList}
             fetchQuestionList={() => {
               dispatch(fetchQuestionList(inspectionIdx));
             }}
