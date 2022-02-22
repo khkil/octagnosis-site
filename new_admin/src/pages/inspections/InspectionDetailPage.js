@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import InspectionDetailTabs from '../../components/inspections/InspectionDetailTabs';
 import MenuBar from '../../components/common/MenuBar';
 import InspectionDetailInfo from '../../components/inspections/InspectionDetailInfo';
-import InspectionDetailresultList from '../../components/inspections/InspectionDetailQuestionList';
+import ResultList from '../../components/inspections/question/ResultList';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchInspectionDetail, FETCH_INPECTION_DETAIL } from '../../modules/inspection';
 import question, { fetchQuestionList, FETCH_QUESTION_LIST } from '../../modules/question';
@@ -11,7 +11,7 @@ import Loader from '../../components/ui/Loader';
 
 const InspectionDetailPage = ({ match }) => {
   const dispatch = useDispatch();
-  const [tabValue, setTabValue] = useState('basic');
+  const [tabValue, setTabValue] = useState('question');
 
   const { loading, inspectionDetail, resultList } = useSelector(({ loading, inspection, question }) => ({
     loading: {
@@ -32,7 +32,6 @@ const InspectionDetailPage = ({ match }) => {
     }
   }, [tabValue]);
 
-  console.log(loading);
   return (
     <Box>
       <MenuBar match={match} />
@@ -48,7 +47,7 @@ const InspectionDetailPage = ({ match }) => {
         loading.question ? (
           <Loader />
         ) : (
-          <InspectionDetailresultList
+          <ResultList
             resultList={resultList}
             fetchQuestionList={() => {
               dispatch(fetchQuestionList(inspectionIdx));

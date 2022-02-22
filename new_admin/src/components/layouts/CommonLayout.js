@@ -1,13 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@mui/styles';
-import {
-  CssBaseline,
-  Drawer,
-  Toolbar,
-  Divider,
-  Box,
-  Typography,
-} from '@mui/material';
+import { CssBaseline, Drawer, Toolbar, Divider, Box, Typography } from '@mui/material';
 import Sidebar from '../common/Sidebar';
 import Header from '../common/Header';
 

@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Tabs, Tab, Typography, Box, Paper, List, ListItem } from '@mui/material';
+import { Tabs, Tab, Typography, Box, Paper } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import InspectionDetailQuestion from './InspectionDetailQuestion';
+import QuestionList from './QuestionList';
 
 function TabPanel({ children, value, index }) {
   return (
@@ -38,20 +37,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const InspectionDetailQuestionList = ({ resultList, fetchQuestionList }) => {
-  const firstResultIdx = resultList[0].resultIdx;
+const ResultList = ({ resultList, fetchQuestionList }) => {
   const classes = useStyles();
+  const firstResultIdx = useMemo(() => resultList[0].resultIdx, [resultList]);
   const [value, setValue] = useState(firstResultIdx);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
-  const onDragEnd = () => {};
-
-  useEffect(() => {
-    console.log('test : ', resultList);
-  }, []);
 
   return (
     <Paper>
@@ -72,27 +65,7 @@ const InspectionDetailQuestionList = ({ resultList, fetchQuestionList }) => {
 
         {resultList.map(({ resultIdx, resultName, questionList }) => (
           <TabPanel key={resultIdx} value={value} index={resultIdx}>
-            <DragDropContext onDragEnd={onDragEnd}>
-              <Droppable droppableId="droppable">
-                {provided => (
-                  <List {...provided.droppableProps} ref={provided.innerRef}>
-                    {questionList.map(({ questionIdx, questionNumber, questionText }, index) => (
-                      <Draggable key={questionIdx} draggableId={`question_${questionIdx}`} index={index}>
-                        {provided => (
-                          <InspectionDetailQuestion
-                            provided={provided}
-                            questionIdx={questionIdx}
-                            questionNumber={questionNumber}
-                            questionText={questionText}
-                          />
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </List>
-                )}
-              </Droppable>
-            </DragDropContext>
+            <QuestionList resultIdx={resultIdx} resultName={resultName} initialQuestionList={questionList} />
           </TabPanel>
         ))}
       </Box>
@@ -100,4 +73,4 @@ const InspectionDetailQuestionList = ({ resultList, fetchQuestionList }) => {
   );
 };
 
-export default InspectionDetailQuestionList;
+export default ResultList;
