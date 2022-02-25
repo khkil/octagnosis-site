@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ResultList = ({ resultList, fetchQuestionList }) => {
+const ResultList = ({ inspectionIdx, resultList, fetchQuestionList }) => {
   const classes = useStyles();
   const firstResultIdx = useMemo(() => resultList[0].resultIdx, [resultList]);
   const [value, setValue] = useState(firstResultIdx);
@@ -65,7 +65,13 @@ const ResultList = ({ resultList, fetchQuestionList }) => {
 
         {resultList.map(({ resultIdx, resultName, questionList }) => (
           <TabPanel key={resultIdx} value={value} index={resultIdx}>
-            <QuestionList resultIdx={resultIdx} resultName={resultName} initialQuestionList={questionList} />
+            <QuestionList
+              inspectionIdx={inspectionIdx}
+              resultIdx={resultIdx}
+              resultName={resultName}
+              initialQuestionList={questionList}
+              fetchQuestionList={fetchQuestionList}
+            />
           </TabPanel>
         ))}
       </Box>

@@ -48,6 +48,7 @@ const InspectionDetailPage = ({ match }) => {
           <Loader />
         ) : (
           <ResultList
+            inspectionIdx={inspectionIdx}
             resultList={resultList}
             fetchQuestionList={() => {
               dispatch(fetchQuestionList(inspectionIdx));
