@@ -1,5 +1,16 @@
-import React, { memo, useCallback, useState } from 'react';
-import { Box, List, ListItem, Alert, AlertTitle, Typography, Button, Grid } from '@mui/material';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  Box,
+  List,
+  ListItem,
+  Alert,
+  AlertTitle,
+  Typography,
+  Button,
+  Grid,
+  Checkbox,
+  FormControlLabel,
+} from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import Question from './Question';
@@ -8,6 +19,7 @@ import { updateQuestionsApi } from '../../../api/questionApi';
 
 const QuestionList = ({ inspectionIdx, resultIdx, resultName, initialQuestionList, fetchQuestionList }) => {
   const [questionList, setQuestionList] = useState(initialQuestionList);
+  const [showDeletedQuestions, setShowDeletedQuestions] = useState(false);
 
   const updateQuestions = () => {
     if (!confirm('변경 사항을 저장하시겠습니까?')) return false;
@@ -17,23 +29,37 @@ const QuestionList = ({ inspectionIdx, resultIdx, resultName, initialQuestionLis
   };
 
   const addQuestion = () => {
-    const [question] = questionList.filter((question, index) => index === questionList.length - 1);
-    const dummyQuestion = Object.keys(question)
-      .map(key => ({
-        [key]:
-          key === 'questionNumber'
-            ? question[key] + 1
-            : key === 'resultIdx'
-            ? resultIdx
-            : key === 'inspectionIdx'
-            ? inspectionIdx
-            : '',
-      }))
-      .reduce((a, b) => ({ ...a, ...b }));
+    const nextQuestionNumber = questionList
+      .filter(({ delYn }) => delYn === 'N')
+      .reduce((nextNumber, { questionNumber }) => {
+        return questionNumber + 1;
+      }, 0);
+    const dummyQuestion = {
+      inspectionIdx: inspectionIdx,
+      resultIdx: resultIdx,
+      questionNumber: nextQuestionNumber,
+      questionText: '',
+      delYn: 'N',
+    };
     setQuestionList([...questionList, dummyQuestion]);
   };
 
+  const deleteQuestion = (questionIdx, index) => {
+    const question = questionList.find(question => question.questionIdx === questionIdx);
+    const dataList = [...questionList];
+    dataList.splice(index, 1, { ...question, delYn: 'Y' });
+    setQuestionList(dataList);
+  };
+
+  const restoreQuestion = (questionIdx, index) => {
+    const question = questionList.find(question => question.questionIdx === questionIdx);
+    const dataList = [...questionList];
+    dataList.splice(index, 1, { ...question, delYn: 'N' });
+    setQuestionList(dataList);
+  };
+
   const resetItems = useCallback(() => {
+    initNumbers(initialQuestionList);
     setQuestionList(initialQuestionList);
   }, [initialQuestionList]);
 
@@ -41,11 +67,17 @@ const QuestionList = ({ inspectionIdx, resultIdx, resultName, initialQuestionLis
     const items = [...questionList];
     const [reorderedItem] = items.splice(source.index, 1);
     items.splice(destination.index, 0, reorderedItem);
-    items.forEach((item, index) => {
-      const newQuestionNumber = index + 1;
-      item.questionNumber = newQuestionNumber;
-    });
+    initNumbers(items);
     setQuestionList(items);
+  };
+
+  const initNumbers = questionList => {
+    const dataList = [...questionList];
+    dataList.forEach((question, index) => {
+      const questionNumber = index + 1;
+      question.questionNumber = questionNumber;
+    });
+    setQuestionList(dataList);
   };
 
   return (
@@ -59,12 +91,21 @@ const QuestionList = ({ inspectionIdx, resultIdx, resultName, initialQuestionLis
         <Button variant="contained" startIcon={<Add />} onClick={addQuestion}>
           문항추가
         </Button>
+        <FormControlLabel
+          control={<Checkbox />}
+          checked={showDeletedQuestions}
+          onClick={() => {
+            setShowDeletedQuestions(!showDeletedQuestions);
+          }}
+          label="삭제된 문항 포함"
+          sx={{ float: 'right' }}
+        />
       </Box>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {provided => (
             <List {...provided.droppableProps} ref={provided.innerRef}>
-              {questionList.map(({ questionIdx, questionNumber, questionText }, index) => (
+              {questionList.map(({ questionIdx, questionNumber, questionText, delYn }, index) => (
                 <Draggable key={index} draggableId={`question_${index}`} index={index}>
                   {provided => (
                     <Question
@@ -72,7 +113,11 @@ const QuestionList = ({ inspectionIdx, resultIdx, resultName, initialQuestionLis
                       questionIdx={questionIdx}
                       questionNumber={questionNumber}
                       questionText={questionText}
-                      setQuestionList={setQuestionList}
+                      delYn={delYn}
+                      showDeletedQuestions={showDeletedQuestions}
+                      deleteQuestion={deleteQuestion}
+                      restoreQuestion={restoreQuestion}
+                      index={index}
                     />
                   )}
                 </Draggable>
