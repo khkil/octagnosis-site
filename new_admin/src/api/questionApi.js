@@ -16,6 +16,22 @@ export const questionListApi = inspectionIdx => {
   });
 };
 
+export const questionDetailApi = questionIdx => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`/api/admin/questions/${questionIdx}`)
+      .then(response => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
 export const updateQuestionsApi = questions => {
   return new Promise((resolve, reject) => {
     axios

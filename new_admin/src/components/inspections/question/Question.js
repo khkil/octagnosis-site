@@ -19,6 +19,7 @@ const Question = ({
   questionNumber,
   questionText,
   delYn,
+  getQuestionDetail,
   showDeletedQuestions,
   deleteQuestion,
   restoreQuestion,
@@ -31,7 +32,6 @@ const Question = ({
   const handleChange = useCallback(
     e => {
       const { value } = e.target;
-      console.log(questionIdx, value);
     },
     [questionIdx],
   );
@@ -77,7 +77,15 @@ const Question = ({
             <DragHandle fontSize="medium" />
           </ListItemAvatar>
           {questionIdx ? (
-            <Link href="#" underline="hover" color={'rgb(25, 118, 210)'} onClick={toggleDetailPopup}>
+            <Link
+              href="#"
+              underline="hover"
+              color={'rgb(25, 118, 210)'}
+              onClick={toggleDetailPopup}
+              onClick={e => {
+                getQuestionDetail(questionIdx);
+              }}
+            >
               <Typography variant="subtitle1" component="div">{`${questionNumber}. ${questionText}`}</Typography>
             </Link>
           ) : (

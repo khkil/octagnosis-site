@@ -16,10 +16,20 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import Question from './Question';
 import { Delete, RestartAlt, Save, Add } from '@mui/icons-material';
 import { updateQuestionsApi } from '../../../api/questionApi';
+import QuestionDetailPopup from './QuestionDetailPopup';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchQuestionDetail, FETCH_QUESTION_DETAIL } from '../../../modules/question';
 
 const QuestionList = ({ inspectionIdx, resultIdx, resultName, initialQuestionList, fetchQuestionList }) => {
+  const dispatch = useDispatch();
   const [questionList, setQuestionList] = useState(initialQuestionList);
   const [showDeletedQuestions, setShowDeletedQuestions] = useState(false);
+  const [showDetailPopup, setShowDetailPopup] = useState(false);
+
+  const getQuestionDetail = questionIdx => {
+    dispatch(fetchQuestionDetail(questionIdx));
+    setShowDetailPopup(true);
+  };
 
   const updateQuestions = () => {
     if (!confirm('변경 사항을 저장하시겠습니까?')) return false;
@@ -82,6 +92,7 @@ const QuestionList = ({ inspectionIdx, resultIdx, resultName, initialQuestionLis
 
   return (
     <Box>
+      <QuestionDetailPopup showDetailPopup={showDetailPopup} setShowDetailPopup={setShowDetailPopup} />
       <Alert severity="success">
         <AlertTitle>
           <Typography variant="h6">{resultName}</Typography>
@@ -114,6 +125,7 @@ const QuestionList = ({ inspectionIdx, resultIdx, resultName, initialQuestionLis
                       questionNumber={questionNumber}
                       questionText={questionText}
                       delYn={delYn}
+                      getQuestionDetail={getQuestionDetail}
                       showDeletedQuestions={showDeletedQuestions}
                       deleteQuestion={deleteQuestion}
                       restoreQuestion={restoreQuestion}

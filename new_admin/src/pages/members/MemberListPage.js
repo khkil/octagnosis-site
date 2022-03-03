@@ -4,11 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import queryString from 'query-string';
 import MenuBar from '../../components/common/MenuBar';
 import MemberList from '../../components/members/MemberList';
-import {
-  clearMember,
-  fetchMemberList,
-  FETCH_MEMBER_LIST,
-} from '../../modules/member';
+import { clearMember, fetchMemberList, FETCH_MEMBER_LIST } from '../../modules/member';
 import Loader from '../../components/ui/Loader';
 import SearchBar from '../../components/common/SearchBar';
 import Paging from '../../components/common/Paging';
@@ -18,15 +14,11 @@ const MemberListPage = ({ match, history, location }) => {
   const dispatch = useDispatch();
 
   const query = queryString.parse(location.search);
-  const { loading, memberList, pageInfo } = useSelector(
-    ({ loading, member }) => ({
-      loading:
-        loading[FETCH_MEMBER_LIST] === undefined ||
-        Boolean(loading[FETCH_MEMBER_LIST]),
-      memberList: member.list,
-      pageInfo: member.pageInfo,
-    }),
-  );
+  const { loading, memberList, pageInfo } = useSelector(({ loading, member }) => ({
+    loading: loading[FETCH_MEMBER_LIST] === undefined || Boolean(loading[FETCH_MEMBER_LIST]),
+    memberList: member.list,
+    pageInfo: member.pageInfo,
+  }));
 
   const [searchText, setSearchText] = useState(query.searchText);
 
@@ -60,8 +52,6 @@ const MemberListPage = ({ match, history, location }) => {
     dispatch(fetchMemberList(query));
   }, [location.search]);
 
-  console.log('loading: ', loading);
-
   if (loading) return <Loader />;
   return (
     <Box>
@@ -82,11 +72,7 @@ const MemberListPage = ({ match, history, location }) => {
           <Paper p={3}>
             <MemberList memberList={memberList} startRow={pageInfo.startRow} />
           </Paper>
-          <Paging
-            pageInfo={pageInfo}
-            page={query.pageNum ? query.pageNum : 1}
-            setPage={goPage}
-          />
+          <Paging pageInfo={pageInfo} page={query.pageNum ? query.pageNum : 1} setPage={goPage} />
         </Box>
       )}
     </Box>
