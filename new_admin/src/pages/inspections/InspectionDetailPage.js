@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import InspectionDetailTabs from '../../components/inspections/InspectionDetailTabs';
 import MenuBar from '../../components/common/MenuBar';
 import InspectionDetailInfo from '../../components/inspections/InspectionDetailInfo';
-import ResultList from '../../components/inspections/question/ResultList';
+import ResultList from '../../components/inspections/questions/ResultList';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchInspectionDetail, FETCH_INPECTION_DETAIL } from '../../modules/inspection';
 import question, { fetchQuestionList, FETCH_QUESTION_LIST } from '../../modules/question';
