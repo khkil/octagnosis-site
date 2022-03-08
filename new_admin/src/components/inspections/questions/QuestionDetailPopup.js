@@ -21,6 +21,7 @@ import { Cancel, Close, Save } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import { FETCH_QUESTION_DETAIL } from '../../../modules/question';
 import AnswerList from './answers/AnswerList';
+import FileUploadDropzone from '../../../components/common/FileUploadDropzone';
 
 const BootstrapDialogTitle = props => {
   const { children, onClose, ...other } = props;
@@ -91,6 +92,7 @@ const QuestionDetail = ({ questionDetail, onClose }) => {
             이미지형
           </ToggleButton>
         </ToggleButtonGroup>
+        <FileUploadDropzone defaultFiles={questionForm.filePath} />
         <Alert variant="info">답변 타입</Alert>
         <ToggleButtonGroup color="info" value={questionForm.answerType} onChange={handleChange} exclusive>
           <ToggleButton name="answerType" value="TEXT">
