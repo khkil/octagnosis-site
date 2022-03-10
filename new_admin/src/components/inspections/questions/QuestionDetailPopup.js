@@ -22,6 +22,7 @@ import { useSelector } from 'react-redux';
 import { FETCH_QUESTION_DETAIL } from '../../../modules/question';
 import AnswerList from './answers/AnswerList';
 import FileUploadDropzone from '../../../components/common/FileUploadDropzone';
+import { fileUploadApi } from '../../../api/fileApi';
 
 const BootstrapDialogTitle = props => {
   const { children, onClose, ...other } = props;
@@ -55,6 +56,7 @@ BootstrapDialogTitle.propTypes = {
 const QuestionDetail = ({ questionDetail, onClose }) => {
   const [questionForm, setQuestionForm] = useState(questionDetail);
   const { questionIdx, questionNumber, questionText } = useMemo(() => questionDetail, [questionDetail.questionIdx]);
+
   const handleChange = (event, value) => {
     const { name } = event.target;
     const changedValue = value ? value : event.target.value;
@@ -65,7 +67,41 @@ const QuestionDetail = ({ questionDetail, onClose }) => {
     });
   };
 
-  const changeTab = (event, value) => {};
+  const uploadFiles = (files, directory, callback) => {
+    const maxFiles = 1;
+    if (files.length > maxFiles) {
+      alert(`${maxFiles}개 이상 파일만 업로드 가능 합니다.`);
+      return;
+    }
+    console.log('files: ', files);
+    files.forEach(file => {
+      fileUploadApi(directory, file)
+        .then(({ success }) => {
+          alert(success);
+          if (success) {
+            callback(directory, files);
+          } else {
+            alert('업로드에 실패 하였습니다');
+          }
+        })
+        .catch(e => {
+          alert('server error');
+          console.error(e);
+        });
+    });
+  };
+
+  const uploadQuestionImage = files => {
+    const directory = '성향검사/문항/';
+    const callback = (directory, files) => {
+      const uploadedFiles = files.map(({ path }) => ({
+        name: path,
+        path: directory + path,
+      }));
+      setQuestionForm({ ...questionForm, filePath: JSON.stringify(uploadedFiles) });
+    };
+    uploadFiles(files, directory, callback);
+  };
 
   return (
     <>
@@ -92,7 +128,7 @@ const QuestionDetail = ({ questionDetail, onClose }) => {
             이미지형
           </ToggleButton>
         </ToggleButtonGroup>
-        <FileUploadDropzone defaultFiles={questionForm.filePath} />
+        <FileUploadDropzone filePath={questionForm.filePath} onDrop={uploadQuestionImage} />
         <Alert variant="info">답변 타입</Alert>
         <ToggleButtonGroup color="info" value={questionForm.answerType} onChange={handleChange} exclusive>
           <ToggleButton name="answerType" value="TEXT">
