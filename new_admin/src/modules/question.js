@@ -3,9 +3,12 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import { questionDetailApi, questionListApi } from '../api/questionApi';
 import { startLoading, endLoading } from './loading';
 
-export const FETCH_QUESTION_LIST = 'inspection/FETCH_QUESTION_LIST';
-const FETCH_QUESTION_LIST_SUCCESS = 'inspection/FETCH_QUESTION_LIST_SUCCESS';
-const FETCH_QUESTION_LIST_FAILURE = 'inspection/FETCH_QUESTION_LIST_FAILURE';
+const CLEAR_QUESTION = 'question/CLEAR_QUESTION';
+export const clearQuestion = createAction(CLEAR_QUESTION);
+
+export const FETCH_QUESTION_LIST = 'question/FETCH_QUESTION_LIST';
+const FETCH_QUESTION_LIST_SUCCESS = 'question/FETCH_QUESTION_LIST_SUCCESS';
+const FETCH_QUESTION_LIST_FAILURE = 'question/FETCH_QUESTION_LIST_FAILURE';
 
 export const fetchQuestionList = createAction(FETCH_QUESTION_LIST);
 const fetchQuestionListSuccess = createAction(FETCH_QUESTION_LIST_SUCCESS, data => data);
@@ -24,9 +27,9 @@ function* questionListSaga(action) {
   }
 }
 
-export const FETCH_QUESTION_DETAIL = 'inspection/FETCH_QUESTION_DETAIL';
-const FETCH_QUESTION_DETAIL_SUCCESS = 'inspection/FETCH_QUESTION_DETAIL_SUCCESS';
-const FETCH_QUESTION_DETAIL_FAILURE = 'inspection/FETCH_QUESTION_DETAIL_FAILURE';
+export const FETCH_QUESTION_DETAIL = 'question/FETCH_QUESTION_DETAIL';
+const FETCH_QUESTION_DETAIL_SUCCESS = 'question/FETCH_QUESTION_DETAIL_SUCCESS';
+const FETCH_QUESTION_DETAIL_FAILURE = 'question/FETCH_QUESTION_DETAIL_FAILURE';
 
 export const fetchQuestionDetail = createAction(FETCH_QUESTION_DETAIL);
 const fetchQuestionDetailSuccess = createAction(FETCH_QUESTION_DETAIL_SUCCESS, data => data);
@@ -58,6 +61,7 @@ const initialState = {
 
 const question = handleActions(
   {
+    [CLEAR_QUESTION]: () => initialState,
     [FETCH_QUESTION_LIST_SUCCESS]: (state, action) => ({
       ...state,
       list: action.payload,

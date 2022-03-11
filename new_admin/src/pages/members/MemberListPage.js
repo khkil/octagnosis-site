@@ -34,10 +34,6 @@ const MemberListPage = ({ match, history, location }) => {
     });
   };
 
-  const test = () => {
-    alert(1);
-  };
-
   const goPage = page => {
     query.pageNum = page;
     const searchString = queryString.stringify(query);

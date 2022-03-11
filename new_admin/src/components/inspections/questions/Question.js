@@ -36,14 +36,6 @@ const Question = ({
     [questionIdx],
   );
 
-  const toggleDetailPopup = useCallback(
-    e => {
-      e.preventDefault();
-      console.log(questionIdx);
-    },
-    [questionIdx],
-  );
-
   return (
     <Box ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps}>
       {!(!showDeletedQuestions && isDeletedQuestion) && (
@@ -78,10 +70,8 @@ const Question = ({
           </ListItemAvatar>
           {questionIdx ? (
             <Link
-              href="#"
               underline="hover"
               color={'rgb(25, 118, 210)'}
-              onClick={toggleDetailPopup}
               onClick={e => {
                 getQuestionDetail(questionIdx);
               }}

@@ -6,7 +6,7 @@ import InspectionDetailInfo from '../../components/inspections/InspectionDetailI
 import ResultList from '../../components/inspections/questions/ResultList';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchInspectionDetail, FETCH_INPECTION_DETAIL } from '../../modules/inspection';
-import question, { fetchQuestionList, FETCH_QUESTION_LIST } from '../../modules/question';
+import question, { clearQuestion, fetchQuestionList, FETCH_QUESTION_LIST } from '../../modules/question';
 import Loader from '../../components/ui/Loader';
 
 const InspectionDetailPage = ({ match }) => {
@@ -30,6 +30,10 @@ const InspectionDetailPage = ({ match }) => {
     } else if (tabValue === 'question') {
       dispatch(fetchQuestionList(inspectionIdx));
     }
+
+    return () => {
+      clearQuestion();
+    };
   }, [tabValue]);
 
   return (
