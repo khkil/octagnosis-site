@@ -1,9 +1,12 @@
 import axios from '../utils/axios';
 
-export const fileUploadApi = (directory, file) => {
+export const fileUploadApi = (directory, files) => {
   const formData = new FormData();
   formData.append('directory', directory);
-  formData.append('file', file);
+  files.forEach(file => {
+    formData.append('files', file);
+  });
+
   return new Promise((resolve, reject) => {
     axios
       .post('/api/file/upload', formData)

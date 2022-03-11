@@ -145,7 +145,7 @@ const img = {
 };
 
 const FileUploadDropzone = ({ filePath, onDrop }) => {
-  const files = filePath ? JSON.parse(filePath) : [];
+  const files = filePath ? filePath : [];
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
     onDrop: files => {

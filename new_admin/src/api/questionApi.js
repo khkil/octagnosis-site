@@ -32,6 +32,22 @@ export const questionDetailApi = questionIdx => {
   });
 };
 
+export const updateQuestionApi = (questionIdx, question) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(`/api/admin/questions/${questionIdx}`, question)
+      .then(response => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
 export const updateQuestionsApi = questions => {
   return new Promise((resolve, reject) => {
     axios

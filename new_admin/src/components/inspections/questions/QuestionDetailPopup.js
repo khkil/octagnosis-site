@@ -23,6 +23,8 @@ import { FETCH_QUESTION_DETAIL } from '../../../modules/question';
 import AnswerList from './answers/AnswerList';
 import FileUploadDropzone from '../../../components/common/FileUploadDropzone';
 import { fileUploadApi } from '../../../api/fileApi';
+import { TYPE_IMAGE } from '../../../constants';
+import { updateQuestionApi } from '../../../api/questionApi';
 
 const BootstrapDialogTitle = props => {
   const { children, onClose, ...other } = props;
@@ -53,54 +55,47 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-const QuestionDetail = ({ questionDetail, onClose }) => {
+const QuestionDetail = ({ questionDetail, onClose, onSubmit }) => {
   const [questionForm, setQuestionForm] = useState(questionDetail);
   const { questionIdx, questionNumber, questionText } = useMemo(() => questionDetail, [questionDetail.questionIdx]);
 
   const handleChange = (event, value) => {
     const { name } = event.target;
     const changedValue = value ? value : event.target.value;
-    console.log(event.target, value);
     setQuestionForm({
       ...questionForm,
       [name]: changedValue,
     });
   };
 
-  const uploadFiles = (files, directory, callback) => {
-    const maxFiles = 1;
-    if (files.length > maxFiles) {
-      alert(`${maxFiles}개 이상 파일만 업로드 가능 합니다.`);
-      return;
-    }
-    console.log('files: ', files);
-    files.forEach(file => {
-      fileUploadApi(directory, file)
-        .then(({ success }) => {
-          alert(success);
-          if (success) {
-            callback(directory, files);
-          } else {
-            alert('업로드에 실패 하였습니다');
-          }
-        })
-        .catch(e => {
-          alert('server error');
-          console.error(e);
-        });
-    });
+  const updateQuestion = () => {
+    onSubmit(questionForm);
   };
 
-  const uploadQuestionImage = files => {
+  const uploadFiles = files => {
     const directory = '성향검사/문항/';
-    const callback = (directory, files) => {
-      const uploadedFiles = files.map(({ path }) => ({
-        name: path,
-        path: directory + path,
-      }));
-      setQuestionForm({ ...questionForm, filePath: JSON.stringify(uploadedFiles) });
-    };
-    uploadFiles(files, directory, callback);
+    const maxFiles = 1;
+    if (files.length > maxFiles) {
+      alert(`${maxFiles}개 이하 파일만 업로드 가능 합니다.`);
+      return;
+    }
+    fileUploadApi(directory, files)
+      .then(({ success }) => {
+        alert(success);
+        if (success) {
+          const uploadedFiles = files.map(({ path }) => ({
+            name: path,
+            path: directory + path,
+          }));
+          setQuestionForm({ ...questionForm, filePath: uploadedFiles });
+        } else {
+          alert('업로드에 실패 하였습니다');
+        }
+      })
+      .catch(e => {
+        alert('server error');
+        console.error(e);
+      });
   };
 
   return (
@@ -128,7 +123,10 @@ const QuestionDetail = ({ questionDetail, onClose }) => {
             이미지형
           </ToggleButton>
         </ToggleButtonGroup>
-        <FileUploadDropzone filePath={questionForm.filePath} onDrop={uploadQuestionImage} />
+        {questionForm.questionType === TYPE_IMAGE && (
+          <FileUploadDropzone filePath={questionForm.filePath} onDrop={uploadFiles} />
+        )}
+
         <Alert variant="info">답변 타입</Alert>
         <ToggleButtonGroup color="info" value={questionForm.answerType} onChange={handleChange} exclusive>
           <ToggleButton name="answerType" value="TEXT">
@@ -144,7 +142,7 @@ const QuestionDetail = ({ questionDetail, onClose }) => {
         <AnswerList answers={questionForm.answers} questionForm={questionForm} setQuestionForm={setQuestionForm} />
       </DialogContent>
       <DialogActions>
-        <Button color="primary" variant="contained" size="large" startIcon={<Save />} onClick={onClose}>
+        <Button color="primary" variant="contained" size="large" startIcon={<Save />} onClick={updateQuestion}>
           저장
         </Button>
         <Button color="error" variant="contained" size="large" startIcon={<Cancel />} onClick={onClose}>
@@ -155,7 +153,7 @@ const QuestionDetail = ({ questionDetail, onClose }) => {
   );
 };
 
-const QuestionDetailPopup = ({ showDetailPopup, setShowDetailPopup }) => {
+const QuestionDetailPopup = ({ fetchQuestionList, showDetailPopup, setShowDetailPopup }) => {
   const { loading, questionDetail } = useSelector(({ loading, question }) => ({
     loading: loading[FETCH_QUESTION_DETAIL] === undefined || Boolean(loading[FETCH_QUESTION_DETAIL]),
     questionDetail: question.selected,
@@ -165,9 +163,26 @@ const QuestionDetailPopup = ({ showDetailPopup, setShowDetailPopup }) => {
     setShowDetailPopup(false);
   };
 
+  const onSubmit = question => {
+    if (!confirm('수정하시겠습니까?')) return;
+    const { questionIdx } = questionDetail;
+    updateQuestionApi(questionIdx, question)
+      .then(({ success }) => {
+        if (success) {
+          alert('수정되었습니다.');
+          fetchQuestionList();
+        } else {
+          alert('수정에 실패했습니다.');
+        }
+      })
+      .catch(e => {
+        console.error(e);
+      });
+  };
+
   return (
     <Dialog maxWidth="xl" aria-labelledby="customized-dialog-title" open={showDetailPopup}>
-      {!loading && <QuestionDetail questionDetail={questionDetail} onClose={onClose} />}
+      {!loading && <QuestionDetail questionDetail={questionDetail} onClose={onClose} onSubmit={onSubmit} />}
     </Dialog>
   );
 };

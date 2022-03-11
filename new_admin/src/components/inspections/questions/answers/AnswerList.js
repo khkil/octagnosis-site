@@ -3,18 +3,15 @@ import React, { useEffect, useMemo } from 'react';
 import Answer from './Answer';
 
 const AnswerList = ({ answers, questionForm, setQuestionForm }) => {
-  useEffect(() => {
-    console.log('answers: ', answers);
-  }, []);
-
   return (
     <Box>
-      {answers.map(({ answerIdx, answerText, answerScore }, index) => (
+      {answers.map(({ answerIdx, answerText, answerScore, filePath }, index) => (
         <Answer
           index={index}
           answerIdx={answerIdx}
           answerText={answerText}
           answerScore={answerScore}
+          filePath={filePath}
           questionForm={questionForm}
           setQuestionForm={setQuestionForm}
         />

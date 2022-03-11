@@ -92,7 +92,11 @@ const QuestionList = ({ inspectionIdx, resultIdx, resultName, initialQuestionLis
 
   return (
     <Box>
-      <QuestionDetailPopup showDetailPopup={showDetailPopup} setShowDetailPopup={setShowDetailPopup} />
+      <QuestionDetailPopup
+        fetchQuestionList={fetchQuestionList}
+        showDetailPopup={showDetailPopup}
+        setShowDetailPopup={setShowDetailPopup}
+      />
       <Alert severity="success">
         <AlertTitle>
           <Typography variant="h6">{resultName}</Typography>
