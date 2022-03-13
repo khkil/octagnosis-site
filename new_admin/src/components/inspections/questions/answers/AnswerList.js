@@ -2,7 +2,8 @@ import { Box, Grid, Paper } from '@mui/material';
 import React, { useEffect, useMemo } from 'react';
 import Answer from './Answer';
 
-const AnswerList = ({ answers, questionForm, setQuestionForm }) => {
+const AnswerList = ({ questionForm, setQuestionForm }) => {
+  const { answers } = questionForm;
   return (
     <Box>
       {answers.map(({ answerIdx, answerText, answerScore, filePath }, index) => (

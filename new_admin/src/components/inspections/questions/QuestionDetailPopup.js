@@ -98,6 +98,14 @@ const QuestionDetail = ({ questionDetail, onClose, onSubmit }) => {
       });
   };
 
+  const deleteFile = fileIndex => {
+    const files = questionForm.filePath;
+    setQuestionForm({
+      ...questionForm,
+      filePath: files.filter((file, index) => index !== fileIndex),
+    });
+  };
+
   return (
     <>
       <BootstrapDialogTitle id="customized-dialog-title" onClose={onClose}>
@@ -124,7 +132,7 @@ const QuestionDetail = ({ questionDetail, onClose, onSubmit }) => {
           </ToggleButton>
         </ToggleButtonGroup>
         {questionForm.questionType === TYPE_IMAGE && (
-          <FileUploadDropzone filePath={questionForm.filePath} onDrop={uploadFiles} />
+          <FileUploadDropzone filePath={questionForm.filePath} onDrop={uploadFiles} onDelete={deleteFile} />
         )}
 
         <Alert variant="info">답변 타입</Alert>
@@ -139,7 +147,7 @@ const QuestionDetail = ({ questionDetail, onClose, onSubmit }) => {
         <Alert severity="info" sx={{ mt: 2 }}>
           답변
         </Alert>
-        <AnswerList answers={questionForm.answers} questionForm={questionForm} setQuestionForm={setQuestionForm} />
+        <AnswerList questionForm={questionForm} setQuestionForm={setQuestionForm} />
       </DialogContent>
       <DialogActions>
         <Button color="primary" variant="contained" size="large" startIcon={<Save />} onClick={updateQuestion}>

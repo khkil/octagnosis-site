@@ -21,7 +21,7 @@ const Answer = ({ index, answerIdx, answerText, answerScore, filePath, questionF
     setAnswer(name, value);
   });
 
-  const uploadFiles = files => {
+  const uploadFiles = useCallback(files => {
     const directory = '성향검사/답변/';
     const maxFiles = 1;
     if (files.length > maxFiles) {
@@ -45,12 +45,19 @@ const Answer = ({ index, answerIdx, answerText, answerScore, filePath, questionF
         alert('server error');
         console.error(e);
       });
+  });
+
+  const deleteFile = fileIndex => {
+    const files = filePath.filter((file, index) => index !== fileIndex);
+    setAnswer('filePath', files);
   };
 
   return (
     <>
       <Alert variant="info">답변 {index + 1}</Alert>
-      {answerType === TYPE_IMAGE && <FileUploadDropzone filePath={filePath} onDrop={uploadFiles} />}
+      {answerType === TYPE_IMAGE && (
+        <FileUploadDropzone filePath={filePath} onDrop={uploadFiles} onDelete={deleteFile} />
+      )}
 
       <Paper sx={{ mb: 1 }} variant="outlined">
         <Box sx={{ p: 1 }}>
