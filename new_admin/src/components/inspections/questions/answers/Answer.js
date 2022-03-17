@@ -47,6 +47,11 @@ const Answer = ({ index, answerIdx, answerText, answerScore, filePath, questionF
       });
   });
 
+  const deleteAnswer = useCallback(() => {
+    const { answers } = questionForm;
+    setQuestionForm({ ...questionForm, answers: answers.filter(answer => answer.answerIdx !== answerIdx) });
+  });
+
   const deleteFile = fileIndex => {
     const files = filePath.filter((file, index) => index !== fileIndex);
     setAnswer('filePath', files);
@@ -79,7 +84,7 @@ const Answer = ({ index, answerIdx, answerText, answerScore, filePath, questionF
             sx={{ width: '10%', mr: 1 }}
           ></TextField>
 
-          <IconButton sx={{ float: 'right' }}>
+          <IconButton sx={{ float: 'right' }} onClick={deleteAnswer}>
             <Delete color="error" />
           </IconButton>
         </Box>

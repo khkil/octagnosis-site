@@ -1,7 +1,7 @@
 import { createAction, handleActions } from 'redux-actions';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { questionDetailApi, questionListApi } from '../api/questionApi';
-import { startLoading, endLoading } from './loading';
+import { startLoading, endLoading, startLoadingPersist } from './loading';
 
 const CLEAR_QUESTION = 'question/CLEAR_QUESTION';
 export const clearQuestion = createAction(CLEAR_QUESTION);
@@ -36,7 +36,7 @@ const fetchQuestionDetailSuccess = createAction(FETCH_QUESTION_DETAIL_SUCCESS, d
 const fetchQuestionDetailFailure = createAction(FETCH_QUESTION_DETAIL_FAILURE, e => e);
 
 function* questionDetailSaga(action) {
-  yield put(startLoading(FETCH_QUESTION_DETAIL));
+  yield put(startLoadingPersist(FETCH_QUESTION_DETAIL));
   try {
     const { data } = yield call(questionDetailApi, action.payload);
     yield put(fetchQuestionDetailSuccess(data));
