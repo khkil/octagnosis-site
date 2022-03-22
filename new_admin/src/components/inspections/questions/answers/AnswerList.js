@@ -4,19 +4,24 @@ import Answer from './Answer';
 
 const AnswerList = ({ questionForm, setQuestionForm }) => {
   const { answers } = questionForm;
+
   return (
     <Box>
-      {answers.map(({ answerIdx, answerText, answerScore, filePath }, index) => (
-        <Answer
-          index={index}
-          answerIdx={answerIdx}
-          answerText={answerText}
-          answerScore={answerScore}
-          filePath={filePath}
-          questionForm={questionForm}
-          setQuestionForm={setQuestionForm}
-        />
-      ))}
+      {answers.map(
+        ({ answerIdx, answerText, answerScore, filePath, delYn }, index) =>
+          delYn === 'N' && (
+            <Answer
+              key={index}
+              index={index}
+              answerIdx={answerIdx}
+              answerText={answerText}
+              answerScore={answerScore}
+              filePath={filePath}
+              questionForm={questionForm}
+              setQuestionForm={setQuestionForm}
+            />
+          ),
+      )}
     </Box>
   );
 };

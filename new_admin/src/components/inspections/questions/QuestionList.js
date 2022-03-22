@@ -1,24 +1,12 @@
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import {
-  Box,
-  List,
-  ListItem,
-  Alert,
-  AlertTitle,
-  Typography,
-  Button,
-  Grid,
-  Checkbox,
-  FormControlLabel,
-} from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import React, { useCallback, useState } from 'react';
+import { Box, List, Alert, AlertTitle, Typography, Button, Checkbox, FormControlLabel } from '@mui/material';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import Question from './Question';
-import { Delete, RestartAlt, Save, Add } from '@mui/icons-material';
+import { RestartAlt, Save, Add } from '@mui/icons-material';
 import { updateQuestionsApi } from '../../../api/questionApi';
 import QuestionDetailPopup from './QuestionDetailPopup';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchQuestionDetail, FETCH_QUESTION_DETAIL } from '../../../modules/question';
+import { useDispatch } from 'react-redux';
+import { fetchQuestionDetail } from '../../../modules/question';
 
 const QuestionList = ({ inspectionIdx, resultIdx, resultName, initialQuestionList, fetchQuestionList }) => {
   const dispatch = useDispatch();

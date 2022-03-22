@@ -10,9 +10,8 @@ const Answer = ({ index, answerIdx, answerText, answerScore, filePath, questionF
 
   const setAnswer = (key, value) => {
     const index = answers.findIndex(answer => answer.answerIdx === answerIdx);
-    let answer = answers[index];
-    answer = { ...answer, [key]: value };
-    answers.splice(index, 1, answer);
+    const answer = answers[index];
+    answers.splice(index, 1, { ...answer, [key]: value });
     setQuestionForm({ ...questionForm, answers: answers });
   };
 
@@ -30,7 +29,6 @@ const Answer = ({ index, answerIdx, answerText, answerScore, filePath, questionF
     }
     fileUploadApi(directory, files)
       .then(({ success }) => {
-        alert(success);
         if (success) {
           const uploadedFiles = files.map(({ path }) => ({
             name: path,
@@ -48,8 +46,9 @@ const Answer = ({ index, answerIdx, answerText, answerScore, filePath, questionF
   });
 
   const deleteAnswer = useCallback(() => {
-    const { answers } = questionForm;
-    setQuestionForm({ ...questionForm, answers: answers.filter(answer => answer.answerIdx !== answerIdx) });
+    /* const { answers } = questionForm;
+    setQuestionForm({ ...questionForm, answers: answers.filter(answer => answer.answerIdx !== answerIdx) }); */
+    setAnswer('delYn', 'Y');
   });
 
   const deleteFile = fileIndex => {

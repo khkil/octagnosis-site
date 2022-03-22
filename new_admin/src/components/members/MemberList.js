@@ -1,16 +1,7 @@
 import React, { useMemo } from 'react';
 import { styled } from '@mui/material/styles';
 import { tableCellClasses } from '@mui/material/TableCell';
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TableCell,
-  Link,
-} from '@mui/material';
+import { Paper, Table, TableBody, TableContainer, TableHead, TableRow, TableCell, Link } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import SearchBar from '../common/SearchBar';
 
@@ -59,6 +50,7 @@ const MemberList = ({ memberList, startRow }) => {
                 <Link
                   href="#"
                   underline="hover"
+                  color={'rgb(25, 118, 210)'}
                   variant="subtitle1"
                   onClick={e => {
                     e.preventDefault();

@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import DialogActions from '@mui/material/DialogActions';
-import { Cancel, Close, Save } from '@mui/icons-material';
+import { Cancel, Close, RestartAlt, Save } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import { FETCH_QUESTION_DETAIL } from '../../../modules/question';
 import AnswerList from './answers/AnswerList';
@@ -56,6 +56,7 @@ BootstrapDialogTitle.propTypes = {
 };
 
 const QuestionDetail = ({ questionDetail, onClose, onSubmit }) => {
+  const initialQuestion = { ...questionDetail };
   const [questionForm, setQuestionForm] = useState(questionDetail);
   const { questionIdx, questionNumber, questionText } = useMemo(() => questionDetail, [questionDetail.questionIdx]);
 
@@ -106,6 +107,10 @@ const QuestionDetail = ({ questionDetail, onClose, onSubmit }) => {
     });
   };
 
+  const resetQuestion = () => {
+    setQuestionForm(initialQuestion);
+  };
+
   return (
     <>
       <BootstrapDialogTitle id="customized-dialog-title" onClose={onClose}>
@@ -150,6 +155,9 @@ const QuestionDetail = ({ questionDetail, onClose, onSubmit }) => {
         <AnswerList questionForm={questionForm} setQuestionForm={setQuestionForm} />
       </DialogContent>
       <DialogActions>
+        {/* <Button variant="outlined" size="large" startIcon={<RestartAlt />} onClick={resetQuestion}>
+          초기화
+        </Button> */}
         <Button color="primary" variant="contained" size="large" startIcon={<Save />} onClick={updateQuestion}>
           저장
         </Button>

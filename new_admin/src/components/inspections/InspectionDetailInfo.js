@@ -1,26 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Container,
-  Avatar,
-  Button,
-  TextField,
-  Link,
-  Grid,
-  Box,
-  Typography,
-  Alert,
-  Card,
-  IconButton,
-  InputAdornment,
-  MenuItem,
-  Paper,
-} from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import React from 'react';
+import { Button, TextField, Grid, Box, Alert, MenuItem, Paper } from '@mui/material';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchInspectionDetail, FETCH_INPECTION_DETAIL } from '../../modules/inspection';
-import Loader from '../ui/Loader';
 
 const validateSchema = {
   inspectionName: Yup.string().required('검사명을 입력하세요'),
@@ -64,7 +45,6 @@ const InspectionDetailInfo = ({ inspectionDetail }) => {
                   name="rankCount"
                   type="number"
                   label="결과지 결과 갯수"
-                  type="text"
                   value={values.rankCount}
                   onChange={handleChange}
                   error={Boolean(touched.rankCount && errors.rankCount)}
