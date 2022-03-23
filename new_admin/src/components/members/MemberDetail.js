@@ -18,33 +18,25 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import FindAddressPopup from '../../components/common/FindAddressPopup';
-import { phoneRegExp } from '../../utils/common';
-import MemberIdVerificationButton from './MemberIdVerificationButton';
+import { phoneRegExp } from '../../utils';
+import { updateMemberApi } from '../../api/memberApi';
+import { useParams } from 'react-router-dom';
 
-const MemberInfoForm = ({
-  isOauthUser,
-  initialValues,
-  handleSubmit,
-  submitButtonText,
-}) => {
-  const [idVerificated, setIdVerificated] = useState(false);
+const MemberDetail = ({ memberDetail }) => {
+  const { memberIdx } = useParams();
   const [openAddressPopup, setOpenAddressPopup] = useState(false);
-  const [schema, setSchema] = useState({
-    phone: Yup.string()
-      .required('휴대전화를 입력하세요')
-      .matches(phoneRegExp, '휴대폰 번호 양식에 맞게 입력하세요'),
-    email: Yup.string()
-      .required('이메일을 입력하세요')
-      .email('이메일 형식에 맞게 입력하세요'),
-    address: Yup.string().required('주소를 입력하세요'),
-    //addressSub: Yup.string().required("상세주소를 입력하세요"),
-    school: Yup.string().required('학교명을 입력하세요'),
-    education: Yup.string().required('학력을 선택하세요'),
-    grade: Yup.string().required('학년을 입력하세요'),
-    major: Yup.string().required('전공을 입력하세요'),
-    job: Yup.string().required('직업을 입력하세요'),
-    company: Yup.string().required('회사를 입력하세요'),
-    jobDetail: Yup.string().required('업무 내용을 입력하세요'),
+  const validateSchema = Yup.object().shape({
+    email: Yup.string().email('이메일 형식에 맞게 입력하세요'),
+    phone: Yup.string().matches(phoneRegExp, '휴대폰 번호 양식에 맞게 입력하세요'),
+    // address: Yup.string().required('주소를 입력하세요'),
+    // addressSub: Yup.string().required("상세주소를 입력하세요"),
+    // school: Yup.string().required('학교명을 입력하세요'),
+    // education: Yup.string().required('학력을 선택하세요'),
+    // grade: Yup.string().required('학년을 입력하세요'),
+    // major: Yup.string().required('전공을 입력하세요'),
+    // job: Yup.string().required('직업을 입력하세요'),
+    // company: Yup.string().required('회사를 입력하세요'),
+    // jobDetail: Yup.string().required('업무 내용을 입력하세요'),
   });
 
   const showAddressPopup = e => {
@@ -52,78 +44,35 @@ const MemberInfoForm = ({
     setOpenAddressPopup(true);
   };
 
-  useEffect(() => {
-    if (!isOauthUser) {
-      setSchema({
-        ...schema,
-        id: Yup.string()
-          .required('아이디를 입력하세요')
-          .test(
-            'idVerificated',
-            '아이디 중복확인을 해주세요',
-            value => idVerificated,
-          ),
-        name: Yup.string().required('이름을 입력하세요'),
-        /* password: Yup.string().required("비밀번호를 입력하세요"),
-        password_confirm: Yup.string()
-          .required("비밀번호 확인을 입력하세요")
-          .oneOf([Yup.ref('password'), null],'패스워드가 일치하지 않습니다.'), */
+  const handleSubmit = data => {
+    console.log(memberIdx, data);
+    updateMemberApi(memberIdx, data)
+      .then(({ success }) => {
+        if (Boolean(success)) {
+          alert('수정되었습니다');
+        } else {
+          alert('수정에 실패하였습니다');
+        }
+      })
+      .catch(e => {
+        console.error(e);
       });
-    }
-  }, []);
-
+  };
   return (
     <Formik
-      initialValues={initialValues}
-      validationSchema={Yup.object().shape(schema)}
+      initialValues={memberDetail}
+      validationSchema={validateSchema}
       onSubmit={data => {
         handleSubmit(data);
       }}
     >
       {({ values, setValues, handleChange, handleSubmit, touched, errors }) => (
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
-          {/* <Box>
-            <Typography>{JSON.stringify(initialValues)}</Typography>
-            <Typography>{JSON.stringify(schema)}</Typography>
-          </Box> */}
           {errors.id}
-          <Grid container spacing={2}>
+          <Grid container justifyContent="center" spacing={2}>
             <Grid item xs={12} sm={12}>
               <Alert severity="info">기본정보</Alert>
             </Grid>
-            {!isOauthUser && (
-              <>
-                <Grid item xs={12} sm={4.2}>
-                  <TextField
-                    fullWidth
-                    name="id"
-                    label="아이디"
-                    type="text"
-                    value={values.id}
-                    error={Boolean(touched.id && errors.id)}
-                    helperText={touched.id && errors.id}
-                    autoFocus
-                  />
-                </Grid>
-                <Grid item xs={12} sm={1.8}>
-                  <MemberIdVerificationButton
-                    idVerificated={idVerificated}
-                    setIdVerificated={setIdVerificated}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    name="name"
-                    label="이름"
-                    type="text"
-                    value={values.name}
-                    error={Boolean(touched.name && errors.name)}
-                    helperText={touched.name && errors.name}
-                  />
-                </Grid>
-              </>
-            )}
 
             <Grid item xs={12} sm={6}>
               <TextField
@@ -264,7 +213,6 @@ const MemberInfoForm = ({
 
             <Grid item xs={12} sm={3}>
               <TextField
-                select
                 fullWidth
                 name="job"
                 label="직업"
@@ -273,12 +221,7 @@ const MemberInfoForm = ({
                 onChange={handleChange}
                 error={Boolean(touched.job && errors.job)}
                 helperText={touched.job && errors.job}
-              >
-                <MenuItem value={10}>졸업</MenuItem>
-                <MenuItem value={20}>재학</MenuItem>
-                <MenuItem value={30}>중퇴</MenuItem>
-                <MenuItem value={30}>수료</MenuItem>
-              </TextField>
+              />
             </Grid>
             <Grid item xs={12} sm={3}>
               <TextField
@@ -304,17 +247,11 @@ const MemberInfoForm = ({
                 helperText={touched.jobDetail && errors.jobDetail}
               />
             </Grid>
-          </Grid>
-          <Grid style={{ textAlign: 'center' }}>
-            <Button
-              type="submit"
-              variant="contained"
-              size="large"
-              sx={{ mt: 3, mb: 2 }}
-              style={{ background: '#27313e', height: '52px' }}
-            >
-              {submitButtonText}
-            </Button>
+            <Grid item justifyContent="center">
+              <Button type="submit" variant="contained">
+                <Typography variant="h6">수정</Typography>
+              </Button>
+            </Grid>
           </Grid>
 
           {/* <Grid container justifyContent="flex-end">
@@ -330,4 +267,4 @@ const MemberInfoForm = ({
   );
 };
 
-export default MemberInfoForm;
+export default MemberDetail;

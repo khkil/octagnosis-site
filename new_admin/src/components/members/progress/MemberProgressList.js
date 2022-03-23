@@ -14,6 +14,7 @@ import {
   Typography,
   Grid,
 } from '@mui/material';
+import MemberProgress from './MemberProgress';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -25,36 +26,26 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const MemberProgressList = () => {
-  const progressList = [];
+const MemberProgressList = ({ progressList }) => {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell style={{ width: '10%' }} align="center">
+            <StyledTableCell style={{ width: '15%' }} align="center">
               검사명
             </StyledTableCell>
             <StyledTableCell style={{ width: '67%' }} align="center">
               검사 상태
             </StyledTableCell>
-            <StyledTableCell style={{ width: '13%' }} align="center"></StyledTableCell>
-            <StyledTableCell style={{ width: '10%' }} align="center">
+            <StyledTableCell style={{ width: '15%' }} align="center">
               결제 상태
             </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {progressList.map(({ inspectionIdx, inspectionName, userCount, totalCount, currentPage }) => (
-            <div>test</div>
-            // <MemberProgress
-            //   key={inspectionIdx}
-            //   inspectionIdx={inspectionIdx}
-            //   inspectionName={inspectionName}
-            //   userCount={userCount}
-            //   totalCount={totalCount}
-            //   currentPage={currentPage}
-            // />
+          {progressList.map(({ inspectionName, userCount, totalCount }, index) => (
+            <MemberProgress key={index} inspectionName={inspectionName} userCount={userCount} totalCount={totalCount} />
           ))}
         </TableBody>
       </Table>

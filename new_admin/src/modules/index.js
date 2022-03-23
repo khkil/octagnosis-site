@@ -7,6 +7,7 @@ import auth, { authSaga } from './auth';
 import inspection, { inspectionSaga } from './inspection';
 import question, { questionSaga } from './question';
 import member, { memberSaga } from './member';
+import progress, { progressSaga } from './progress';
 
 const persistConfig = {
   key: 'root',
@@ -20,11 +21,12 @@ const rootReducer = combineReducers({
   inspection,
   member,
   question,
+  progress,
 });
 
 //root saga
 export function* rootSaga() {
-  yield all([authSaga(), memberSaga(), inspectionSaga(), questionSaga()]);
+  yield all([authSaga(), memberSaga(), inspectionSaga(), questionSaga(), progressSaga()]);
 }
 
 export default persistReducer(persistConfig, rootReducer);

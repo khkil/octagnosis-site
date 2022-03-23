@@ -1,12 +1,24 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, TextField, Grid, Box, Alert, MenuItem, Paper } from '@mui/material';
-import { Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import MemberProgressList from '../../components/members/progress/MemberProgressList';
+import MenuBar from '../../components/common/MenuBar';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchMemberProgressList, FETCH_MEMBER_PROGRESS_LIST } from '../../modules/progress';
+import { fetchMemberDetail, FETCH_MEMBER_DETAIL } from '../../modules/member';
+import Loader from '../../components/ui/Loader';
+import MemberDetail from '../../components/members/MemberDetail';
 
-const MemberDetailPage = ({ inspectionDetail }) => {
+const MemberDetailPage = ({ match, inspectionDetail }) => {
   const { memberIdx } = useParams();
+  const dispatch = useDispatch();
+  const { loading, memberDetail, progressList } = useSelector(({ loading, member, progress }) => ({
+    loading: !(loading[FETCH_MEMBER_DETAIL] === false && loading[FETCH_MEMBER_PROGRESS_LIST] === false),
+    memberDetail: member.selected,
+    progressList: progress.list,
+  }));
   const validateSchema = {
     inspectionName: Yup.string().required('검사명을 입력하세요'),
   };
@@ -16,70 +28,34 @@ const MemberDetailPage = ({ inspectionDetail }) => {
   };
 
   useEffect(() => {
-    console.log(memberIdx);
+    dispatch(fetchMemberDetail(memberIdx));
+    dispatch(fetchMemberProgressList(memberIdx));
   }, []);
 
+  console.log(loading);
+  //console.log(loading[FETCH_MEMBER_DETAIL] === false && loading[FETCH_MEMBER_PROGRESS_LIST] === false);
   return (
-    <Paper>
-      <Formik
-        initialValues={inspectionDetail}
-        validationSchema={Yup.object().shape(validateSchema)}
-        onSubmit={data => {
-          handleSubmit(data);
-        }}
-      >
-        {({ values, setValues, handleChange, handleSubmit, touched, errors }) => (
-          <Box component="form" onSubmit={handleSubmit} p={3}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={12}>
-                <Alert severity="info">회원정보</Alert>
-              </Grid>
-              {/* <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  name="inspectionName"
-                  label="검사명"
-                  type="text"
-                  value={values.inspectionName}
-                  onChange={handleChange}
-                  error={Boolean(touched.inspectionName && errors.inspectionName)}
-                  helperText={touched.inspectionName && errors.inspectionName}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  name="rankCount"
-                  type="number"
-                  label="결과지 결과 갯수"
-                  value={values.rankCount}
-                  onChange={handleChange}
-                  error={Boolean(touched.rankCount && errors.rankCount)}
-                  helperText={touched.rankCount && errors.rankCount}
-                />
-              </Grid> */}
-              <Grid item xs={12} sm={12}>
-                <Alert severity="success">검사 진행 상황</Alert>
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <MemberProgressList />
-              </Grid>
-              {/*   <Grid container justifyContent="center">
-                <Button
-                  type="submit"
-                  variant="contained"
-                  size="large"
-                  sx={{ mt: 3, mb: 2 }}
-                  style={{ background: '#27313e', height: '52px' }}
-                >
-                  수정
-                </Button>
-              </Grid> */}
+    <Box>
+      <MenuBar match={match} />
+
+      {loading ? (
+        <Loader />
+      ) : (
+        <Paper>
+          <Grid container spacing={2} sx={{ p: 2 }}>
+            <Grid item xs={12} sm={12}>
+              <MemberDetail memberDetail={memberDetail} />
             </Grid>
-          </Box>
-        )}
-      </Formik>
-    </Paper>
+            <Grid item xs={12} sm={12}>
+              <Alert severity="success">검사 진행 상황</Alert>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <MemberProgressList progressList={progressList} />
+            </Grid>
+          </Grid>
+        </Paper>
+      )}
+    </Box>
   );
 };
 
