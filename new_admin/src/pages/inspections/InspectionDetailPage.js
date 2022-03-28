@@ -45,7 +45,11 @@ const InspectionDetailPage = ({ match }) => {
     /* return () => {
       clearQuestion();
     }; */
-  }, [inspectionIdx, tabValue]);
+  }, [tabValue]);
+
+  useEffect(() => {
+    setTabValue('basic');
+  }, [inspectionIdx]);
 
   return (
     <Box>

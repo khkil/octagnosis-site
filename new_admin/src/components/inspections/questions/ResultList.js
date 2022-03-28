@@ -39,13 +39,14 @@ const useStyles = makeStyles(theme => ({
 
 const ResultList = ({ inspectionIdx, resultList, fetchQuestionList }) => {
   const classes = useStyles();
-  const firstResultIdx = useMemo(() => resultList[0].resultIdx, [resultList]);
+  const firstResultIdx = useMemo(() => (resultList.length > 0 ? resultList[0].resultIdx : -1), [resultList]);
   const [value, setValue] = useState(firstResultIdx);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  if (firstResultIdx === -1) return null;
   return (
     <Paper>
       <Box mt={2} sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex' }}>
