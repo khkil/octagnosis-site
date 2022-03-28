@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Routes from './routers/Router';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import './App.css';
+import { useDispatch } from 'react-redux';
+import { fetchInspectionList } from './modules/inspection';
 
 const theme = createTheme({
   palette: {
@@ -18,6 +20,11 @@ const theme = createTheme({
 });
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchInspectionList());
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <Routes />

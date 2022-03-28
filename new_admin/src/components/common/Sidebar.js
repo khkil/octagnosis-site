@@ -4,15 +4,7 @@ import List from '@mui/material/List';
 import { makeStyles } from '@mui/styles';
 import SidebarMenu from './SidebarMenu';
 import { sidebarRoutes } from '../../routers';
-import {
-  Box,
-  Divider,
-  Drawer,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Toolbar,
-} from '@mui/material';
+import { Box, Divider, Drawer, ListItem, ListItemIcon, ListItemText, Toolbar } from '@mui/material';
 
 const Sidebar = () => {
   const drawerWidth = 240;
@@ -40,14 +32,7 @@ const Sidebar = () => {
         }}
       >
         {sidebarRoutes.map(({ header, name, path, children, icon }, index) => (
-          <SidebarMenu
-            key={index}
-            header={header}
-            name={name}
-            path={path}
-            children={children}
-            icon={icon}
-          />
+          <SidebarMenu key={index} header={header} name={name} path={path} children={children} icon={icon} />
         ))}
       </Box>
     </Drawer>

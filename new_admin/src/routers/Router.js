@@ -1,11 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-  useLocation,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch, useLocation } from 'react-router-dom';
 import { authLayoutRoutes, commonLayoutRoutes } from '.';
 import CommonLayout from '../components/layouts/CommonLayout';
 import AuthLayout from '../components/layouts/AuthLayout';
@@ -22,17 +16,13 @@ const PrivateRoute = ({ ...rest }) => {
     isLoggedIn: auth.isLoggedIn,
   }));
 
-  const loadingCompleted = useMemo(
-    () => isLoading != null && !Boolean(isLoading),
-    [isLoading],
-  );
+  const loadingCompleted = useMemo(() => isLoading != null && !Boolean(isLoading), [isLoading]);
 
   useEffect(() => {
     dispatch(validateTokenRequest());
   }, []);
 
-  if (!isLoggedIn && pathname !== '/auth/login')
-    return <Redirect to="/auth/login" />;
+  if (!isLoggedIn && pathname !== '/auth/login') return <Redirect to="/auth/login" />;
   return <Route {...rest} />;
 };
 

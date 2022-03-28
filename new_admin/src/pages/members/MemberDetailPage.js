@@ -11,29 +11,20 @@ import { fetchMemberDetail, FETCH_MEMBER_DETAIL } from '../../modules/member';
 import Loader from '../../components/ui/Loader';
 import MemberDetail from '../../components/members/MemberDetail';
 
-const MemberDetailPage = ({ match, inspectionDetail }) => {
-  const { memberIdx } = useParams();
+const MemberDetailPage = ({ match }) => {
   const dispatch = useDispatch();
+  const { memberIdx } = useParams();
   const { loading, memberDetail, progressList } = useSelector(({ loading, member, progress }) => ({
     loading: !(loading[FETCH_MEMBER_DETAIL] === false && loading[FETCH_MEMBER_PROGRESS_LIST] === false),
     memberDetail: member.selected,
     progressList: progress.list,
   }));
-  const validateSchema = {
-    inspectionName: Yup.string().required('검사명을 입력하세요'),
-  };
-
-  const handleSubmit = data => {
-    console.log(data);
-  };
 
   useEffect(() => {
     dispatch(fetchMemberDetail(memberIdx));
     dispatch(fetchMemberProgressList(memberIdx));
   }, []);
 
-  console.log(loading);
-  //console.log(loading[FETCH_MEMBER_DETAIL] === false && loading[FETCH_MEMBER_PROGRESS_LIST] === false);
   return (
     <Box>
       <MenuBar match={match} />

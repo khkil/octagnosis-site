@@ -48,7 +48,6 @@ const MemberListPage = ({ match, history, location }) => {
     dispatch(fetchMemberList(query));
   }, [location.search]);
 
-  if (loading) return <Loader />;
   return (
     <Box>
       <MenuBar match={match} />

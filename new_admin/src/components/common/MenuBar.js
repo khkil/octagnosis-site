@@ -9,12 +9,7 @@ const MenuBar = ({ match }) => {
   useEffect(() => {
     commonLayoutRoutes.forEach(route => {
       const { name, path, children } = route;
-      if (path === match.path) {
-        setMenuInfo({
-          name: name,
-        });
-        return;
-      }
+
       if (children) {
         children.forEach(child => {
           const fullName = `${name} / ${child.name}`;
@@ -25,6 +20,13 @@ const MenuBar = ({ match }) => {
             });
           }
         });
+      } else {
+        if (path === match.path) {
+          setMenuInfo({
+            name: name,
+          });
+          return;
+        }
       }
     });
   }, []);

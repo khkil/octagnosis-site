@@ -1,6 +1,6 @@
 import { Box, Paper } from '@mui/material';
 import React, { useEffect, useMemo, useState } from 'react';
-import InspectionDetailTabs from '../../components/inspections/InspectionDetailTabs';
+import HorizonalTabs from '../../components/inspections/HorizonalTabs';
 import MenuBar from '../../components/common/MenuBar';
 import InspectionDetailInfo from '../../components/inspections/InspectionDetailInfo';
 import ResultList from '../../components/inspections/questions/ResultList';
@@ -8,10 +8,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchInspectionDetail, FETCH_INPECTION_DETAIL } from '../../modules/inspection';
 import question, { clearQuestion, fetchQuestionList, FETCH_QUESTION_LIST } from '../../modules/question';
 import Loader from '../../components/ui/Loader';
+import { useParams } from 'react-router-dom';
+
+const tabData = [
+  {
+    text: '상세정보',
+    value: 'basic',
+  },
+  {
+    text: '문항관리',
+    value: 'question',
+  },
+];
 
 const InspectionDetailPage = ({ match }) => {
   const dispatch = useDispatch();
-  const [tabValue, setTabValue] = useState('question');
+  const { inspectionIdx } = useParams();
+  const [tabValue, setTabValue] = useState(tabData[0].value);
 
   const { loading, inspectionDetail, resultList } = useSelector(({ loading, inspection, question }) => ({
     loading: {
@@ -22,8 +35,6 @@ const InspectionDetailPage = ({ match }) => {
     resultList: question.list,
   }));
 
-  const inspectionIdx = useMemo(() => location.pathname.split('inspections/')[1], [location.pathname]);
-
   useEffect(() => {
     if (tabValue === 'basic') {
       dispatch(fetchInspectionDetail(inspectionIdx));
@@ -31,15 +42,15 @@ const InspectionDetailPage = ({ match }) => {
       dispatch(fetchQuestionList(inspectionIdx));
     }
 
-    return () => {
+    /* return () => {
       clearQuestion();
-    };
-  }, [tabValue]);
+    }; */
+  }, [inspectionIdx, tabValue]);
 
   return (
     <Box>
       <MenuBar match={match} />
-      <InspectionDetailTabs tabValue={tabValue} setTabValue={setTabValue} />
+      <HorizonalTabs tabData={tabData} tabValue={tabValue} setTabValue={setTabValue} />
 
       {tabValue === 'basic' ? (
         loading.inspection ? (

@@ -25,22 +25,21 @@ const authRoute = {
   ],
 };
 
-const propensityInspectionRoute = {
+const inspectionRoute = {
   header: '검사 관리',
-  name: '성향 검사',
-  path: '/manage/inspections/4',
+  name: '검사 목록',
+  path: '/manage/inspections',
   icon: <Subject />,
-  component: InspectionDetailPage,
+  children: [
+    {
+      path: '/:inspectionIdx',
+      name: '검사 상세',
+      component: InspectionDetailPage,
+    },
+  ],
 };
 
-const jobInspectionRoute = {
-  name: '직무 검사',
-  path: '/manage/inspections/5',
-  icon: <Subject />,
-  component: InspectionDetailPage,
-};
-
-const memberListRoute = {
+const memberRoute = {
   header: '사용자 관리',
   name: '회원 관리',
   path: '/manage/members',
@@ -48,17 +47,21 @@ const memberListRoute = {
   children: [
     {
       path: '',
-      name: '회원목록',
+      name: '회원 목록',
       component: MemberListPage,
     },
+    {
+      path: '/results',
+      name: '검사 결과',
+      component: MemberListPage,
+    },
+    {
+      name: '회원 상세',
+      path: '/:memberIdx',
+      icon: <Subject />,
+      component: MemberDetailPage,
+    },
   ],
-};
-
-const memberDetailRoute = {
-  name: '회원 상세',
-  path: '/manage/members/:memberIdx',
-  icon: <Subject />,
-  component: MemberDetailPage,
 };
 
 const groupListRoute = {
@@ -75,18 +78,8 @@ const groupDetailRoute = {
   component: LoginPage,
 };
 
-export const sidebarRoutes = [
-  propensityInspectionRoute,
-  jobInspectionRoute,
-  memberListRoute,
-  groupListRoute,
-];
+export const sidebarRoutes = [inspectionRoute, memberRoute, groupListRoute];
 
-export const commonLayoutRoutes = [
-  mainDashBoardRoute,
-  groupDetailRoute,
-  memberDetailRoute,
-  ...sidebarRoutes,
-];
+export const commonLayoutRoutes = [mainDashBoardRoute, ...sidebarRoutes, groupDetailRoute];
 
 export const authLayoutRoutes = [authRoute];
