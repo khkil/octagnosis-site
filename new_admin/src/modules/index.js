@@ -3,11 +3,12 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import loading from './loading';
 import { all, call } from 'redux-saga/effects';
-import auth, { authSaga } from './auth';
+import auth, { authSaga, LOGOUT_SUCCESS } from './auth';
 import inspection, { inspectionSaga } from './inspection';
 import question, { questionSaga } from './question';
 import member, { memberSaga } from './member';
 import progress, { progressSaga } from './progress';
+import menu from './menu';
 
 const persistConfig = {
   key: 'root',
@@ -15,14 +16,23 @@ const persistConfig = {
   whitelist: ['auth'],
 };
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   loading,
   auth,
   inspection,
   member,
   question,
   progress,
+  menu,
 });
+
+const rootReducer = (state, action) => {
+  const { type } = action;
+  if (type === LOGOUT_SUCCESS) {
+    return appReducer(undefined, action);
+  }
+  return appReducer(state, action);
+};
 
 //root saga
 export function* rootSaga() {

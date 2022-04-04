@@ -1,83 +1,79 @@
-import { createAction, handleActions } from "redux-actions";
-import { takeLatest, call, put, delay } from "redux-saga/effects";
-import { startLoading, endLoading } from "./loading"
-import { loginApi, logoutApi, validateTokenApi } from "../api/authApi";
-import { DELAY_TIME } from "../utils/sagaUtil";
+import { createAction, handleActions } from 'redux-actions';
+import { takeLatest, call, put, delay } from 'redux-saga/effects';
+import { startLoading, endLoading } from './loading';
+import { loginApi, logoutApi, validateTokenApi } from '../api/authApi';
+import { DELAY_TIME } from '../utils/sagaUtil';
 
 /* 로그인 */
-export const LOGIN_REQUEST = "auth/LOGIN_REQUEST";
-const LOGIN_REQUEST_SUCCESS = "auth/LOGIN_REQUEST_SUCCESS";
-const LOGIN_REQUEST_FAILURE = "auth/LOGIN_REQUEST_FAILURE";
+export const LOGIN_REQUEST = 'auth/LOGIN_REQUEST';
+const LOGIN_SUCCESS = 'auth/LOGIN_SUCCESS';
+const LOGIN_FAILURE = 'auth/LOGIN_FAILURE';
 
 export const loginRequest = createAction(LOGIN_REQUEST);
-const loginSuccess = createAction(LOGIN_REQUEST_SUCCESS, response => ({
+const loginSuccess = createAction(LOGIN_SUCCESS, response => ({
   success: response.success,
-  username: response.data.username
+  username: response.data.username,
 }));
-const loginFailure = createAction(LOGIN_REQUEST_FAILURE, error => error);
+const loginFailure = createAction(LOGIN_FAILURE, error => error);
 
 function* loginSaga(action) {
-
   yield put(startLoading(LOGIN_REQUEST));
-  try{
+  try {
     yield delay(DELAY_TIME);
     const response = yield call(loginApi, action.payload);
     yield put(loginSuccess(response));
-  }catch(e){
+  } catch (e) {
     console.error(e);
     yield put(loginFailure(e));
-  }finally{
-    yield put(endLoading(LOGIN_REQUEST))
+  } finally {
+    yield put(endLoading(LOGIN_REQUEST));
   }
 }
 /* 로그아웃 */
 
-export const LOGOUT_REQUEST = "auth/LOGOUT_REQUEST";
-const LOGOUT_REQUEST_SUCCESS = "auth/LOGOUT_REQUEST_SUCCESS";
-const LOGOUT_REQUEST_FAILURE = "auth/LOGOUT_REQUEST_FAILURE";
+export const LOGOUT_REQUEST = 'auth/LOGOUT_REQUEST';
+export const LOGOUT_SUCCESS = 'auth/LOGOUT_SUCCESS';
+const LOGOUT_FAILURE = 'auth/LOGOUT_FAILURE';
 
 export const logoutRequest = createAction(LOGOUT_REQUEST);
-const logoutSuccess = createAction(LOGOUT_REQUEST_SUCCESS, data => data);
-const logoutFailure = createAction(LOGOUT_REQUEST_FAILURE, error => error);
+const logoutSuccess = createAction(LOGOUT_SUCCESS, data => data);
+const logoutFailure = createAction(LOGOUT_FAILURE, error => error);
 
 function* logoutSaga(action) {
-
   yield put(startLoading(LOGOUT_REQUEST));
-  try{
+  try {
     yield delay(DELAY_TIME);
     const response = yield call(logoutApi, action.payload);
     yield put(logoutSuccess(response));
-  }catch(e){
+  } catch (e) {
     yield put(logoutFailure(e));
-  }finally{
+  } finally {
     yield put(endLoading(LOGOUT_REQUEST));
   }
 }
 
-
 /* 토큰 유효성 검사 */
-export const VALIDATE_TOKEN_REQUEST = "auth/VALIDATE_TOKEN_REQUEST";
-const VALIDATE_TOKEN_SUCCESS = "auth/VALIDATE_TOKEN_SUCCESS";
-const VALIDATE_TOKEN_FAILURE = "auth/VALIDATE_TOKEN_FAILURE";
+export const VALIDATE_TOKEN_REQUEST = 'auth/VALIDATE_TOKEN_REQUEST';
+const VALIDATE_TOKEN_SUCCESS = 'auth/VALIDATE_TOKEN_SUCCESS';
+const VALIDATE_TOKEN_FAILURE = 'auth/VALIDATE_TOKEN_FAILURE';
 
 export const validateTokenRequest = createAction(VALIDATE_TOKEN_REQUEST);
 const validateTokenSuccess = createAction(VALIDATE_TOKEN_SUCCESS, response => ({
   success: response.success,
-  username: response.data.username
+  username: response.data.username,
 }));
 const validateTokenFailure = createAction(VALIDATE_TOKEN_FAILURE, error => error);
 
 function* validateTokenSaga(action) {
-
   yield put(startLoading(VALIDATE_TOKEN_REQUEST));
-  try{
+  try {
     //yield delay(DELAY_TIME);
     const response = yield call(validateTokenApi, action.payload);
     yield put(validateTokenSuccess(response));
-  }catch(e){
+  } catch (e) {
     yield put(validateTokenFailure(e));
-  }finally{
-    yield put(endLoading(VALIDATE_TOKEN_REQUEST))
+  } finally {
+    yield put(endLoading(VALIDATE_TOKEN_REQUEST));
   }
 }
 
@@ -92,44 +88,46 @@ export function* authSaga() {
 const initialState = {
   isLoggedIn: false,
   username: null,
-  error: null
-}
+  error: null,
+};
 
-const auth = handleActions({
-  
-  [LOGIN_REQUEST_SUCCESS]: (state, action) => ({
-    ...state,
-    username: action.payload.username,
-    isLoggedIn: action.payload.success
-  }),
-  [LOGIN_REQUEST_FAILURE]: (state, action) => ({
-    ...state,
-    isLoggedIn: false,
-    username: null,
-    error: action.payload
-  }),
+const auth = handleActions(
+  {
+    [LOGIN_SUCCESS]: (state, action) => ({
+      ...state,
+      username: action.payload.username,
+      isLoggedIn: action.payload.success,
+    }),
+    [LOGIN_FAILURE]: (state, action) => ({
+      ...state,
+      isLoggedIn: false,
+      username: null,
+      error: action.payload,
+    }),
 
-  [LOGOUT_REQUEST_SUCCESS]: () => (state) => ({
-    ...state,
-    ...initialState
-  }),
-  [LOGOUT_REQUEST_FAILURE]: (state, action) => ({
-    ...state,
-    ...initialState,
-    error: action.payload
-  }),
+    [LOGOUT_SUCCESS]: () => state => ({
+      ...state,
+      ...initialState,
+    }),
+    [LOGOUT_FAILURE]: (state, action) => ({
+      ...state,
+      ...initialState,
+      error: action.payload,
+    }),
 
-  [VALIDATE_TOKEN_SUCCESS]: (state, action) => ({
-    ...state,
-    username: action.payload.username,
-    isLoggedIn: action.payload.success
-  }),
-  [VALIDATE_TOKEN_FAILURE]: (state, action) => ({
-    ...state,
-    isLoggedIn: false,
-    username: null,
-    error: action.payload
-  }),
-}, initialState)
+    [VALIDATE_TOKEN_SUCCESS]: (state, action) => ({
+      ...state,
+      username: action.payload.username,
+      isLoggedIn: action.payload.success,
+    }),
+    [VALIDATE_TOKEN_FAILURE]: (state, action) => ({
+      ...state,
+      isLoggedIn: false,
+      username: null,
+      error: action.payload,
+    }),
+  },
+  initialState,
+);
 
 export default auth;

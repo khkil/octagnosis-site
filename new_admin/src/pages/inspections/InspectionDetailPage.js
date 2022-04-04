@@ -41,11 +41,7 @@ const InspectionDetailPage = ({ match }) => {
     } else if (tabValue === 'question') {
       dispatch(fetchQuestionList(inspectionIdx));
     }
-
-    /* return () => {
-      clearQuestion();
-    }; */
-  }, [tabValue]);
+  }, [inspectionIdx, tabValue]);
 
   useEffect(() => {
     setTabValue('basic');

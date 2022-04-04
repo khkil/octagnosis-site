@@ -1,24 +1,27 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { List, ListItemButton, ListItemIcon, ListItemText, Collapse, ListSubheader, Divider } from '@mui/material';
 import { ExpandLess, ExpandMore, StarBorder } from '@mui/icons-material';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleManu } from '../../modules/menu';
 
-const SidebarMenu = ({ header, name, path, children, icon }) => {
-  const { pathname } = useLocation();
+const SidebarMenu = ({ header, name, path, children, icon, menuReducer }) => {
+  const dispatch = useDispatch();
   const history = useHistory();
 
-  const isInspectionMenus = useMemo(() => path.indexOf('inspection') > -1);
-  const isActived = useMemo(() => pathname.indexOf(path) > -1, [pathname]);
   const hasChildren = useMemo(() => children && children.filter(({ path }) => path.indexOf(':') === -1).length > 0);
+  const [open, setOpen] = useState(menuReducer[path]);
 
-  const [open, setOpen] = useState(isActived);
-
+  const toggleMenu = useCallback(() => {
+    dispatch(toggleManu(path));
+    setOpen(!open);
+  });
   const handleClick = () => {
     if (!hasChildren) {
       goPage(path);
+    } else {
+      toggleMenu();
     }
-    setOpen(!open);
   };
 
   const goPage = path => {
@@ -34,7 +37,7 @@ const SidebarMenu = ({ header, name, path, children, icon }) => {
           {header}
         </ListSubheader>
       )}
-      {isInspectionMenus ? (
+      {path.indexOf('inspection') > -1 ? (
         inspectionList.map(({ inspectionIdx, inspectionName }) => (
           <ListItemButton
             key={inspectionIdx}

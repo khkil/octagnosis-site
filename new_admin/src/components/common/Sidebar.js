@@ -5,9 +5,14 @@ import { makeStyles } from '@mui/styles';
 import SidebarMenu from './SidebarMenu';
 import { sidebarRoutes } from '../../routers';
 import { Box, Divider, Drawer, ListItem, ListItemIcon, ListItemText, Toolbar } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 const Sidebar = () => {
   const drawerWidth = 240;
+
+  const { menuReducer } = useSelector(({ menu }) => ({
+    menuReducer: menu,
+  }));
 
   return (
     <Drawer
@@ -32,7 +37,15 @@ const Sidebar = () => {
         }}
       >
         {sidebarRoutes.map(({ header, name, path, children, icon }, index) => (
-          <SidebarMenu key={index} header={header} name={name} path={path} children={children} icon={icon} />
+          <SidebarMenu
+            key={index}
+            header={header}
+            name={name}
+            path={path}
+            children={children}
+            icon={icon}
+            menuReducer={menuReducer}
+          />
         ))}
       </Box>
     </Drawer>
