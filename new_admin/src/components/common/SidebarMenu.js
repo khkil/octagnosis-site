@@ -10,7 +10,7 @@ const SidebarMenu = ({ header, name, path, children, icon, menuReducer }) => {
   const history = useHistory();
 
   const hasChildren = useMemo(() => children && children.filter(({ path }) => path.indexOf(':') === -1).length > 0);
-  const [open, setOpen] = useState(menuReducer[path]);
+  const [open, setOpen] = useState(Boolean(menuReducer[path]));
 
   const toggleMenu = useCallback(() => {
     dispatch(toggleManu(path));

@@ -12,11 +12,10 @@ const MenuBar = ({ match }) => {
 
       if (children) {
         children.forEach(child => {
-          const fullName = `${name} / ${child.name}`;
           const fullPath = path + child.path;
           if (fullPath === match.path) {
             setMenuInfo({
-              name: fullName,
+              name: child.name,
             });
           }
         });

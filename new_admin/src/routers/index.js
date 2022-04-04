@@ -2,7 +2,6 @@ import MainDashBoard from '../pages/dashboards/MainDashBoard';
 import React from 'react';
 import LoginPage from '../pages/auth/LoginPage';
 import { Subject } from '@mui/icons-material';
-import QuestionListPage from '../pages/inspections/QuestionListPage';
 import MemberListPage from '../pages/members/MemberListPage';
 import MemberDetailPage from '../pages/members/MemberDetailPage';
 import InspectionDetailPage from '../pages/inspections/InspectionDetailPage';

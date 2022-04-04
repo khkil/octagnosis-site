@@ -1,4 +1,4 @@
-import { Box, Paper } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 import React, { useEffect, useMemo, useState } from 'react';
 import HorizonalTabs from '../../components/inspections/HorizonalTabs';
 import MenuBar from '../../components/common/MenuBar';
@@ -49,7 +49,10 @@ const InspectionDetailPage = ({ match }) => {
 
   return (
     <Box>
-      <MenuBar match={match} />
+      <Typography variant="h5" sx={{ mb: 2 }}>
+        {inspectionDetail.inspectionName}
+      </Typography>
+      {/* <MenuBar match={match} /> */}
       <HorizonalTabs tabData={tabData} tabValue={tabValue} setTabValue={setTabValue} />
 
       {tabValue === 'basic' ? (

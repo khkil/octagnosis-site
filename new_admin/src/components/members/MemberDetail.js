@@ -45,7 +45,6 @@ const MemberDetail = ({ memberDetail }) => {
   };
 
   const handleSubmit = data => {
-    console.log(memberIdx, data);
     updateMemberApi(memberIdx, data)
       .then(({ success }) => {
         if (Boolean(success)) {
