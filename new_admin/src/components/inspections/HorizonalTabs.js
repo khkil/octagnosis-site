@@ -9,6 +9,9 @@ const useStyles = makeStyles(theme => ({
       background: theme.palette.primary.main,
     },
   },
+  tab: {
+    border: '1px solid rgb(224, 227, 231) !important',
+  },
 }));
 
 const HorizonalTabs = ({ tabData, tabValue, setTabValue }) => {
@@ -27,7 +30,12 @@ const HorizonalTabs = ({ tabData, tabValue, setTabValue }) => {
       aria-label="disabled tabs example"
     >
       {tabData.map(({ text, value }, index) => (
-        <Tab key={index} label={<Typography variant="subtitle1">{text}</Typography>} value={value} />
+        <Tab
+          className={classes.tab}
+          key={index}
+          label={<Typography variant="subtitle1">{text}</Typography>}
+          value={value}
+        />
       ))}
     </Tabs>
   );

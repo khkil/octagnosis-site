@@ -29,7 +29,10 @@ const appReducer = combineReducers({
 const rootReducer = (state, action) => {
   const { type } = action;
   if (type === LOGOUT_SUCCESS) {
-    return appReducer(undefined, action);
+    const persistState = {
+      inspection: state.inspection,
+    };
+    return appReducer(persistState, action);
   }
   return appReducer(state, action);
 };

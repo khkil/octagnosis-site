@@ -9,6 +9,10 @@ const useStyles = makeStyles(theme => ({
       background: theme.palette.primary.main,
     },
   },
+  tab: {
+    border: '1px solid rgb(224, 227, 231)',
+    color: 'red !important',
+  },
 }));
 
 const InspectionDetailTabs = ({ tabValue, setTabValue }) => {
@@ -17,6 +21,7 @@ const InspectionDetailTabs = ({ tabValue, setTabValue }) => {
   const handleChange = (event, value) => {
     setTabValue(value);
   };
+
   return (
     <Tabs
       className={classes.tabs}
@@ -26,8 +31,8 @@ const InspectionDetailTabs = ({ tabValue, setTabValue }) => {
       textColor="primary"
       aria-label="disabled tabs example"
     >
-      <Tab label={<Typography variant="subtitle1">상세정보</Typography>} value="basic" />
-      <Tab label={<Typography variant="subtitle1">문항관리</Typography>} value="question" />
+      <Tab className={classes.tab} label={<Typography variant="subtitle1">상1세정보</Typography>} value="basic" />
+      <Tab className={classes.tab} label={<Typography variant="subtitle1">문항관리</Typography>} value="question" />
     </Tabs>
   );
 };

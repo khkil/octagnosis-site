@@ -35,10 +35,13 @@ const useStyles = makeStyles(theme => ({
       background: theme.palette.primary.main,
     },
   },
+  tab: {
+    border: '1px solid rgb(224, 227, 231) !important',
+  },
 }));
 
 const ResultList = ({ inspectionIdx, resultList, fetchQuestionList }) => {
-  const classes = useStyles();
+  const classes = useStyles({});
   const firstResultIdx = useMemo(() => (resultList.length > 0 ? resultList[0].resultIdx : -1), [resultList]);
   const [value, setValue] = useState(firstResultIdx);
 
@@ -60,7 +63,7 @@ const ResultList = ({ inspectionIdx, resultList, fetchQuestionList }) => {
           sx={{ borderRight: 1, borderColor: 'divider' }}
         >
           {resultList.map(({ resultIdx, resultName }) => (
-            <Tab key={resultIdx} label={resultName} value={resultIdx} />
+            <Tab className={classes.tab} key={resultIdx} label={resultName} value={resultIdx} />
           ))}
         </Tabs>
 

@@ -27,8 +27,12 @@ const useStyles = makeStyles({
 });
 
 const MemberProgress = ({ inspectionName, userCount, totalCount }) => {
+  console.log(userCount, totalCount);
   const classes = useStyles();
-  const progressValue = useMemo(() => Math.round((userCount / totalCount) * 100), [userCount, totalCount]);
+  const progressValue = useMemo(
+    () => (userCount === 0 ? 0 : Math.round((userCount / totalCount) * 100)),
+    [userCount, totalCount],
+  );
 
   return (
     <StyledTableRow>

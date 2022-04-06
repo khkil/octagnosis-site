@@ -9,7 +9,6 @@ import { useSelector } from 'react-redux';
 
 const Sidebar = () => {
   const drawerWidth = 240;
-
   const { menuReducer } = useSelector(({ menu }) => ({
     menuReducer: menu,
   }));

@@ -5,6 +5,10 @@ import { Subject } from '@mui/icons-material';
 import MemberListPage from '../pages/members/MemberListPage';
 import MemberDetailPage from '../pages/members/MemberDetailPage';
 import InspectionDetailPage from '../pages/inspections/InspectionDetailPage';
+import GroupListPage from '../pages/groups/GroupListPage';
+import GroupDetailPage from '../pages/groups/GroupDetailPage';
+import InspectionStatisticsPage from '../pages/statistics/InspectionStatisticsPage';
+import AccessStatisticsPage from '../pages/statistics/AccessStatisticsPage';
 
 const mainDashBoardRoute = {
   path: '/',
@@ -20,6 +24,7 @@ const authRoute = {
       path: '/login',
       name: '로그인 페이지',
       component: LoginPage,
+      icon: <Subject />,
     },
   ],
 };
@@ -34,6 +39,7 @@ const inspectionRoute = {
       path: '/:inspectionIdx',
       name: '검사 상세',
       component: InspectionDetailPage,
+      icon: <Subject />,
     },
   ],
 };
@@ -47,38 +53,63 @@ const memberRoute = {
     {
       path: '',
       name: '회원 목록',
+      icon: <Subject />,
       component: MemberListPage,
     },
     {
       path: '/results',
       name: '검사 결과',
+      icon: <Subject />,
       component: MemberListPage,
     },
     {
       name: '회원 상세',
       path: '/:memberIdx',
-      icon: <Subject />,
       component: MemberDetailPage,
+      icon: <Subject />,
     },
   ],
 };
 
-const groupListRoute = {
+const groupRoute = {
   name: '기관 관리',
   path: '/manage/groups',
   icon: <Subject />,
-  component: LoginPage,
+
+  children: [
+    {
+      name: '기관 목록',
+      path: '',
+      icon: <Subject />,
+      component: GroupListPage,
+    },
+    {
+      name: '기관 상세',
+      path: '/:groupIdx',
+      icon: <Subject />,
+      component: GroupDetailPage,
+    },
+  ],
 };
 
-const groupDetailRoute = {
-  name: '기관 상세',
-  path: '/manage/groups/:groupIdx',
-  icon: <Subject />,
-  component: LoginPage,
-};
+const statisticsRoutes = [
+  {
+    header: '통계',
+    name: '검사 통계',
+    path: '/statistics/inspection',
+    icon: <Subject />,
+    component: InspectionStatisticsPage,
+  },
+  {
+    name: '접속 통계',
+    path: '/statistics/access',
+    icon: <Subject />,
+    component: AccessStatisticsPage,
+  },
+];
 
-export const sidebarRoutes = [inspectionRoute, memberRoute, groupListRoute];
+export const sidebarRoutes = [inspectionRoute, memberRoute, groupRoute, ...statisticsRoutes];
 
-export const commonLayoutRoutes = [mainDashBoardRoute, ...sidebarRoutes, groupDetailRoute];
+export const commonLayoutRoutes = [mainDashBoardRoute, ...sidebarRoutes];
 
 export const authLayoutRoutes = [authRoute];

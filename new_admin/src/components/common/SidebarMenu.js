@@ -37,7 +37,7 @@ const SidebarMenu = ({ header, name, path, children, icon, menuReducer }) => {
           {header}
         </ListSubheader>
       )}
-      {path.indexOf('inspection') > -1 ? (
+      {path.indexOf('/manage/inspection') > -1 ? (
         inspectionList.map(({ inspectionIdx, inspectionName }) => (
           <ListItemButton
             key={inspectionIdx}
@@ -46,15 +46,14 @@ const SidebarMenu = ({ header, name, path, children, icon, menuReducer }) => {
             }}
             style={{ background: '#344152' }}
           >
-            <ListItemIcon>{icon}</ListItemIcon>
-
+            <ListItemIcon style={{ color: 'white' }}>{icon}</ListItemIcon>
             <ListItemText primary={inspectionName} />
             {hasChildren && (open ? <ExpandLess /> : <ExpandMore />)}
           </ListItemButton>
         ))
       ) : (
         <ListItemButton onClick={handleClick} style={{ background: '#344152' }}>
-          <ListItemIcon>{icon}</ListItemIcon>
+          <ListItemIcon style={{ color: 'white' }}>{icon}</ListItemIcon>
 
           <ListItemText primary={name} />
           {hasChildren && (open ? <ExpandLess /> : <ExpandMore />)}
@@ -73,9 +72,7 @@ const SidebarMenu = ({ header, name, path, children, icon, menuReducer }) => {
                     goPage(path + child.path);
                   }}
                 >
-                  <ListItemIcon>
-                    <StarBorder />
-                  </ListItemIcon>
+                  <ListItemIcon style={{ color: 'white' }}>{child.icon}</ListItemIcon>
                   <ListItemText primary={child.name} />
                 </ListItemButton>
               ),

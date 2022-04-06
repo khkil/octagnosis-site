@@ -82,7 +82,6 @@ const QuestionDetail = ({ questionDetail, onClose, onSubmit }) => {
     }
     fileUploadApi(directory, files)
       .then(({ success }) => {
-        alert(success);
         if (success) {
           const uploadedFiles = files.map(({ path }) => ({
             name: path,
