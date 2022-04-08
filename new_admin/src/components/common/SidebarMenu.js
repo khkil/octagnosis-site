@@ -72,7 +72,7 @@ const SidebarMenu = ({ header, name, path, children, icon, menuReducer }) => {
                     goPage(path + child.path);
                   }}
                 >
-                  <ListItemIcon style={{ color: 'white' }}>{child.icon}</ListItemIcon>
+                  <ListItemIcon sx={{ color: 'white' }}>{child.icon}</ListItemIcon>
                   <ListItemText primary={child.name} />
                 </ListItemButton>
               ),

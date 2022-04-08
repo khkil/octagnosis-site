@@ -1,7 +1,7 @@
 import MainDashBoard from '../pages/dashboards/MainDashBoard';
 import React from 'react';
 import LoginPage from '../pages/auth/LoginPage';
-import { Subject } from '@mui/icons-material';
+import { Person, Subject } from '@mui/icons-material';
 import MemberListPage from '../pages/members/MemberListPage';
 import MemberDetailPage from '../pages/members/MemberDetailPage';
 import InspectionDetailPage from '../pages/inspections/InspectionDetailPage';
@@ -24,7 +24,6 @@ const authRoute = {
       path: '/login',
       name: '로그인 페이지',
       component: LoginPage,
-      icon: <Subject />,
     },
   ],
 };
@@ -39,7 +38,6 @@ const inspectionRoute = {
       path: '/:inspectionIdx',
       name: '검사 상세',
       component: InspectionDetailPage,
-      icon: <Subject />,
     },
   ],
 };
@@ -48,25 +46,22 @@ const memberRoute = {
   header: '사용자 관리',
   name: '회원 관리',
   path: '/manage/members',
-  icon: <Subject />,
+  icon: <Person />,
   children: [
     {
       path: '',
       name: '회원 목록',
-      icon: <Subject />,
       component: MemberListPage,
     },
     {
       path: '/results',
       name: '검사 결과',
-      icon: <Subject />,
       component: MemberListPage,
     },
     {
       name: '회원 상세',
       path: '/:memberIdx',
       component: MemberDetailPage,
-      icon: <Subject />,
     },
   ],
 };
@@ -80,13 +75,11 @@ const groupRoute = {
     {
       name: '기관 목록',
       path: '',
-      icon: <Subject />,
       component: GroupListPage,
     },
     {
       name: '기관 상세',
       path: '/:groupIdx',
-      icon: <Subject />,
       component: GroupDetailPage,
     },
   ],
