@@ -5,11 +5,11 @@ import { startLoading, endLoading } from './loading';
 
 export const FETCH_INPECTION_LIST = 'inspection/FETCH_INPECTION_LIST';
 const FETCH_INPECTION_LIST_SUCCESS = 'inspection/FETCH_INPECTION_LIST_SUCCESS';
-const FETCH_INPECTION_LIST_FAILURE = 'inspection/FETCH_INPECTION_LIST_FAILURE';
+const FETCH_INPECTION_LIST_FAIL = 'inspection/FETCH_INPECTION_LIST_FAIL';
 
 export const fetchInspectionList = createAction(FETCH_INPECTION_LIST);
 const fetchInspectionListSuccess = createAction(FETCH_INPECTION_LIST_SUCCESS, data => data);
-const fetchInspectionListFailure = createAction(FETCH_INPECTION_LIST_FAILURE, e => e);
+const fetchInspectionListFailure = createAction(FETCH_INPECTION_LIST_FAIL, e => e);
 
 function* inpectionListSaga(action) {
   yield put(startLoading(FETCH_INPECTION_LIST));
@@ -26,11 +26,11 @@ function* inpectionListSaga(action) {
 
 export const FETCH_INPECTION_DETAIL = 'inspection/FETCH_INPECTION_DETAIL';
 const FETCH_INPECTION_DETAIL_SUCCESS = 'inspection/FETCH_INPECTION_DETAIL_SUCCESS';
-const FETCH_INPECTION_DETAIL_FAILURE = 'inspection/FETCH_INPECTION_DETAIL_FAILURE';
+const FETCH_INPECTION_DETAIL_FAIL = 'inspection/FETCH_INPECTION_DETAIL_FAIL';
 
 export const fetchInspectionDetail = createAction(FETCH_INPECTION_DETAIL);
 const fetchInspectionDetailSuccess = createAction(FETCH_INPECTION_DETAIL_SUCCESS, data => data);
-const fetchInspectionDetailFailure = createAction(FETCH_INPECTION_DETAIL_FAILURE, e => e);
+const fetchInspectionDetailFailure = createAction(FETCH_INPECTION_DETAIL_FAIL, e => e);
 
 function* inpectionDetailSaga(action) {
   yield put(startLoading(FETCH_INPECTION_DETAIL));
@@ -62,7 +62,7 @@ const inspection = handleActions(
       ...state,
       list: action.payload,
     }),
-    [FETCH_INPECTION_LIST_FAILURE]: (state, action) => ({
+    [FETCH_INPECTION_LIST_FAIL]: (state, action) => ({
       ...state,
       error: action.payload,
     }),
@@ -70,7 +70,7 @@ const inspection = handleActions(
       ...state,
       selected: action.payload,
     }),
-    [FETCH_INPECTION_DETAIL_FAILURE]: (state, action) => ({
+    [FETCH_INPECTION_DETAIL_FAIL]: (state, action) => ({
       ...state,
       error: action.payload,
     }),

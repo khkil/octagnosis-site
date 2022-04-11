@@ -121,7 +121,7 @@ const LoginPage = () => {
             </Grid>
             {/* <Grid item>
               <Link href="#" style={{float: "left"}}>
-                회원 가입
+                개인 가입
               </Link>
               <Link href="#" style={{float: "right"}}>
                 계정 찾기

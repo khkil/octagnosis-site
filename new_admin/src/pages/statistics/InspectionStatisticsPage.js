@@ -1,7 +1,16 @@
-import React from 'react';
+import { Grid } from '@mui/material';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 const InspectionStatisticsPage = () => {
-  return <div>InspectionStatisticsPage</div>;
+  const dispatch = useDispatch();
+
+  useEffect(() => {}, []);
+  return (
+    <Grid container alignContent={'center'}>
+      <Grid item>aasd</Grid>
+    </Grid>
+  );
 };
 
 export default InspectionStatisticsPage;

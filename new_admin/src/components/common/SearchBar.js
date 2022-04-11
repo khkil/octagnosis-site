@@ -2,7 +2,7 @@ import React, { memo, useEffect } from 'react';
 import { Paper, InputBase, IconButton } from '@mui/material';
 import { Search } from '@mui/icons-material';
 
-const SearchBar = memo(({ value, onChange, onSubmit }) => {
+const SearchBar = memo(({ value, onChange, onSubmit, placeholder }) => {
   return (
     <Paper
       onSubmit={onSubmit}
@@ -20,7 +20,7 @@ const SearchBar = memo(({ value, onChange, onSubmit }) => {
         defaultValue={value}
         name="searchText"
         onChange={onChange}
-        placeholder="이름을 입력해주세요"
+        placeholder={placeholder}
         inputProps={{ 'aria-label': 'search google maps' }}
       />
       <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">

@@ -32,7 +32,7 @@ const MenuBar = ({ match }) => {
 
   return (
     <>
-      <Grid item>
+      <Grid item xs={12}>
         <Typography variant="h5">{menuInfo.name}</Typography>
         {/*     <Breadcrumbs aria-label="Breadcrumb" mt={2}>
           <Typography>1</Typography>

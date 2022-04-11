@@ -1,7 +1,7 @@
 import MainDashBoard from '../pages/dashboards/MainDashBoard';
 import React from 'react';
 import LoginPage from '../pages/auth/LoginPage';
-import { Person, Subject } from '@mui/icons-material';
+import { Person, Subject, Group, AdminPanelSettings } from '@mui/icons-material';
 import MemberListPage from '../pages/members/MemberListPage';
 import MemberDetailPage from '../pages/members/MemberDetailPage';
 import InspectionDetailPage from '../pages/inspections/InspectionDetailPage';
@@ -30,8 +30,8 @@ const authRoute = {
 
 const inspectionRoute = {
   header: '검사 관리',
-  name: '검사 목록',
-  path: '/manage/inspections',
+  name: '검사 리스트',
+  path: '/inspections',
   icon: <Subject />,
   children: [
     {
@@ -44,22 +44,35 @@ const inspectionRoute = {
 
 const memberRoute = {
   header: '사용자 관리',
-  name: '회원 관리',
-  path: '/manage/members',
+  name: '개인 관리',
+  path: '/members',
   icon: <Person />,
   children: [
     {
       path: '',
-      name: '회원 목록',
+      name: '개인 리스트',
       component: MemberListPage,
     },
     {
-      path: '/results',
-      name: '검사 결과',
+      name: '개인 상세',
+      path: '/:memberIdx',
+      component: MemberDetailPage,
+    },
+  ],
+};
+
+const managerRoute = {
+  name: '매니저 관리',
+  path: '/managers',
+  icon: <AdminPanelSettings />,
+  children: [
+    {
+      path: '',
+      name: '매니저 리스트',
       component: MemberListPage,
     },
     {
-      name: '회원 상세',
+      name: '매니저 상세',
       path: '/:memberIdx',
       component: MemberDetailPage,
     },
@@ -67,18 +80,18 @@ const memberRoute = {
 };
 
 const groupRoute = {
-  name: '기관 관리',
-  path: '/manage/groups',
-  icon: <Subject />,
+  name: '단체 관리',
+  path: '/groups',
+  icon: <Group />,
 
   children: [
     {
-      name: '기관 목록',
+      name: '단체 리스트',
       path: '',
       component: GroupListPage,
     },
     {
-      name: '기관 상세',
+      name: '단체 상세',
       path: '/:groupIdx',
       component: GroupDetailPage,
     },
@@ -101,7 +114,7 @@ const statisticsRoutes = [
   },
 ];
 
-export const sidebarRoutes = [inspectionRoute, memberRoute, groupRoute, ...statisticsRoutes];
+export const sidebarRoutes = [inspectionRoute, memberRoute, groupRoute, managerRoute, ...statisticsRoutes];
 
 export const commonLayoutRoutes = [mainDashBoardRoute, ...sidebarRoutes];
 

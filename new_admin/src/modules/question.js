@@ -8,11 +8,11 @@ export const clearQuestion = createAction(CLEAR_QUESTION);
 
 export const FETCH_QUESTION_LIST = 'question/FETCH_QUESTION_LIST';
 const FETCH_QUESTION_LIST_SUCCESS = 'question/FETCH_QUESTION_LIST_SUCCESS';
-const FETCH_QUESTION_LIST_FAILURE = 'question/FETCH_QUESTION_LIST_FAILURE';
+const FETCH_QUESTION_LIST_FAIL = 'question/FETCH_QUESTION_LIST_FAIL';
 
 export const fetchQuestionList = createAction(FETCH_QUESTION_LIST);
 const fetchQuestionListSuccess = createAction(FETCH_QUESTION_LIST_SUCCESS, data => data);
-const fetchQuestionListFailure = createAction(FETCH_QUESTION_LIST_FAILURE, e => e);
+const fetchQuestionListFailure = createAction(FETCH_QUESTION_LIST_FAIL, e => e);
 
 function* questionListSaga(action) {
   yield put(startLoading(FETCH_QUESTION_LIST));
@@ -29,11 +29,11 @@ function* questionListSaga(action) {
 
 export const FETCH_QUESTION_DETAIL = 'question/FETCH_QUESTION_DETAIL';
 const FETCH_QUESTION_DETAIL_SUCCESS = 'question/FETCH_QUESTION_DETAIL_SUCCESS';
-const FETCH_QUESTION_DETAIL_FAILURE = 'question/FETCH_QUESTION_DETAIL_FAILURE';
+const FETCH_QUESTION_DETAIL_FAIL = 'question/FETCH_QUESTION_DETAIL_FAIL';
 
 export const fetchQuestionDetail = createAction(FETCH_QUESTION_DETAIL);
 const fetchQuestionDetailSuccess = createAction(FETCH_QUESTION_DETAIL_SUCCESS, data => data);
-const fetchQuestionDetailFailure = createAction(FETCH_QUESTION_DETAIL_FAILURE, e => e);
+const fetchQuestionDetailFailure = createAction(FETCH_QUESTION_DETAIL_FAIL, e => e);
 
 function* questionDetailSaga(action) {
   yield put(startLoadingPersist(FETCH_QUESTION_DETAIL));
@@ -66,7 +66,7 @@ const question = handleActions(
       ...state,
       list: action.payload,
     }),
-    [FETCH_QUESTION_LIST_FAILURE]: (state, action) => ({
+    [FETCH_QUESTION_LIST_FAIL]: (state, action) => ({
       ...state,
       error: action.payload,
     }),
@@ -74,7 +74,7 @@ const question = handleActions(
       ...state,
       selected: action.payload,
     }),
-    [FETCH_QUESTION_DETAIL_FAILURE]: (state, action) => ({
+    [FETCH_QUESTION_DETAIL_FAIL]: (state, action) => ({
       ...state,
       error: action.payload,
     }),

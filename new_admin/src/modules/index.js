@@ -7,6 +7,7 @@ import auth, { authSaga, LOGOUT_SUCCESS } from './auth';
 import inspection, { inspectionSaga } from './inspection';
 import question, { questionSaga } from './question';
 import member, { memberSaga } from './member';
+import group, { groupSaga } from './group';
 import progress, { progressSaga } from './progress';
 import menu from './menu';
 
@@ -21,6 +22,7 @@ const appReducer = combineReducers({
   auth,
   inspection,
   member,
+  group,
   question,
   progress,
   menu,
@@ -39,7 +41,7 @@ const rootReducer = (state, action) => {
 
 //root saga
 export function* rootSaga() {
-  yield all([authSaga(), memberSaga(), inspectionSaga(), questionSaga(), progressSaga()]);
+  yield all([authSaga(), memberSaga(), groupSaga(), inspectionSaga(), questionSaga(), progressSaga()]);
 }
 
 export default persistReducer(persistConfig, rootReducer);

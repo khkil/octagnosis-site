@@ -63,6 +63,7 @@ const MemberListPage = ({ match, history, location }) => {
               setSearchText(value);
             }}
             onSubmit={searchMember}
+            placeholder={'회원명을 입력해주세요'}
           />
           <Paper p={3}>
             <MemberList memberList={memberList} startRow={pageInfo.startRow} />

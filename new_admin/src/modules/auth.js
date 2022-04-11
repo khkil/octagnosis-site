@@ -7,14 +7,14 @@ import { DELAY_TIME } from '../utils/sagaUtil';
 /* 로그인 */
 export const LOGIN_REQUEST = 'auth/LOGIN_REQUEST';
 const LOGIN_SUCCESS = 'auth/LOGIN_SUCCESS';
-const LOGIN_FAILURE = 'auth/LOGIN_FAILURE';
+const LOGIN_FAIL = 'auth/LOGIN_FAIL';
 
 export const loginRequest = createAction(LOGIN_REQUEST);
 const loginSuccess = createAction(LOGIN_SUCCESS, response => ({
   success: response.success,
   username: response.data.username,
 }));
-const loginFailure = createAction(LOGIN_FAILURE, error => error);
+const loginFailure = createAction(LOGIN_FAIL, error => error);
 
 function* loginSaga(action) {
   yield put(startLoading(LOGIN_REQUEST));
@@ -33,11 +33,11 @@ function* loginSaga(action) {
 
 export const LOGOUT_REQUEST = 'auth/LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS = 'auth/LOGOUT_SUCCESS';
-const LOGOUT_FAILURE = 'auth/LOGOUT_FAILURE';
+const LOGOUT_FAIL = 'auth/LOGOUT_FAIL';
 
 export const logoutRequest = createAction(LOGOUT_REQUEST);
 const logoutSuccess = createAction(LOGOUT_SUCCESS, data => data);
-const logoutFailure = createAction(LOGOUT_FAILURE, error => error);
+const logoutFailure = createAction(LOGOUT_FAIL, error => error);
 
 function* logoutSaga(action) {
   yield put(startLoading(LOGOUT_REQUEST));
@@ -55,14 +55,14 @@ function* logoutSaga(action) {
 /* 토큰 유효성 검사 */
 export const VALIDATE_TOKEN_REQUEST = 'auth/VALIDATE_TOKEN_REQUEST';
 const VALIDATE_TOKEN_SUCCESS = 'auth/VALIDATE_TOKEN_SUCCESS';
-const VALIDATE_TOKEN_FAILURE = 'auth/VALIDATE_TOKEN_FAILURE';
+const VALIDATE_TOKEN_FAIL = 'auth/VALIDATE_TOKEN_FAIL';
 
 export const validateTokenRequest = createAction(VALIDATE_TOKEN_REQUEST);
 const validateTokenSuccess = createAction(VALIDATE_TOKEN_SUCCESS, response => ({
   success: response.success,
   username: response.data.username,
 }));
-const validateTokenFailure = createAction(VALIDATE_TOKEN_FAILURE, error => error);
+const validateTokenFailure = createAction(VALIDATE_TOKEN_FAIL, error => error);
 
 function* validateTokenSaga(action) {
   yield put(startLoading(VALIDATE_TOKEN_REQUEST));
@@ -98,7 +98,7 @@ const auth = handleActions(
       username: action.payload.username,
       isLoggedIn: action.payload.success,
     }),
-    [LOGIN_FAILURE]: (state, action) => ({
+    [LOGIN_FAIL]: (state, action) => ({
       ...state,
       isLoggedIn: false,
       username: null,
@@ -109,7 +109,7 @@ const auth = handleActions(
       ...state,
       ...initialState,
     }),
-    [LOGOUT_FAILURE]: (state, action) => ({
+    [LOGOUT_FAIL]: (state, action) => ({
       ...state,
       ...initialState,
       error: action.payload,
@@ -120,7 +120,7 @@ const auth = handleActions(
       username: action.payload.username,
       isLoggedIn: action.payload.success,
     }),
-    [VALIDATE_TOKEN_FAILURE]: (state, action) => ({
+    [VALIDATE_TOKEN_FAIL]: (state, action) => ({
       ...state,
       isLoggedIn: false,
       username: null,

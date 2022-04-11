@@ -10,11 +10,11 @@ export const clearMember = createAction(CLEAR_MEMBER);
 /* 회원리스트 */
 export const FETCH_MEMBER_LIST = 'member/FETCH_MEMBER_LIST';
 const FETCH_MEMBER_LIST_SUCCESS = 'member/FETCH_MEMBER_LIST_SUCCESS';
-const FETCH_MEMBER_LIST_FAILURE = 'member/FETCH_MEMBER_LIST_FAILURE';
+const FETCH_MEMBER_LIST_FAIL = 'member/FETCH_MEMBER_LIST_FAIL';
 
 export const fetchMemberList = createAction(FETCH_MEMBER_LIST);
 const fetchMemberListSuccess = createAction(FETCH_MEMBER_LIST_SUCCESS, data => data);
-const fetchMemberListFailure = createAction(FETCH_MEMBER_LIST_FAILURE, error => error);
+const fetchMemberListFailure = createAction(FETCH_MEMBER_LIST_FAIL, error => error);
 
 function* memberListSaga(action) {
   yield put(startLoading(FETCH_MEMBER_LIST));
@@ -33,11 +33,11 @@ function* memberListSaga(action) {
 /* 회원 상세 */
 export const FETCH_MEMBER_DETAIL = 'member/FETCH_MEMBER_DETAIL';
 const FETCH_MEMBER_DETAIL_SUCCESS = 'member/FETCH_MEMBER_DETAIL_SUCCESS';
-const FETCH_MEMBER_DETAIL_FAILURE = 'member/FETCH_MEMBER_DETAIL_FAILURE';
+const FETCH_MEMBER_DETAIL_FAIL = 'member/FETCH_MEMBER_DETAIL_FAIL';
 
 export const fetchMemberDetail = createAction(FETCH_MEMBER_DETAIL);
 const fetchMemberDetailSuccess = createAction(FETCH_MEMBER_DETAIL_SUCCESS, data => data);
-const fetchMemberDetailFailure = createAction(FETCH_MEMBER_DETAIL_FAILURE, error => error);
+const fetchMemberDetailFailure = createAction(FETCH_MEMBER_DETAIL_FAIL, error => error);
 
 function* memberDetailSaga(action) {
   yield put(startLoading(FETCH_MEMBER_DETAIL));
@@ -73,7 +73,7 @@ const member = handleActions(
       list: action.payload.list,
       pageInfo: action.payload,
     }),
-    [FETCH_MEMBER_LIST_FAILURE]: (state, action) => ({
+    [FETCH_MEMBER_LIST_FAIL]: (state, action) => ({
       ...state,
       error: action.payload,
     }),
@@ -81,7 +81,7 @@ const member = handleActions(
       ...state,
       selected: action.payload,
     }),
-    [FETCH_MEMBER_DETAIL_FAILURE]: (state, action) => ({
+    [FETCH_MEMBER_DETAIL_FAIL]: (state, action) => ({
       ...state,
       error: action.payload,
     }),

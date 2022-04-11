@@ -37,7 +37,7 @@ const SidebarMenu = ({ header, name, path, children, icon, menuReducer }) => {
           {header}
         </ListSubheader>
       )}
-      {path.indexOf('/manage/inspection') > -1 ? (
+      {path.indexOf('/inspections') > -1 ? (
         inspectionList.map(({ inspectionIdx, inspectionName }) => (
           <ListItemButton
             key={inspectionIdx}

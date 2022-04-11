@@ -6,11 +6,11 @@ import { startLoading, endLoading } from './loading';
 
 export const FETCH_MEMBER_PROGRESS_LIST = 'progress/FETCH_MEMBER_PROGRESS_LIST';
 export const FETCH_MEMBER_PROGRESS_LIST_SUCCESS = 'progress/FETCH_MEMBER_PROGRESS_LIST_SUCCESS';
-export const FETCH_MEMBER_PROGRESS_LIST_FAILURE = 'progress/FETCH_MEMBER_PROGRESS_LIST_FAILURE';
+export const FETCH_MEMBER_PROGRESS_LIST_FAIL = 'progress/FETCH_MEMBER_PROGRESS_LIST_FAIL';
 
 export const fetchMemberProgressList = createAction(FETCH_MEMBER_PROGRESS_LIST);
 const fetchMemberProgressListSuccess = createAction(FETCH_MEMBER_PROGRESS_LIST_SUCCESS, data => data);
-const fetchMemberProgressListFailure = createAction(FETCH_MEMBER_PROGRESS_LIST_FAILURE, error => error);
+const fetchMemberProgressListFailure = createAction(FETCH_MEMBER_PROGRESS_LIST_FAIL, error => error);
 
 function* memberProgressListSaga(action) {
   yield put(startLoading(FETCH_MEMBER_PROGRESS_LIST));
@@ -42,7 +42,7 @@ const progress = handleActions(
       ...state,
       list: action.payload,
     }),
-    [FETCH_MEMBER_PROGRESS_LIST_FAILURE]: (state, action) => ({
+    [FETCH_MEMBER_PROGRESS_LIST_FAIL]: (state, action) => ({
       ...state,
       error: action.payload,
     }),
