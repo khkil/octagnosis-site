@@ -2,6 +2,7 @@ import React from 'react';
 import Pagination from 'react-js-pagination';
 
 const Paging = ({ page, setPage, pageInfo }) => {
+  if (!pageInfo.total || !pageInfo.pageSize) return null;
   return (
     <Pagination
       activeLinkClass="active"

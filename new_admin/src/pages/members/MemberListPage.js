@@ -1,4 +1,4 @@
-import { Box, Paper } from '@mui/material';
+import { Box, Grid, Paper } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import queryString from 'query-string';
@@ -49,29 +49,28 @@ const MemberListPage = ({ match, history, location }) => {
   }, [location.search]);
 
   return (
-    <Box>
+    <Grid container alignContent={'center'} spacing={2}>
       <MenuBar match={match} />
-      {loading ? (
-        <Loader />
-      ) : (
-        <Box>
-          <SearchBar
-            sx={{ mb: 2 }}
-            value={query.searchText}
-            onChange={e => {
-              const { name, value } = e.target;
-              setSearchText(value);
-            }}
-            onSubmit={searchMember}
-            placeholder={'회원명을 입력해주세요'}
-          />
-          <Paper p={3}>
-            <MemberList memberList={memberList} startRow={pageInfo.startRow} />
-          </Paper>
-          <Paging pageInfo={pageInfo} page={query.pageNum ? query.pageNum : 1} setPage={goPage} />
-        </Box>
-      )}
-    </Box>
+      <Grid item xs={12}>
+        <SearchBar
+          sx={{ mb: 2 }}
+          value={query.searchText}
+          onChange={e => {
+            const { name, value } = e.target;
+            setSearchText(value);
+          }}
+          onSubmit={searchMember}
+          placeholder={'회원명을 입력해주세요'}
+        />
+      </Grid>
+      {/* <Grid xs={12}>{loading ? <Loader /> : <MemberList memberList={memberList} startRow={pageInfo.startRow} />}</Grid> */}
+      <Grid item xs={12}>
+        <MemberList memberList={memberList} startRow={pageInfo.startRow} />
+      </Grid>
+      <Grid item xs={12}>
+        <Paging pageInfo={pageInfo} page={query.pageNum ? query.pageNum : 1} setPage={goPage} />
+      </Grid>
+    </Grid>
   );
 };
 

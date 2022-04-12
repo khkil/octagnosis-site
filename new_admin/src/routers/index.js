@@ -9,6 +9,7 @@ import GroupListPage from '../pages/groups/GroupListPage';
 import GroupDetailPage from '../pages/groups/GroupDetailPage';
 import InspectionStatisticsPage from '../pages/statistics/InspectionStatisticsPage';
 import AccessStatisticsPage from '../pages/statistics/AccessStatisticsPage';
+import GroupRegistPage from '../pages/groups/GroupRegistPage';
 
 const mainDashBoardRoute = {
   path: '/',
@@ -83,8 +84,12 @@ const groupRoute = {
   name: '단체 관리',
   path: '/groups',
   icon: <Group />,
-
   children: [
+    {
+      name: '단체 등록',
+      path: '/regist',
+      component: GroupRegistPage,
+    },
     {
       name: '단체 리스트',
       path: '',

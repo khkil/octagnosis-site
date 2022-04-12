@@ -7,7 +7,6 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
     display: 'flex',
-    minHeight: '100%',
     height: props => `${props.height}vh`,
     color: '#27313e',
   },
@@ -15,7 +14,7 @@ const useStyles = makeStyles({
 
 const Loader = ({ height }) => {
   const classes = useStyles({
-    height: height ? height : '80',
+    height: height ? height : '70',
   });
 
   return (
