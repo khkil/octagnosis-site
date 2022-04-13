@@ -1,22 +1,23 @@
-import { Grid } from '@mui/material';
+import { Box, Grid, Paper } from '@mui/material';
 import React from 'react';
+import { groupRegistApi } from '../../api/groupApi';
 import MenuBar from '../../components/common/MenuBar';
 import GroupForm from '../../components/groups/GroupForm';
 
 const GroupRegistPage = ({ match }) => {
+  const registGroup = data => {
+    groupRegistApi(data).then(d => {
+      console.log(d);
+    });
+    console.log(data);
+  };
   return (
-    <Grid container alignContent={'center'} spacing={1}>
+    <Box>
       <MenuBar match={match} />
-      <Grid item xs={12}>
-        <GroupForm />
-      </Grid>
-      <Grid item xs={12}>
-        GroupRegistPage
-      </Grid>
-      <Grid item xs={12}>
-        GroupRegistPage
-      </Grid>
-    </Grid>
+      <Paper>
+        <GroupForm onSubmit={registGroup} />
+      </Paper>
+    </Box>
   );
 };
 

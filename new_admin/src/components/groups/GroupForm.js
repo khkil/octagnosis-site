@@ -1,68 +1,166 @@
-import React from 'react';
-import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import { Grid, TextField } from '@mui/material';
+import { Alert, Box, Button, Grid, IconButton, InputAdornment, Paper, TextField } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import FindAddressPopup from '../common/FindAddressPopup';
+import { Search } from '@mui/icons-material';
 
-const GroupForm = () => {
+const GroupForm = ({ initialValues, onSubmit }) => {
+  const [openAddressPopup, setOpenAddressPopup] = useState(false);
   return (
     <Formik
-      initialValues={{
-        id: '',
-        password: '',
-      }}
+      initialValues={
+        initialValues
+          ? initialValues
+          : {
+              name: '',
+              tel: '',
+              address: '',
+              addressSub: '',
+              contactName: '',
+              contactEmail: '',
+              contactTel: '',
+            }
+      }
       validationSchema={Yup.object().shape({
-        id: Yup.string().required('아이디를 입력하세요'),
-        password: Yup.string().max(255).required('비밀번호를 입력하세요'),
+        /* name: Yup.string().required('단체명을 입력하세요'),
+        tel: Yup.string().required('연락처를 입력하세요'),
+        address: Yup.string().required('주소를 입력하세요'),
+        addressSub: Yup.string().required('상세주소를 입력하세요'),
+        contactName: Yup.string().required('담당자명을 입력하세요'),
+        contactEmail: Yup.string().required('담당자 이메일을 입력하세요'),
+        contactTel: Yup.string().required('담당자 연락처를 입력하세요'), */
       })}
-      onSubmit={(data, props) => {
-        handleSubmit(data);
+      onSubmit={data => {
+        onSubmit(data);
       }}
     >
-      {({ values, handleChange, handleSubmit, touched, errors }) => (
-        <form onSubmit={handleSubmit}>
-          <Grid item>
-            <Grid item>
+      {({ values, setValues, handleChange, handleSubmit, touched, errors }) => (
+        <Box component="form" onSubmit={handleSubmit} p={2}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <Alert severity="info">기본정보</Alert>
+            </Grid>
+            <Grid item xs={6}>
               <TextField
                 fullWidth
-                name="id"
-                label="아이디"
-                variant="filled"
+                name="name"
+                label="단체명"
+                type="text"
+                value={values.name}
                 onChange={handleChange}
-                value={values.id}
-                error={Boolean(touched.id && errors.id)}
-                helperText={touched.id && errors.id}
-                autoFocus
+                error={Boolean(touched.name && errors.name)}
+                helperText={touched.name && errors.name}
               />
             </Grid>
-            <Grid item>
+            <Grid item xs={6}>
               <TextField
                 fullWidth
-                name="password"
-                label="비밀번호"
-                variant="filled"
+                name="tel"
+                label="연락처"
+                type="text"
+                value={values.tel}
                 onChange={handleChange}
-                value={values.password}
-                error={Boolean(touched.password && errors.password)}
-                helperText={touched.password && errors.password}
+                error={Boolean(touched.tel && errors.tel)}
+                helperText={touched.tel && errors.tel}
               />
             </Grid>
-            <Grid item mb={2}>
-              {/*   <LoadingButton
+            <Grid item xs={9}>
+              <TextField
+                fullWidth
+                name="address"
+                label="주소"
+                type="text"
+                value={values.address}
+                onChange={handleChange}
+                onClick={setOpenAddressPopup}
+                error={Boolean(touched.address && errors.address)}
+                helperText={touched.address && errors.address}
+                InputProps={{
+                  readOnly: true,
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton edge="end" color="primary">
+                        <Search />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <FindAddressPopup
+                open={openAddressPopup}
+                setOpen={setOpenAddressPopup}
+                onComplete={({ address }) => {
+                  setValues({
+                    ...values,
+                    address: address,
+                  });
+                }}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                fullWidth
+                name="addressSub"
+                label="상세주소"
+                type="text"
+                value={values.addressSub}
+                onChange={handleChange}
+                error={Boolean(touched.addressSub && errors.addressSub)}
+                helperText={touched.addressSub && errors.addressSub}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                fullWidth
+                name="contactName"
+                label="담당자명"
+                type="text"
+                value={values.contactName}
+                onChange={handleChange}
+                error={Boolean(touched.contactName && errors.contactName)}
+                helperText={touched.contactName && errors.contactName}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                fullWidth
+                name="contactTel"
+                label="담당자 연락처"
+                type="text"
+                value={values.addressSub}
+                onChange={handleChange}
+                error={Boolean(touched.contactTel && errors.contactTel)}
+                helperText={touched.contactTel && errors.contactTel}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                name="contactEmail"
+                label="담당자 이메일"
+                type="text"
+                value={values.contactEmail}
+                onChange={handleChange}
+                error={Boolean(touched.contactEmail && errors.contactEmail)}
+                helperText={touched.contactEmail && errors.contactEmail}
+              />
+            </Grid>
+
+            <Grid item xs={12} style={{ textAlign: 'center' }}>
+              <Button
                 type="submit"
-                style={{ background: '#27313e' }}
-                fullWidth
-                loading={isLoading}
-                variant="outlined"
+                variant="contained"
+                size="large"
+                sx={{ mt: 3, mb: 2 }}
+                style={{ background: '#27313e', height: '60px' }}
               >
-                {isLoading ? (
-                  <CircularProgress size={24} style={{ color: 'white' }} />
-                ) : (
-                  <Typography style={{ color: 'white' }}>로그인</Typography>
-                )}
-              </LoadingButton> */}
+                등록하기
+              </Button>
             </Grid>
           </Grid>
-        </form>
+        </Box>
       )}
     </Formik>
   );

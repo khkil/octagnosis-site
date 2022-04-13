@@ -17,3 +17,19 @@ export const groupListApi = params => {
       });
   });
 };
+
+export const groupRegistApi = params => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`/api/admin/groups`, params)
+      .then(response => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
