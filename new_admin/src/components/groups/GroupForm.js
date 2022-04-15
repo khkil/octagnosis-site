@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { Alert, Box, Button, Grid, IconButton, InputAdornment, Paper, TextField } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import FindAddressPopup from '../common/FindAddressPopup';
-import { Search } from '@mui/icons-material';
+import { Save, Search } from '@mui/icons-material';
 
 const GroupForm = ({ initialValues, onSubmit }) => {
   const [openAddressPopup, setOpenAddressPopup] = useState(false);
+
+  useEffect(() => {
+    console.log(initialValues);
+  }, []);
   return (
     <Formik
       initialValues={
@@ -24,7 +28,8 @@ const GroupForm = ({ initialValues, onSubmit }) => {
             }
       }
       validationSchema={Yup.object().shape({
-        /* name: Yup.string().required('단체명을 입력하세요'),
+        name: Yup.string().required('단체명을 입력하세요'),
+        /* 
         tel: Yup.string().required('연락처를 입력하세요'),
         address: Yup.string().required('주소를 입력하세요'),
         addressSub: Yup.string().required('상세주소를 입력하세요'),
@@ -129,7 +134,7 @@ const GroupForm = ({ initialValues, onSubmit }) => {
                 name="contactTel"
                 label="담당자 연락처"
                 type="text"
-                value={values.addressSub}
+                value={values.contactTel}
                 onChange={handleChange}
                 error={Boolean(touched.contactTel && errors.contactTel)}
                 helperText={touched.contactTel && errors.contactTel}
@@ -149,14 +154,8 @@ const GroupForm = ({ initialValues, onSubmit }) => {
             </Grid>
 
             <Grid item xs={12} style={{ textAlign: 'center' }}>
-              <Button
-                type="submit"
-                variant="contained"
-                size="large"
-                sx={{ mt: 3, mb: 2 }}
-                style={{ background: '#27313e', height: '60px' }}
-              >
-                등록하기
+              <Button type="submit" variant="contained" size="large" startIcon={<Save />}>
+                저장하기
               </Button>
             </Grid>
           </Grid>
