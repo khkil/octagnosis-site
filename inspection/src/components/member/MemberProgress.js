@@ -90,7 +90,7 @@ const MemberProgress = ({
 }) => {
   const classes = useStyles();
   const progressValue = useMemo(
-    () => Math.round((userCount / totalCount) * 100),
+    () => (userCount === 0 ? 0 : Math.round((userCount / totalCount) * 100)),
     [userCount, totalCount],
   );
 
