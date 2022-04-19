@@ -19,7 +19,8 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import FindAddressPopup from '../../components/common/FindAddressPopup';
 import { phoneRegExp } from '../../utils/common';
-import MemberIdVerificationButton from './MemberIdVerificationButton';
+import VerifyIdButton from './VerifyIdButton';
+import VerifyEmailButton from './VerifyEmailButton';
 
 const MemberInfoForm = ({
   isOauthUser,
@@ -27,7 +28,6 @@ const MemberInfoForm = ({
   handleSubmit,
   submitButtonText,
 }) => {
-  const [idVerificated, setIdVerificated] = useState(false);
   const [openAddressPopup, setOpenAddressPopup] = useState(false);
   const [schema, setSchema] = useState({
     phone: Yup.string()
@@ -56,18 +56,14 @@ const MemberInfoForm = ({
     if (!isOauthUser) {
       setSchema({
         ...schema,
-        id: Yup.string()
-          .required('아이디를 입력하세요')
-          .test(
-            'idVerificated',
-            '아이디 중복확인을 해주세요',
-            value => idVerificated,
-          ),
+        id: Yup.string().required('아이디를 입력하세요'),
         name: Yup.string().required('이름을 입력하세요'),
-        /* password: Yup.string().required("비밀번호를 입력하세요"),
-        password_confirm: Yup.string()
-          .required("비밀번호 확인을 입력하세요")
-          .oneOf([Yup.ref('password'), null],'패스워드가 일치하지 않습니다.'), */
+        password: Yup.string().required('비밀번호를 입력하세요'),
+        passwordConfirm: Yup.string()
+          .required('비밀번호 확인을 입력하세요')
+          .oneOf([Yup.ref('password'), null], '패스워드가 일치하지 않습니다.'),
+        verifyId: Yup.boolean().oneOf([true], '아이디 중복체크를 해주세요'),
+        verifyEmail: Yup.boolean().oneOf([true], '이메일 인증을 완료해주세요'),
       });
     }
   }, []);
@@ -86,29 +82,34 @@ const MemberInfoForm = ({
             <Typography>{JSON.stringify(initialValues)}</Typography>
             <Typography>{JSON.stringify(schema)}</Typography>
           </Box> */}
-          {errors.id}
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <Alert severity="info">기본정보</Alert>
             </Grid>
             {!isOauthUser && (
               <>
-                <Grid item xs={12} sm={4.2}>
+                <Grid item xs={12} sm={4.7}>
                   <TextField
                     fullWidth
                     name="id"
                     label="아이디"
                     type="text"
                     value={values.id}
-                    error={Boolean(touched.id && errors.id)}
-                    helperText={touched.id && errors.id}
+                    onChange={handleChange}
+                    error={Boolean(
+                      (touched.id && errors.id) ||
+                        (touched.verifyId && errors.verifyId),
+                    )}
+                    helperText={errors.id ? errors.id : errors.verifyId}
                     autoFocus
                   />
                 </Grid>
-                <Grid item xs={12} sm={1.8}>
-                  <MemberIdVerificationButton
-                    idVerificated={idVerificated}
-                    setIdVerificated={setIdVerificated}
+                <Grid item xs={12} sm={1.3}>
+                  <VerifyIdButton
+                    value={values.id}
+                    setVerifyId={isVerified => {
+                      setValues({ ...values, verifyId: isVerified });
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -118,14 +119,43 @@ const MemberInfoForm = ({
                     label="이름"
                     type="text"
                     value={values.name}
+                    onChange={handleChange}
                     error={Boolean(touched.name && errors.name)}
                     helperText={touched.name && errors.name}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    name="password"
+                    label="비밀번호"
+                    type="password"
+                    value={values.password}
+                    onChange={handleChange}
+                    error={Boolean(touched.password && errors.password)}
+                    helperText={touched.password && errors.password}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    name="passwordConfirm"
+                    label="비밀번호 확인"
+                    type="password"
+                    value={values.passwordConfirm}
+                    onChange={handleChange}
+                    error={Boolean(
+                      touched.passwordConfirm && errors.passwordConfirm,
+                    )}
+                    helperText={
+                      touched.passwordConfirm && errors.passwordConfirm
+                    }
                   />
                 </Grid>
               </>
             )}
 
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4.7}>
               <TextField
                 fullWidth
                 name="email"
@@ -133,8 +163,19 @@ const MemberInfoForm = ({
                 type="text"
                 value={values.email}
                 onChange={handleChange}
-                error={Boolean(touched.email && errors.email)}
-                helperText={touched.email && errors.email}
+                error={Boolean(
+                  (touched.email && errors.email) ||
+                    (touched.verifyEmail && errors.verifyEmail),
+                )}
+                helperText={errors.email ? errors.email : errors.verifyEmail}
+              />
+            </Grid>
+            <Grid item xs={12} sm={1.3}>
+              <VerifyEmailButton
+                email={values.email}
+                setVerifyEmail={isVerified => {
+                  setValues({ ...values, verifyEmail: isVerified });
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -311,9 +352,9 @@ const MemberInfoForm = ({
               variant="contained"
               size="large"
               sx={{ mt: 3, mb: 2 }}
-              style={{ background: '#27313e', height: '52px' }}
+              style={{ height: '52px' }}
             >
-              {submitButtonText}
+              <Typography variant="h6">{submitButtonText}</Typography>
             </Button>
           </Grid>
 

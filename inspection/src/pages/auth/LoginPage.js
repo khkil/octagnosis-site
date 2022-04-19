@@ -36,7 +36,7 @@ const useStyles = makeStyles({
   },
 });
 
-const LoginPage = () => {
+const LoginPage = ({ history }) => {
   const dispatch = useDispatch();
 
   const { isLoading, error } = useSelector(({ loading, auth }) => ({
@@ -105,6 +105,7 @@ const LoginPage = () => {
                         <TextField
                           fullWidth
                           name="password"
+                          type="password"
                           label="비밀번호"
                           variant="filled"
                           onChange={handleChange}
@@ -153,14 +154,26 @@ const LoginPage = () => {
                 )}
               </Formik>
             </Grid>
-            {/* <Grid item>
-              <Link href="#" style={{float: "left"}}>
+            <Box item mt={3}>
+              <Link
+                underline="none"
+                onClick={() => {
+                  history.push('/auth/sign-up');
+                }}
+                sx={{ float: 'left' }}
+              >
                 회원 가입
               </Link>
-              <Link href="#" style={{float: "right"}}>
+              <Link
+                underline="none"
+                onClick={() => {
+                  history.push('/auth/sign-up');
+                }}
+                sx={{ float: 'right' }}
+              >
                 계정 찾기
               </Link>
-            </Grid> */}
+            </Box>
           </Paper>
         </Grid>
       </Box>
