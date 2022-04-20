@@ -100,13 +100,16 @@ const MemberInfoForm = ({
                       (touched.id && errors.id) ||
                         (touched.verifyId && errors.verifyId),
                     )}
-                    helperText={errors.id ? errors.id : errors.verifyId}
+                    helperText={
+                      touched.id && (errors.id ? errors.id : errors.verifyId)
+                    }
                     autoFocus
                   />
                 </Grid>
                 <Grid item xs={12} sm={1.3}>
                   <VerifyIdButton
                     value={values.id}
+                    hasError={errors.id}
                     setVerifyId={isVerified => {
                       setValues({ ...values, verifyId: isVerified });
                     }}
@@ -167,7 +170,10 @@ const MemberInfoForm = ({
                   (touched.email && errors.email) ||
                     (touched.verifyEmail && errors.verifyEmail),
                 )}
-                helperText={errors.email ? errors.email : errors.verifyEmail}
+                helperText={
+                  touched.email &&
+                  (errors.email ? errors.email : errors.verifyEmail)
+                }
               />
             </Grid>
             <Grid item xs={12} sm={1.3}>

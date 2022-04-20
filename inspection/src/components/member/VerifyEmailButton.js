@@ -2,8 +2,12 @@ import { Button, Typography } from '@mui/material';
 import React from 'react';
 import { checkIdApi } from '../../api/authApi';
 
-const VerifyEmailButton = ({ value, setVerifyEmail }) => {
+const VerifyEmailButton = ({ value, hasError, setVerifyEmail }) => {
   const checkId = () => {
+    if (hasError) {
+      alert('error');
+      return false;
+    }
     setVerifyEmail(true);
   };
   return (
