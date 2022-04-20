@@ -1,157 +1,172 @@
-import axios from "../utils/axios";
+import axios from '../utils/axios';
 
-export const signUpApi = (params) => {
-  params.role = "ROLE_MEMBER";
+export const signUpApi = params => {
+  params.role = 'ROLE_MEMBER';
   return new Promise((resolve, reject) => {
     axios
       .post(`/api/auth/sign-up`, params)
-      .then((response) => {
+      .then(response => {
         if (response.status === 200) {
           resolve(response.data);
         }
         reject(response.data);
       })
-      .catch((error) => {
+      .catch(error => {
         reject(error);
       });
   });
-}
+};
 
-export const checkIdApi = (id) => {
+export const checkIdApi = id => {
   const params = {
-    id: id
-  }
+    id: id,
+  };
   return new Promise((resolve, reject) => {
     axios
       .post(`/api/auth/check-id`, params)
-      .then((response) => {
+      .then(response => {
         if (response.status === 200) {
           resolve(response.data);
         }
         reject(response.data);
       })
-      .catch((error) => {
+      .catch(error => {
         reject(error);
       });
   });
-}
+};
 
-export const loginApi = (params) => {
-  params.role = "ROLE_MEMBER";
+export const loginApi = params => {
+  params.role = 'ROLE_MEMBER';
   return new Promise((resolve, reject) => {
     axios
       .post(`/api/auth/login`, params)
-      .then((response) => {
+      .then(response => {
         if (response.status === 200) {
           resolve(response.data);
         }
         reject(response.data);
       })
-      .catch((error) => {
+      .catch(error => {
         reject(error);
       });
   });
-}
+};
 
-export const kakaoLoginApi = (code) => {
+export const kakaoLoginApi = code => {
   return new Promise((resolve, reject) => {
     axios
       .post(`/api/auth/login/kakao`, {
-        code: code
+        code: code,
       })
-      .then((response) => {
+      .then(response => {
         if (response.status === 200) {
           resolve(response.data);
         }
         reject(response.data);
       })
-      .catch((error) => {
+      .catch(error => {
         reject(error);
       });
   });
-}
+};
 
-export const naverLoginApi = (code) => {
+export const naverLoginApi = code => {
   return new Promise((resolve, reject) => {
     axios
       .post(`/api/auth/login/naver`, {
-        code: code
+        code: code,
       })
-      .then((response) => {
+      .then(response => {
         if (response.status === 200) {
           resolve(response.data);
         }
         reject(response.data);
       })
-      .catch((error) => {
+      .catch(error => {
         reject(error);
       });
   });
-}
+};
 
-export const googleLoginApi = (code) => {
+export const googleLoginApi = code => {
   return new Promise((resolve, reject) => {
     axios
       .post(`/api/auth/login/google`, {
-        code: code
+        code: code,
       })
-      .then((response) => {
+      .then(response => {
         if (response.status === 200) {
           resolve(response.data);
         }
         reject(response.data);
       })
-      .catch((error) => {
+      .catch(error => {
         reject(error);
       });
   });
-}
+};
 
 export const logoutApi = () => {
   return new Promise((resolve, reject) => {
     axios
       .post(`/api/auth/logout`)
-      .then((response) => {
+      .then(response => {
         if (response.status === 200) {
           resolve(response.data);
         }
         reject(response.data);
       })
-      .catch((error) => {
+      .catch(error => {
         reject(error);
       });
   });
-}
+};
 
 export const validateTokenApi = () => {
   return new Promise((resolve, reject) => {
     axios
       .post(`/api/auth/validate-token`)
-      .then((response) => {
+      .then(response => {
         if (response.status === 200) {
           resolve(response.data);
         }
         reject(response.data);
       })
-      .catch((error) => {
+      .catch(error => {
         reject(error);
       });
   });
+};
 
-}
-
-export const updateMemberApi = (params) => {
+export const updateMemberApi = params => {
   return new Promise((resolve, reject) => {
     axios
       .put(`/api/members`, params)
-      .then((response) => {
+      .then(response => {
         if (response.status === 200) {
           resolve(response.data);
         }
         reject(response.data);
       })
-      .catch((error) => {
+      .catch(error => {
         reject(error);
       });
   });
-}
+};
+
+export const sendVerifyEmailApi = params => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`/api/auth/send-email`, params)
+      .then(response => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
