@@ -62,8 +62,11 @@ const MemberInfoForm = ({
         passwordConfirm: Yup.string()
           .required('비밀번호 확인을 입력하세요')
           .oneOf([Yup.ref('password'), null], '패스워드가 일치하지 않습니다.'),
-        verifyId: Yup.boolean().oneOf([true], '아이디 중복체크를 해주세요'),
-        verifyEmail: Yup.boolean().oneOf([true], '이메일 인증을 완료해주세요'),
+        verifiedId: Yup.boolean().oneOf([true], '아이디 중복체크를 해주세요'),
+        verifiedEmail: Yup.boolean().oneOf(
+          [true],
+          '이메일 인증을 완료해주세요',
+        ),
       });
     }
   }, []);
@@ -98,10 +101,10 @@ const MemberInfoForm = ({
                     onChange={handleChange}
                     error={Boolean(
                       (touched.id && errors.id) ||
-                        (touched.verifyId && errors.verifyId),
+                        (touched.verifiedId && errors.verifiedId),
                     )}
                     helperText={
-                      touched.id && (errors.id ? errors.id : errors.verifyId)
+                      touched.id && (errors.id ? errors.id : errors.verifiedId)
                     }
                     autoFocus
                   />
@@ -110,8 +113,8 @@ const MemberInfoForm = ({
                   <VerifyIdButton
                     value={values.id}
                     hasError={errors.id}
-                    setVerifyId={isVerified => {
-                      setValues({ ...values, verifyId: isVerified });
+                    setVerifiedId={isVerified => {
+                      setValues({ ...values, verifiedId: isVerified });
                     }}
                   />
                 </Grid>
@@ -168,19 +171,20 @@ const MemberInfoForm = ({
                 onChange={handleChange}
                 error={Boolean(
                   (touched.email && errors.email) ||
-                    (touched.verifyEmail && errors.verifyEmail),
+                    (touched.verifiedEmail && errors.verifiedEmail),
                 )}
                 helperText={
                   touched.email &&
-                  (errors.email ? errors.email : errors.verifyEmail)
+                  (errors.email ? errors.email : errors.verifiedEmail)
                 }
               />
             </Grid>
             <Grid item xs={12} sm={1.3}>
               <VerifyEmailButton
                 email={values.email}
-                setVerifyEmail={isVerified => {
-                  setValues({ ...values, verifyEmail: isVerified });
+                verifiedEmail={values.verifiedEmail}
+                setVerifiedEmail={isVerified => {
+                  setValues({ ...values, verifiedEmail: isVerified });
                 }}
               />
             </Grid>

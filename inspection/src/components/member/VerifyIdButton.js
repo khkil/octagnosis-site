@@ -2,19 +2,19 @@ import { Button, Typography } from '@mui/material';
 import React from 'react';
 import { checkIdApi } from '../../api/authApi';
 
-const VerifyIdButton = ({ value, setVerifyId }) => {
+const VerifyIdButton = ({ value, setVerifiedId }) => {
   const checkId = () => {
     if (!value) return false;
     checkIdApi(value)
       .then(({ success }) => {
         if (Boolean(success)) {
           alert('사용가능한 아이디 입니다');
-          setVerifyId(true);
+          setVerifiedId(true);
         }
       })
       .catch(() => {
         alert('사용중인 아이디 입니다');
-        setVerifyId(false);
+        setVerifiedId(false);
       });
   };
   return (

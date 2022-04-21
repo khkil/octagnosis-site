@@ -170,3 +170,35 @@ export const sendVerifyEmailApi = params => {
       });
   });
 };
+
+export const verifyEmailApi = params => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`/api/auth/verify-email`, params)
+      .then(response => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
+export const checkEmailApi = params => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`/api/auth/check-email`, params)
+      .then(response => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};

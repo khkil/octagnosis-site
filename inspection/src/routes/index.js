@@ -1,4 +1,5 @@
 import React from 'react';
+import EmailVerifyPage from '../components/auth/EmailVerifyPage';
 import GoogleLoginCallbackPage from '../pages/auth/GoogleLoginCallbackPage';
 import KaKaoLoginCallbackPage from '../pages/auth/KaKaoLoginCallbackPage';
 import LoginPage from '../pages/auth/LoginPage';
@@ -60,7 +61,7 @@ const signupPageRoute = {
 const emailVerifyPageRoute = {
   path: '/auth/verify-email',
   title: '이메일 인증 페이지',
-  component: KaKaoLoginCallbackPage,
+  component: EmailVerifyPage,
 };
 
 const KaKaoLoginCallbackPageRoute = {
@@ -100,6 +101,7 @@ export const commonLayoutRoutes = [
 ];
 
 export const authLayoutRoutes = [
+  emailVerifyPageRoute,
   KaKaoLoginCallbackPageRoute,
   NaverLoginCallbackPageRoute,
   GoogleLoginCallbackPageRoute,
