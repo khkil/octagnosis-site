@@ -1,8 +1,8 @@
 import React from 'react';
-import GoogleLoginCallback from '../components/auth/GoogleLoginCallback';
-import KaKaoLoginCallback from '../components/auth/KaKaoLoginCallback';
-import NaverLoginCallback from '../components/auth/NaverLoginCallback';
+import GoogleLoginCallbackPage from '../pages/auth/GoogleLoginCallbackPage';
+import KaKaoLoginCallbackPage from '../pages/auth/KaKaoLoginCallbackPage';
 import LoginPage from '../pages/auth/LoginPage';
+import NaverLoginCallbackPage from '../pages/auth/NaverLoginCallbackPage';
 import SignupPage from '../pages/auth/SignupPage';
 import MainPage from '../pages/common/MainPage';
 import MyPage from '../pages/common/MyPage';
@@ -57,22 +57,28 @@ const signupPageRoute = {
   component: SignupPage,
 };
 
-const kakaoLoginCallbackRoute = {
+const emailVerifyPageRoute = {
+  path: '/auth/verify-email',
+  title: '이메일 인증 페이지',
+  component: KaKaoLoginCallbackPage,
+};
+
+const KaKaoLoginCallbackPageRoute = {
   path: '/auth/login/kakao',
   title: '카카오 로그인 중',
-  component: KaKaoLoginCallback,
+  component: KaKaoLoginCallbackPage,
 };
 
-const naverLoginCallbackRoute = {
+const NaverLoginCallbackPageRoute = {
   path: '/auth/login/naver',
   title: '네이버 로그인 중',
-  component: NaverLoginCallback,
+  component: NaverLoginCallbackPage,
 };
 
-const googleLoginCallbackRoute = {
+const GoogleLoginCallbackPageRoute = {
   path: '/auth/login/google',
   title: '네이버 로그인 중',
-  component: GoogleLoginCallback,
+  component: GoogleLoginCallbackPage,
 };
 
 const inspectionResultRoute = {
@@ -94,8 +100,8 @@ export const commonLayoutRoutes = [
 ];
 
 export const authLayoutRoutes = [
-  kakaoLoginCallbackRoute,
-  naverLoginCallbackRoute,
-  googleLoginCallbackRoute,
+  KaKaoLoginCallbackPageRoute,
+  NaverLoginCallbackPageRoute,
+  GoogleLoginCallbackPageRoute,
   ,
 ];
