@@ -19,7 +19,7 @@ const VerifyIdButton = ({ value, setVerifiedId }) => {
   };
   return (
     <Button
-      color="primary"
+      color="info"
       fullWidth
       variant="contained"
       style={{ height: '56px' }}

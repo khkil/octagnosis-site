@@ -22,7 +22,10 @@ import { signUpRequest } from '../../modules/auth';
 
 const SignupPage = ({ location }) => {
   const dispatch = useDispatch();
-
+  const isSignUpPage = useMemo(
+    () => location.pathname.indexOf('/auth/sign-up') > -1,
+    [location.state],
+  );
   const isOauthUser = useMemo(
     () =>
       Boolean(
@@ -79,6 +82,7 @@ const SignupPage = ({ location }) => {
           회원가입
         </Typography>
         <MemberInfoForm
+          isSignUpPage={isSignUpPage}
           isOauthUser={isOauthUser}
           initialValues={initialValues}
           handleSubmit={handleSubmit}

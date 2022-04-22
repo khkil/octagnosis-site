@@ -21,8 +21,11 @@ import FindAddressPopup from '../../components/common/FindAddressPopup';
 import { phoneRegExp } from '../../utils/common';
 import VerifyIdButton from './VerifyIdButton';
 import VerifyEmailButton from './VerifyEmailButton';
+import { Save } from '@mui/icons-material';
+import PasswordResetButton from './PasswordResetButton';
 
 const MemberInfoForm = ({
+  isSignUpPage,
   isOauthUser,
   initialValues,
   handleSubmit,
@@ -53,6 +56,7 @@ const MemberInfoForm = ({
   };
 
   useEffect(() => {
+    console.log(isSignUpPage);
     if (!isOauthUser) {
       setSchema({
         ...schema,
@@ -91,7 +95,7 @@ const MemberInfoForm = ({
             </Grid>
             {!isOauthUser && (
               <>
-                <Grid item xs={12} sm={4.7}>
+                <Grid item xs={12} sm={isSignUpPage ? 4.7 : 6}>
                   <TextField
                     fullWidth
                     name="id"
@@ -109,15 +113,18 @@ const MemberInfoForm = ({
                     autoFocus
                   />
                 </Grid>
-                <Grid item xs={12} sm={1.3}>
-                  <VerifyIdButton
-                    value={values.id}
-                    hasError={errors.id}
-                    setVerifiedId={isVerified => {
-                      setValues({ ...values, verifiedId: isVerified });
-                    }}
-                  />
-                </Grid>
+                {isSignUpPage && (
+                  <Grid item xs={12} sm={1.3}>
+                    <VerifyIdButton
+                      value={values.id}
+                      hasError={errors.id}
+                      setVerifiedId={isVerified => {
+                        setValues({ ...values, verifiedId: isVerified });
+                      }}
+                    />
+                  </Grid>
+                )}
+
                 <Grid item xs={12} sm={6}>
                   <TextField
                     fullWidth
@@ -130,38 +137,42 @@ const MemberInfoForm = ({
                     helperText={touched.name && errors.name}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    name="password"
-                    label="비밀번호"
-                    type="password"
-                    value={values.password}
-                    onChange={handleChange}
-                    error={Boolean(touched.password && errors.password)}
-                    helperText={touched.password && errors.password}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    name="passwordConfirm"
-                    label="비밀번호 확인"
-                    type="password"
-                    value={values.passwordConfirm}
-                    onChange={handleChange}
-                    error={Boolean(
-                      touched.passwordConfirm && errors.passwordConfirm,
-                    )}
-                    helperText={
-                      touched.passwordConfirm && errors.passwordConfirm
-                    }
-                  />
-                </Grid>
+                {isSignUpPage && (
+                  <>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        fullWidth
+                        name="password"
+                        label="비밀번호"
+                        type="password"
+                        value={values.password}
+                        onChange={handleChange}
+                        error={Boolean(touched.password && errors.password)}
+                        helperText={touched.password && errors.password}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        fullWidth
+                        name="passwordConfirm"
+                        label="비밀번호 확인"
+                        type="password"
+                        value={values.passwordConfirm}
+                        onChange={handleChange}
+                        error={Boolean(
+                          touched.passwordConfirm && errors.passwordConfirm,
+                        )}
+                        helperText={
+                          touched.passwordConfirm && errors.passwordConfirm
+                        }
+                      />
+                    </Grid>
+                  </>
+                )}
               </>
             )}
 
-            <Grid item xs={12} sm={4.7}>
+            <Grid item xs={12} sm={isSignUpPage ? 4.7 : 6}>
               <TextField
                 fullWidth
                 name="email"
@@ -179,15 +190,18 @@ const MemberInfoForm = ({
                 }
               />
             </Grid>
-            <Grid item xs={12} sm={1.3}>
-              <VerifyEmailButton
-                email={values.email}
-                verifiedEmail={values.verifiedEmail}
-                setVerifiedEmail={isVerified => {
-                  setValues({ ...values, verifiedEmail: isVerified });
-                }}
-              />
-            </Grid>
+            {isSignUpPage && (
+              <Grid item xs={12} sm={1.3}>
+                <VerifyEmailButton
+                  email={values.email}
+                  verifiedEmail={values.verifiedEmail}
+                  setVerifiedEmail={isVerified => {
+                    setValues({ ...values, verifiedEmail: isVerified });
+                  }}
+                />
+              </Grid>
+            )}
+
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
@@ -247,6 +261,12 @@ const MemberInfoForm = ({
                 helperText={touched.addressSub && errors.addressSub}
               />
             </Grid>
+            {!isSignUpPage && (
+              <Grid item xs={12} sm={12}>
+                <PasswordResetButton />
+              </Grid>
+            )}
+
             <Grid item xs={12} sm={12}>
               <Alert severity="info">현재 (최종) 학력 & 현재 직업 정보</Alert>
             </Grid>
@@ -363,6 +383,7 @@ const MemberInfoForm = ({
               size="large"
               sx={{ mt: 3, mb: 2 }}
               style={{ height: '52px' }}
+              startIcon={<Save />}
             >
               <Typography variant="h6">{submitButtonText}</Typography>
             </Button>

@@ -23,6 +23,10 @@ import { updateMemberRequest } from '../../modules/auth';
 
 const MyPage = () => {
   const dispatch = useDispatch();
+  const isSignUpPage = useMemo(
+    () => location.pathname.indexOf('/auth/sign-up') > -1,
+    [location.state],
+  );
   const { member, progressList, isLoading } = useSelector(
     ({ auth, member, loading }) => ({
       member: auth.member,
@@ -69,6 +73,7 @@ const MyPage = () => {
         }}
       >
         <MemberInfoForm
+          isSignUpPage={isSignUpPage}
           isOauthUser={isOauthUser}
           initialValues={initialValues}
           handleSubmit={handleSubmit}

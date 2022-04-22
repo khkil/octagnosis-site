@@ -52,7 +52,7 @@ const VerifyEmailButton = ({ email, verifiedEmail, setVerifiedEmail }) => {
     <>
       {!sentEmail ? (
         <LoadingButton
-          color="primary"
+          color="info"
           fullWidth
           loading={loading}
           variant="contained"
@@ -63,7 +63,7 @@ const VerifyEmailButton = ({ email, verifiedEmail, setVerifiedEmail }) => {
         </LoadingButton>
       ) : (
         <Button
-          color="primary"
+          color="info"
           fullWidth
           variant="contained"
           style={{ height: '56px' }}
