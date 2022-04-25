@@ -56,16 +56,20 @@ const MemberInfoForm = ({
   };
 
   useEffect(() => {
-    console.log(isSignUpPage);
+    if (isSignUpPage) {
+      setSchema({
+        ...schema,
+        password: Yup.string().required('비밀번호를 입력하세요'),
+        passwordConfirm: Yup.string()
+          .required('비밀번호 확인을 입력하세요')
+          .oneOf([Yup.ref('password'), null], '패스워드가 일치하지 않습니다.'),
+      });
+    }
     if (!isOauthUser) {
       setSchema({
         ...schema,
         id: Yup.string().required('아이디를 입력하세요'),
         name: Yup.string().required('이름을 입력하세요'),
-        password: Yup.string().required('비밀번호를 입력하세요'),
-        passwordConfirm: Yup.string()
-          .required('비밀번호 확인을 입력하세요')
-          .oneOf([Yup.ref('password'), null], '패스워드가 일치하지 않습니다.'),
         verifiedId: Yup.boolean().oneOf([true], '아이디 중복체크를 해주세요'),
         verifiedEmail: Yup.boolean().oneOf(
           [true],

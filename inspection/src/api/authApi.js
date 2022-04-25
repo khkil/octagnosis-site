@@ -202,3 +202,19 @@ export const checkEmailApi = params => {
       });
   });
 };
+
+export const resetPasswordApi = params => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`/api/auth/reset-password`, params)
+      .then(response => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
