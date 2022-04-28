@@ -46,6 +46,17 @@ const LoginPage = ({ history }) => {
 
   const [attempted, setAttempted] = useState(false);
 
+  const goSignUpPage = () => {
+    history.push('/auth/sign-up');
+  };
+
+  const goFindIdPage = () => {
+    history.push('/auth/find-info/id');
+  };
+  const goFindPasswordPage = () => {
+    history.push('/auth/find-info/password');
+  };
+
   const handleSubmit = params => {
     setAttempted(true);
     dispatch(loginRequest(params));
@@ -157,22 +168,22 @@ const LoginPage = ({ history }) => {
             <Box item mt={3}>
               <Link
                 underline="none"
-                onClick={() => {
-                  history.push('/auth/sign-up');
-                }}
+                onClick={goSignUpPage}
                 sx={{ float: 'left' }}
               >
                 회원 가입
               </Link>
-              <Link
-                underline="none"
-                onClick={() => {
-                  history.push('/auth/sign-up');
-                }}
-                sx={{ float: 'right' }}
-              >
-                계정 찾기
-              </Link>
+              <Box sx={{ float: 'right' }}>
+                <Link underline="none" onClick={goFindIdPage}>
+                  아이디 찾기
+                </Link>
+                <Typography sx={{ ml: 1, mr: 1 }} variant="span">
+                  /
+                </Typography>
+                <Link underline="none" onClick={goFindPasswordPage}>
+                  비밀번호 찾기
+                </Link>
+              </Box>
             </Box>
           </Paper>
         </Grid>
