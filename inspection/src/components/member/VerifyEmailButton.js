@@ -7,7 +7,6 @@ import { LoadingButton } from '@mui/lab';
 const VerifyEmailButton = ({ email, verifiedEmail, setVerifiedEmail }) => {
   const [loading, setLoading] = useState(false);
   const [sentEmail, setSentEmail] = useState(false);
-  const [uUid, setUuid] = useState(null);
 
   const sendVerifyEmail = () => {
     if (!emailRegExp.test(email)) {
@@ -15,7 +14,7 @@ const VerifyEmailButton = ({ email, verifiedEmail, setVerifiedEmail }) => {
       return false;
     }
     setLoading(true);
-    const params = { to: email };
+    const params = { toEmail: email };
     sendVerifyEmailApi(params)
       .then(({ success, data }) => {
         if (Boolean(success)) {
@@ -24,7 +23,6 @@ const VerifyEmailButton = ({ email, verifiedEmail, setVerifiedEmail }) => {
           );
           setSentEmail(true);
           setLoading(false);
-          setUuid(data.uUid);
         }
       })
       .catch(() => {
@@ -34,7 +32,7 @@ const VerifyEmailButton = ({ email, verifiedEmail, setVerifiedEmail }) => {
 
   const verifyEmail = () => {
     const params = {
-      uUid: uUid,
+      toEmail: email,
     };
     checkEmailApi(params)
       .then(({ success }) => {
