@@ -2,9 +2,12 @@ import { Button, Typography } from '@mui/material';
 import React from 'react';
 import { checkIdApi } from '../../api/authApi';
 
-const VerifyIdButton = ({ value, setVerifiedId }) => {
+const VerifyIdButton = ({ value, verifiedId, setVerifiedId }) => {
   const checkId = () => {
-    if (!value) return false;
+    if (!value) {
+      alert('아이디를 입력해주세요');
+      return false;
+    }
     checkIdApi(value)
       .then(({ success }) => {
         if (Boolean(success)) {

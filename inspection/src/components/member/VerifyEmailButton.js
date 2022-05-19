@@ -5,7 +5,7 @@ import { emailRegExp } from '../../utils/common';
 import { LoadingButton } from '@mui/lab';
 
 const VerifyEmailButton = ({ email, verifiedEmail, setVerifiedEmail }) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [sentEmail, setSentEmail] = useState(false);
 
   const sendVerifyEmail = () => {
@@ -14,20 +14,22 @@ const VerifyEmailButton = ({ email, verifiedEmail, setVerifiedEmail }) => {
       return false;
     }
     setLoading(true);
-    const params = { toEmail: email };
-    sendVerifyEmailApi(params)
-      .then(({ success, data }) => {
-        if (Boolean(success)) {
-          alert(
-            '인증메일이 발송 되었습니다. 메일함으로가 인증을 완료 해주세요.',
-          );
-          setSentEmail(true);
-          setLoading(false);
-        }
-      })
-      .catch(() => {
-        alert('메일발송에 실패 하였습니다. 관리자에게 문의해주세요.');
-      });
+    setTimeout(() => {
+      const params = { toEmail: email };
+      sendVerifyEmailApi(params)
+        .then(({ success, data }) => {
+          if (Boolean(success)) {
+            alert(
+              '인증메일이 발송 되었습니다. 메일함으로가 인증을 완료 해주세요.',
+            );
+            setSentEmail(true);
+            setLoading(false);
+          }
+        })
+        .catch(() => {
+          alert('메일발송에 실패 하였습니다. 관리자에게 문의해주세요.');
+        });
+    }, 1000);
   };
 
   const verifyEmail = () => {

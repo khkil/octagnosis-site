@@ -8,10 +8,6 @@ import { Save, Search } from '@mui/icons-material';
 
 const GroupForm = ({ initialValues, onSubmit }) => {
   const [openAddressPopup, setOpenAddressPopup] = useState(false);
-
-  useEffect(() => {
-    console.log(initialValues);
-  }, []);
   return (
     <Formik
       initialValues={

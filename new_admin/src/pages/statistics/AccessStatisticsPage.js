@@ -4,7 +4,7 @@ import React from 'react';
 const AccessStatisticsPage = () => {
   return (
     <Grid container alignContent={'center'}>
-      <Grid item>aasd</Grid>
+      <Grid item>접속통계</Grid>
     </Grid>
   );
 };

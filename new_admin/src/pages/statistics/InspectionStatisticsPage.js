@@ -8,7 +8,7 @@ const InspectionStatisticsPage = () => {
   useEffect(() => {}, []);
   return (
     <Grid container alignContent={'center'}>
-      <Grid item>aasd</Grid>
+      <Grid item>검사 통계</Grid>
     </Grid>
   );
 };

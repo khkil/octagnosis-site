@@ -11,6 +11,7 @@ import { LoadingButton } from '@mui/lab';
 import { makeStyles } from '@mui/styles';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { sendFindIdEmailApi } from '../../api/authApi';
 
 const useStyles = makeStyles({
   root: {
@@ -28,7 +29,20 @@ const useStyles = makeStyles({
 const FindIdPage = () => {
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = params => {};
+  const handleSubmit = params => {
+    setLoading(true);
+    sendFindIdEmailApi(params)
+      .then(d => {
+        setLoading(false);
+        alert('');
+      })
+      .catch(({ response }) => {
+        setLoading(false);
+        if (response.data && response.data.msg) {
+          alert(response.data.msg);
+        }
+      });
+  };
   const classes = useStyles();
 
   return (
@@ -45,10 +59,12 @@ const FindIdPage = () => {
             <Grid item>
               <Formik
                 initialValues={{
-                  email: '',
+                  toEmail: '',
                 }}
                 validationSchema={Yup.object().shape({
-                  email: Yup.string().required('이메일을 입력하세요'),
+                  toEmail: Yup.string()
+                    .required('이메일을 입력하세요')
+                    .email('이메일 형식에 맞게 입력하세요'),
                 })}
                 onSubmit={(data, props) => {
                   handleSubmit(data);
@@ -68,26 +84,26 @@ const FindIdPage = () => {
                       <Grid item>
                         <TextField
                           fullWidth
-                          name="email"
+                          name="toEmail"
                           label="이메일"
                           variant="filled"
                           onChange={handleChange}
                           value={values.email}
-                          error={Boolean(touched.email && errors.email)}
-                          helperText={touched.email && errors.email}
+                          error={Boolean(touched.toEmail && errors.toEmail)}
+                          helperText={touched.toEmail && errors.toEmail}
                           autoFocus
                         />
                       </Grid>
                       <Grid item mb={-1}>
                         <LoadingButton
                           type="submit"
-                          style={{ background: '#27313e', height: '52px' }}
                           fullWidth
                           loading={loading}
-                          variant="outlined"
+                          variant="contained"
+                          style={{ height: '56px' }}
                         >
-                          <Typography style={{ color: 'white' }}>
-                            인증링크 메일 보내기
+                          <Typography variant="subtitle1">
+                            인증 메일 발송
                           </Typography>
                         </LoadingButton>
                       </Grid>

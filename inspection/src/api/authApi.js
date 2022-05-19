@@ -158,7 +158,23 @@ export const updateMemberApi = params => {
 export const sendVerifyEmailApi = params => {
   return new Promise((resolve, reject) => {
     axios
-      .post(`/api/auth/send-email`, params)
+      .post(`/api/auth/send-sign-up-email`, params)
+      .then(response => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
+export const sendFindIdEmailApi = params => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`/api/auth/send-find-id-email`, params)
       .then(response => {
         if (response.status === 200) {
           resolve(response.data);
