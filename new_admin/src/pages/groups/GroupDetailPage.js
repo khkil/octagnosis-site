@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { groupUpdateApi } from '../../api/groupApi';
 import MenuBar from '../../components/common/MenuBar';
 import GroupForm from '../../components/groups/GroupForm';
+import GroupCodeManageForm from '../../components/groups/GroupCodeManageForm';
 import HorizonalTabs from '../../components/inspections/HorizonalTabs';
 import Loader from '../../components/ui/Loader';
 import { fetchGroupDetail, FETCH_GROUP_DETAIL } from '../../modules/group';
@@ -22,7 +23,7 @@ const tabData = [
 
 const GroupDetailPage = ({ match }) => {
   const dispatch = useDispatch();
-  const [tabValue, setTabValue] = useState(tabData[0].value);
+  const [tabValue, setTabValue] = useState(tabData[1].value);
   const { loading, groupDetail } = useSelector(({ loading, group }) => ({
     loading: loading[FETCH_GROUP_DETAIL] === undefined || Boolean(loading[FETCH_GROUP_DETAIL]),
     groupDetail: group.selected,
@@ -59,7 +60,7 @@ const GroupDetailPage = ({ match }) => {
           {tabValue === 'info' ? (
             <GroupForm initialValues={groupDetail} onSubmit={updateGroup} />
           ) : tabValue === 'code' ? (
-            <div>code</div>
+            <GroupCodeManageForm />
           ) : null}
         </Paper>
       )}
