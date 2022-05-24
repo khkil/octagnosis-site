@@ -65,7 +65,7 @@ const MemberListPage = ({ match, history, location }) => {
       </Grid>
       {/* <Grid xs={12}>{loading ? <Loader /> : <MemberList memberList={memberList} startRow={pageInfo.startRow} />}</Grid> */}
       <Grid item xs={12}>
-        {loading ? <Loader /> : <MemberList memberList={memberList} startRow={pageInfo.startRow} />}
+        <MemberList memberList={memberList} startRow={pageInfo.startRow} />
       </Grid>
 
       <Grid item xs={12}>

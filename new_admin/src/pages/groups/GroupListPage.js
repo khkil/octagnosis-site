@@ -14,28 +14,38 @@ import { Add, PlusOne } from '@mui/icons-material';
 const GroupListPage = ({ match }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-
-  const [params, setParams] = useState(queryString.parse(location.search));
+  const query = queryString.parse(location.search);
+  const [searchText, setSearchText] = useState(query.searchText);
   const { groupList, pageInfo, loading } = useSelector(({ group, loading }) => ({
     groupList: group.list,
     pageInfo: group.pageInfo,
     loading: loading[FETCH_GROUP_LIST] === undefined || Boolean(loading[FETCH_GROUP_LIST]),
   }));
 
-  const serachGroup = () => {};
+  const serachGroup = e => {
+    e.preventDefault();
+    delete query.pageNum;
+    query.searchText = searchText;
+    history.push({
+      pathname: location.pathname,
+      search: queryString.stringify(query),
+    });
+  };
 
   const goRegistPage = () => {
     history.push('/groups/regist');
   };
+
   const goPage = page => {
-    setParams({ ...params, pageNum: page });
+    query.pageNum = page;
     history.push({
       pathname: location.pathname,
-      search: queryString.stringify(params),
+      search: queryString.stringify(query),
     });
   };
+
   useEffect(() => {
-    dispatch(fetchGroupList(params));
+    dispatch(fetchGroupList(query));
   }, [location.search]);
 
   return (
@@ -43,7 +53,7 @@ const GroupListPage = ({ match }) => {
       <MenuBar match={match} />
       <Grid item xs={12}>
         <SearchBar
-          value={params.searchText}
+          value={searchText}
           onChange={e => {
             const { value } = e.target;
             setSearchText(value);
@@ -68,7 +78,7 @@ const GroupListPage = ({ match }) => {
         <GroupList groupList={groupList} startRow={pageInfo.startRow} />
       </Grid>
       <Grid item xs={12}>
-        <Paging pageInfo={pageInfo} page={params.pageNum ? params.pageNum : 1} setPage={goPage} />
+        <Paging pageInfo={pageInfo} page={query.pageNum ? query.pageNum : 1} setPage={goPage} />
       </Grid>
     </Grid>
   );
