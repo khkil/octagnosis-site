@@ -1,4 +1,4 @@
-import { Box, Grid, Paper } from '@mui/material';
+import { Box, Container, Grid, Paper } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import queryString from 'query-string';
@@ -49,29 +49,31 @@ const MemberListPage = ({ match, history, location }) => {
   }, [location.search]);
 
   return (
-    <Grid container alignContent={'center'} spacing={2}>
+    <Container maxWidth={'xl'}>
       <MenuBar match={match} />
-      <Grid item xs={12}>
-        <SearchBar
-          sx={{ mb: 2 }}
-          value={query.searchText}
-          onChange={e => {
-            const { name, value } = e.target;
-            setSearchText(value);
-          }}
-          onSubmit={searchMember}
-          placeholder={'회원명을 입력해주세요'}
-        />
-      </Grid>
-      {/* <Grid xs={12}>{loading ? <Loader /> : <MemberList memberList={memberList} startRow={pageInfo.startRow} />}</Grid> */}
-      <Grid item xs={12}>
-        <MemberList memberList={memberList} startRow={pageInfo.startRow} />
-      </Grid>
+      <Grid container alignContent={'center'} spacing={2}>
+        <Grid item xs={12}>
+          <SearchBar
+            sx={{ mb: 2 }}
+            value={query.searchText}
+            onChange={e => {
+              const { name, value } = e.target;
+              setSearchText(value);
+            }}
+            onSubmit={searchMember}
+            placeholder={'회원명을 입력해주세요'}
+          />
+        </Grid>
+        {/* <Grid xs={12}>{loading ? <Loader /> : <MemberList memberList={memberList} startRow={pageInfo.startRow} />}</Grid> */}
+        <Grid item xs={12}>
+          <MemberList memberList={memberList} startRow={pageInfo.startRow} />
+        </Grid>
 
-      <Grid item xs={12}>
-        <Paging pageInfo={pageInfo} page={query.pageNum ? query.pageNum : 1} setPage={goPage} />
+        <Grid item xs={12}>
+          <Paging pageInfo={pageInfo} page={query.pageNum ? query.pageNum : 1} setPage={goPage} />
+        </Grid>
       </Grid>
-    </Grid>
+    </Container>
   );
 };
 

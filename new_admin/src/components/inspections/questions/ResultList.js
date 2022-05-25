@@ -51,35 +51,33 @@ const ResultList = ({ inspectionIdx, resultList, fetchQuestionList }) => {
 
   if (firstResultIdx === -1) return null;
   return (
-    <Paper>
-      <Box mt={2} sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex' }}>
-        <Tabs
-          className={classes.tabs}
-          orientation="vertical"
-          variant="scrollable"
-          value={value}
-          onChange={handleChange}
-          aria-label="Vertical tabs example"
-          sx={{ borderRight: 1, borderColor: 'divider' }}
-        >
-          {resultList.map(({ resultIdx, resultName }) => (
-            <Tab className={classes.tab} key={resultIdx} label={resultName} value={resultIdx} />
-          ))}
-        </Tabs>
-
-        {resultList.map(({ resultIdx, resultName, questionList }) => (
-          <TabPanel key={resultIdx} value={value} index={resultIdx}>
-            <QuestionList
-              inspectionIdx={inspectionIdx}
-              resultIdx={resultIdx}
-              resultName={resultName}
-              initialQuestionList={questionList}
-              fetchQuestionList={fetchQuestionList}
-            />
-          </TabPanel>
+    <Box mt={2} sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex' }}>
+      <Tabs
+        className={classes.tabs}
+        orientation="vertical"
+        variant="scrollable"
+        value={value}
+        onChange={handleChange}
+        aria-label="Vertical tabs example"
+        sx={{ borderRight: 1, borderColor: 'divider' }}
+      >
+        {resultList.map(({ resultIdx, resultName }) => (
+          <Tab className={classes.tab} key={resultIdx} label={resultName} value={resultIdx} />
         ))}
-      </Box>
-    </Paper>
+      </Tabs>
+
+      {resultList.map(({ resultIdx, resultName, questionList }) => (
+        <TabPanel key={resultIdx} value={value} index={resultIdx}>
+          <QuestionList
+            inspectionIdx={inspectionIdx}
+            resultIdx={resultIdx}
+            resultName={resultName}
+            initialQuestionList={questionList}
+            fetchQuestionList={fetchQuestionList}
+          />
+        </TabPanel>
+      ))}
+    </Box>
   );
 };
 

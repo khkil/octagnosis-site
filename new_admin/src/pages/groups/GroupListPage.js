@@ -1,4 +1,4 @@
-import { Button, Grid } from '@mui/material';
+import { Button, Container, Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import queryString from 'query-string';
@@ -49,38 +49,40 @@ const GroupListPage = ({ match }) => {
   }, [location.search]);
 
   return (
-    <Grid container alignContent={'center'} spacing={2}>
+    <Container maxWidth="xl">
       <MenuBar match={match} />
-      <Grid item xs={12}>
-        <SearchBar
-          value={searchText}
-          onChange={e => {
-            const { value } = e.target;
-            setSearchText(value);
-          }}
-          onSubmit={serachGroup}
-          placeholder={'단체명을 입력해주세요'}
-        />
+      <Grid container alignContent={'center'} spacing={2}>
+        <Grid item xs={10.5}>
+          <SearchBar
+            value={searchText}
+            onChange={e => {
+              const { value } = e.target;
+              setSearchText(value);
+            }}
+            onSubmit={serachGroup}
+            placeholder={'단체명을 입력해주세요'}
+          />
+        </Grid>
+        <Grid item xs={1.5}>
+          <Button
+            sx={{ mb: 3 }}
+            color="primary"
+            variant="contained"
+            size="large"
+            startIcon={<Add />}
+            onClick={goRegistPage}
+          >
+            단체 등록
+          </Button>
+        </Grid>
+        <Grid item xs={12}>
+          <GroupList groupList={groupList} startRow={pageInfo.startRow} />
+        </Grid>
+        <Grid item xs={12}>
+          <Paging pageInfo={pageInfo} page={query.pageNum ? query.pageNum : 1} setPage={goPage} />
+        </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <Button
-          sx={{ mb: 3 }}
-          color="primary"
-          variant="contained"
-          size="large"
-          startIcon={<Add />}
-          onClick={goRegistPage}
-        >
-          단체 등록
-        </Button>
-      </Grid>
-      <Grid item xs={12}>
-        <GroupList groupList={groupList} startRow={pageInfo.startRow} />
-      </Grid>
-      <Grid item xs={12}>
-        <Paging pageInfo={pageInfo} page={query.pageNum ? query.pageNum : 1} setPage={goPage} />
-      </Grid>
-    </Grid>
+    </Container>
   );
 };
 

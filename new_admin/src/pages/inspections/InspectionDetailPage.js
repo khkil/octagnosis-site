@@ -1,4 +1,4 @@
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Container, Paper, Typography } from '@mui/material';
 import React, { useEffect, useMemo, useState } from 'react';
 import HorizonalTabs from '../../components/inspections/HorizonalTabs';
 import MenuBar from '../../components/common/MenuBar';
@@ -48,33 +48,31 @@ const InspectionDetailPage = ({ match }) => {
   }, [inspectionIdx]);
 
   return (
-    <Box>
-      <Typography variant="h5" sx={{ mb: 2 }}>
-        {inspectionDetail.inspectionName}
-      </Typography>
-      {/* <MenuBar match={match} /> */}
+    <Container maxWidth={'xl'}>
+      <MenuBar match={match} thirdText={inspectionDetail.inspectionName} />
       <HorizonalTabs tabData={tabData} tabValue={tabValue} setTabValue={setTabValue} />
-
-      {tabValue === 'basic' ? (
-        loading.inspection ? (
-          <Loader />
-        ) : (
-          <InspectionDetailInfo inspectionDetail={inspectionDetail} />
-        )
-      ) : tabValue === 'question' ? (
-        loading.question ? (
-          <Loader />
-        ) : (
-          <ResultList
-            inspectionIdx={inspectionIdx}
-            resultList={resultList}
-            fetchQuestionList={() => {
-              dispatch(fetchQuestionList(inspectionIdx));
-            }}
-          />
-        )
-      ) : null}
-    </Box>
+      <Paper>
+        {tabValue === 'basic' ? (
+          loading.inspection ? (
+            <Loader />
+          ) : (
+            <InspectionDetailInfo inspectionDetail={inspectionDetail} />
+          )
+        ) : tabValue === 'question' ? (
+          loading.question ? (
+            <Loader />
+          ) : (
+            <ResultList
+              inspectionIdx={inspectionIdx}
+              resultList={resultList}
+              fetchQuestionList={() => {
+                dispatch(fetchQuestionList(inspectionIdx));
+              }}
+            />
+          )
+        ) : null}
+      </Paper>
+    </Container>
   );
 };
 

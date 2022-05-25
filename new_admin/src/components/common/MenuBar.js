@@ -2,10 +2,21 @@ import React, { useEffect, useState } from 'react';
 import useReactRouter from 'use-react-router';
 import { Box, Breadcrumbs, Divider, Grid, Typography } from '@mui/material';
 import { commonLayoutRoutes } from '../../routers';
+import { makeStyles } from '@mui/styles';
 
-const MenuBar = ({ match }) => {
+const useStyles = makeStyles(theme => ({
+  menuName: {
+    fontSize: '1.5rem',
+    fontWeight: '700',
+  },
+}));
+
+const MenuBar = ({ match, thirdText }) => {
+  const classes = useStyles();
   const [menuInfo, setMenuInfo] = useState({});
 
+  console.log(match.path);
+  console.log(commonLayoutRoutes);
   useEffect(() => {
     commonLayoutRoutes.forEach(route => {
       const { name, path, children } = route;
@@ -15,6 +26,7 @@ const MenuBar = ({ match }) => {
           const fullPath = path + child.path;
           if (fullPath === match.path) {
             setMenuInfo({
+              route: route,
               name: child.name,
             });
           }
@@ -22,6 +34,7 @@ const MenuBar = ({ match }) => {
       } else {
         if (path === match.path) {
           setMenuInfo({
+            route: route,
             name: name,
           });
           return;
@@ -30,20 +43,21 @@ const MenuBar = ({ match }) => {
     });
   }, []);
 
+  if (!menuInfo.route) return null;
   return (
-    <>
+    <Box pb={2}>
+      <p className={classes.menuName}>{menuInfo.name}</p>
       <Grid item xs={12}>
-        <Typography variant="h5">{menuInfo.name}</Typography>
-        {/*     <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-          <Typography>1</Typography>
-          <Typography>2</Typography>
-          <Typography>3</Typography>
-        </Breadcrumbs> */}
+        <Breadcrumbs aria-label="Breadcrumb" separator="›">
+          <Typography>{menuInfo.route.name}</Typography>
+          <Typography>{menuInfo.name}</Typography>
+          {thirdText && <Typography>{thirdText}</Typography>}
+        </Breadcrumbs>
       </Grid>
       <Box mb={2} mt={2}>
-        {/* <Divider /> */}
+        <Divider />
       </Box>
-    </>
+    </Box>
   );
 };
 

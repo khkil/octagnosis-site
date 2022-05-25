@@ -65,3 +65,19 @@ export const groupUpdateApi = (idx, group) => {
       });
   });
 };
+
+export const groupCodeListApi = idx => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`/api/admin/groups/${idx}/codes`)
+      .then(response => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};

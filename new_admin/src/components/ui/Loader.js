@@ -14,7 +14,7 @@ const useStyles = makeStyles({
 
 const Loader = ({ height }) => {
   const classes = useStyles({
-    height: height ? height : '70',
+    height: height ? height : '50',
   });
 
   return (

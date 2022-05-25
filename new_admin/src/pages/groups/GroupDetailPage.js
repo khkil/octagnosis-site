@@ -1,4 +1,4 @@
-import { Box, Grid, Paper } from '@mui/material';
+import { Box, Container, Grid, Paper, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -48,23 +48,23 @@ const GroupDetailPage = ({ match }) => {
     const { groupIdx } = match.params;
     dispatch(fetchGroupDetail(groupIdx));
   }, []);
-  console.log(loading, groupDetail);
+
   return (
-    <Box>
-      <MenuBar match={match} />
+    <Container maxWidth={'xl'}>
       {loading ? (
         <Loader />
       ) : (
-        <Paper>
-          <HorizonalTabs tabData={tabData} tabValue={tabValue} setTabValue={setTabValue} />
-          {tabValue === 'info' ? (
+        <>
+          <MenuBar match={match} thirdText={groupDetail.name} />
+          <Paper>
+            <Box p={2}>
+              <Typography variant="h5">{groupDetail.name}</Typography>
+            </Box>
             <GroupForm initialValues={groupDetail} onSubmit={updateGroup} />
-          ) : tabValue === 'code' ? (
-            <GroupCodeManageForm />
-          ) : null}
-        </Paper>
+          </Paper>
+        </>
       )}
-    </Box>
+    </Container>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button, TextField, Grid, Box, Alert, MenuItem, Paper } from '@mui/material';
+import { Button, TextField, Grid, Box, Alert, MenuItem, Paper, Container } from '@mui/material';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import MemberProgressList from '../../components/members/progress/MemberProgressList';
@@ -26,27 +26,28 @@ const MemberDetailPage = ({ match }) => {
   }, []);
 
   return (
-    <Box>
-      <MenuBar match={match} />
-
+    <Container maxWidth={'xl'}>
       {loading ? (
         <Loader />
       ) : (
-        <Paper>
-          <Grid container spacing={2} sx={{ p: 2 }}>
-            <Grid item xs={12} sm={12}>
-              <MemberDetail memberDetail={memberDetail} />
+        <>
+          <MenuBar match={match} thirdText={memberDetail.name} />
+          <Paper>
+            <Grid container spacing={2} sx={{ p: 2 }}>
+              <Grid item xs={12} sm={12}>
+                <MemberDetail memberDetail={memberDetail} />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <Alert severity="success">검사 진행 상황</Alert>
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <MemberProgressList progressList={progressList} />
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={12}>
-              <Alert severity="success">검사 진행 상황</Alert>
-            </Grid>
-            <Grid item xs={12} sm={12}>
-              <MemberProgressList progressList={progressList} />
-            </Grid>
-          </Grid>
-        </Paper>
+          </Paper>
+        </>
       )}
-    </Box>
+    </Container>
   );
 };
 
