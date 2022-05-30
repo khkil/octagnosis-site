@@ -21,6 +21,7 @@ const GroupForm = ({ initialValues, onSubmit }) => {
               contactName: '',
               contactEmail: '',
               contactTel: '',
+              groupCode: '',
             }
       }
       validationSchema={Yup.object().shape({
@@ -147,6 +148,24 @@ const GroupForm = ({ initialValues, onSubmit }) => {
                 error={Boolean(touched.contactEmail && errors.contactEmail)}
                 helperText={touched.contactEmail && errors.contactEmail}
               />
+            </Grid>
+            <Grid item xs={12}>
+              <Alert severity="success">회차코드 관리</Alert>
+            </Grid>
+            <Grid item xs={10}>
+              <TextField
+                fullWidth
+                name="groupCode"
+                label="담당자 이메일"
+                type="text"
+                value={values.groupCode}
+                onChange={handleChange}
+                error={Boolean(touched.groupCode && errors.groupCode)}
+                helperText={touched.groupCode && errors.groupCode}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <Alert severity="success">회차코드 관리</Alert>
             </Grid>
 
             <Grid item xs={12} style={{ textAlign: 'center' }}>
