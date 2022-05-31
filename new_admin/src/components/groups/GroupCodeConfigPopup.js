@@ -30,8 +30,15 @@ const BootstrapDialogTitle = props => {
   );
 };
 
-const GroupCodeConfigPopup = ({ groupIdx }) => {
-  const { isLoading, isError, data, error } = useQuery('todos', groupCodeConfigApi(groupIdx), {
+const GroupCodeConfigPopup = ({ groupIdx, setOpenCodeConfigPopup, openCodeConfigPopup }) => {
+  const handleClose = () => {
+    setOpenCodeConfigPopup(false);
+  };
+
+  useEffect(() => {
+    console.log('test');
+  }, []);
+  const { isLoading, isError, data, error } = useQuery('todos', () => groupCodeConfigApi(groupIdx), {
     refetchOnWindowFocus: false, // react-query는 사용자가 사용하는 윈도우가 다른 곳을 갔다가 다시 화면으로 돌아오면 이 함수를 재실행합니다. 그 재실행 여부 옵션 입니다.
     retry: 0, // 실패시 재호출 몇번 할지
     onSuccess: data => {
@@ -54,11 +61,27 @@ const GroupCodeConfigPopup = ({ groupIdx }) => {
   }
 
   return (
-    <ul>
-      {data.map(todo => (
-        <li key={todo.id}>{todo.title}</li>
-      ))}
-    </ul>
+    <Dialog aria-labelledby="customized-dialog-title" open={openCodeConfigPopup} maxWidth={'md'} fullWidth={true}>
+      <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
+        회차코드 관리
+      </BootstrapDialogTitle>
+      <DialogContent dividers>
+        <Loader />
+        <Grid container>
+          <Grid item xs={6}>
+            3
+          </Grid>
+          <Grid item xs={6}>
+            3
+          </Grid>
+        </Grid>
+      </DialogContent>
+      <DialogActions>
+        <Button variant="contained" size="large" onClick={handleClose} startIcon={<Save />}>
+          설정저장
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

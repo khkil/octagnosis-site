@@ -15,8 +15,6 @@ const MenuBar = ({ match, thirdText }) => {
   const classes = useStyles();
   const [menuInfo, setMenuInfo] = useState({});
 
-  console.log(match.path);
-  console.log(commonLayoutRoutes);
   useEffect(() => {
     commonLayoutRoutes.forEach(route => {
       const { name, path, children } = route;
