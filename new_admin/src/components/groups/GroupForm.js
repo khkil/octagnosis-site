@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { Alert, Box, Button, Grid, IconButton, InputAdornment, Paper, TextField } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
 import FindAddressPopup from '../common/FindAddressPopup';
+import GroupCodeConfigPopup from '../groups/GroupCodeConfigPopup';
 import { Save, Search } from '@mui/icons-material';
 import { generateCode } from '../../utils';
+import { useParams } from 'react-router-dom';
 
 const GroupForm = ({ initialValues, onSubmit }) => {
+  const { groupIdx } = useParams();
+  const [openCodeConfigPopup, setOpenCodeConfigPopup] = useState(false);
   const [openAddressPopup, setOpenAddressPopup] = useState(false);
   return (
     <Formik
@@ -41,6 +44,11 @@ const GroupForm = ({ initialValues, onSubmit }) => {
     >
       {({ values, setValues, handleChange, handleSubmit, touched, errors }) => (
         <Box component="form" onSubmit={handleSubmit} p={2}>
+          <GroupCodeConfigPopup
+            groupIdx={groupIdx}
+            setOpenCodeConfigPopup={setOpenCodeConfigPopup}
+            openCodeConfigPopup={openCodeConfigPopup}
+          />
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <Alert severity="info">기본정보</Alert>
@@ -180,11 +188,18 @@ const GroupForm = ({ initialValues, onSubmit }) => {
               </Button>
             </Grid>
             <Grid item xs={2}>
-              <Button fullWidth variant="contained" size="large" sx={{ height: 55 }}>
+              <Button
+                fullWidth
+                variant="contained"
+                size="large"
+                sx={{ height: 55 }}
+                onClick={() => {
+                  setOpenCodeConfigPopup(true);
+                }}
+              >
                 회차코드 관리
               </Button>
             </Grid>
-
             <Grid item xs={12} style={{ textAlign: 'center' }}>
               <Button type="submit" variant="contained" size="large" startIcon={<Save />}>
                 저장하기

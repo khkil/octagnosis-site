@@ -66,10 +66,10 @@ export const groupUpdateApi = (idx, group) => {
   });
 };
 
-export const groupCodeListApi = idx => {
+export const groupCodeConfigApi = idx => {
   return new Promise((resolve, reject) => {
     axios
-      .get(`/api/admin/groups/${idx}/codes`)
+      .get(`/api/admin/groups/${idx}/code-config`)
       .then(response => {
         if (response.status === 200) {
           resolve(response.data);
