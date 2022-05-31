@@ -5,6 +5,7 @@ import { Alert, Box, Button, Grid, IconButton, InputAdornment, Paper, TextField 
 import { LoadingButton } from '@mui/lab';
 import FindAddressPopup from '../common/FindAddressPopup';
 import { Save, Search } from '@mui/icons-material';
+import { generateCode } from '../../utils';
 
 const GroupForm = ({ initialValues, onSubmit }) => {
   const [openAddressPopup, setOpenAddressPopup] = useState(false);
@@ -152,11 +153,11 @@ const GroupForm = ({ initialValues, onSubmit }) => {
             <Grid item xs={12}>
               <Alert severity="success">회차코드 관리</Alert>
             </Grid>
-            <Grid item xs={10}>
+            <Grid item xs={8}>
               <TextField
                 fullWidth
                 name="groupCode"
-                label="담당자 이메일"
+                label="단체 회차 코드"
                 type="text"
                 value={values.groupCode}
                 onChange={handleChange}
@@ -165,7 +166,23 @@ const GroupForm = ({ initialValues, onSubmit }) => {
               />
             </Grid>
             <Grid item xs={2}>
-              <Alert severity="success">회차코드 관리</Alert>
+              <Button
+                fullWidth
+                variant="contained"
+                size="large"
+                color="info"
+                sx={{ height: 55 }}
+                onClick={() => {
+                  setValues({ ...values, groupCode: generateCode() });
+                }}
+              >
+                랜덤 코드 발급
+              </Button>
+            </Grid>
+            <Grid item xs={2}>
+              <Button fullWidth variant="contained" size="large" sx={{ height: 55 }}>
+                회차코드 관리
+              </Button>
             </Grid>
 
             <Grid item xs={12} style={{ textAlign: 'center' }}>

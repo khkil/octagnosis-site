@@ -11,3 +11,14 @@ export const getPageVariables = pageInfo => {
   });
   return result;
 };
+
+export const generateCode = size => {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const defaultSize = 15;
+  if (!size) size = defaultSize;
+  let result = '';
+  for (let i = 0; i < size; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+};
