@@ -81,3 +81,19 @@ export const groupCodeConfigApi = idx => {
       });
   });
 };
+
+export const updateGroupCodeConfigApi = (idx, params) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(`/api/admin/groups/${idx}/code-config`, params)
+      .then(response => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};

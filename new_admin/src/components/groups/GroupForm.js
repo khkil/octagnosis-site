@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom';
 
 const GroupForm = ({ initialValues, onSubmit }) => {
   const { groupIdx } = useParams();
-  const [openCodeConfigPopup, setOpenCodeConfigPopup] = useState(false);
+  const [openCodeConfigPopup, setOpenCodeConfigPopup] = useState(true);
   const [openAddressPopup, setOpenAddressPopup] = useState(false);
   return (
     <Formik
@@ -44,11 +44,27 @@ const GroupForm = ({ initialValues, onSubmit }) => {
     >
       {({ values, setValues, handleChange, handleSubmit, touched, errors }) => (
         <Box component="form" onSubmit={handleSubmit} p={2}>
-          <GroupCodeConfigPopup
-            groupIdx={groupIdx}
-            setOpenCodeConfigPopup={setOpenCodeConfigPopup}
-            openCodeConfigPopup={openCodeConfigPopup}
-          />
+          {openCodeConfigPopup && (
+            <GroupCodeConfigPopup
+              groupIdx={groupIdx}
+              setOpenCodeConfigPopup={setOpenCodeConfigPopup}
+              openCodeConfigPopup={openCodeConfigPopup}
+            />
+          )}
+
+          {openAddressPopup && (
+            <FindAddressPopup
+              open={openAddressPopup}
+              setOpen={setOpenAddressPopup}
+              onComplete={({ address }) => {
+                setValues({
+                  ...values,
+                  address: address,
+                });
+              }}
+            />
+          )}
+
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <Alert severity="info">기본정보</Alert>
@@ -97,16 +113,6 @@ const GroupForm = ({ initialValues, onSubmit }) => {
                       </IconButton>
                     </InputAdornment>
                   ),
-                }}
-              />
-              <FindAddressPopup
-                open={openAddressPopup}
-                setOpen={setOpenAddressPopup}
-                onComplete={({ address }) => {
-                  setValues({
-                    ...values,
-                    address: address,
-                  });
                 }}
               />
             </Grid>
