@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useQuery, useMutation } from 'react-query';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions, IconButton, Grid } from '@mui/material';
 import Loader from '../ui/Loader';
 import { Form, Formik } from 'formik';
@@ -32,17 +31,8 @@ const BootstrapDialogTitle = props => {
 };
 
 const GroupCodeConfigPopup = ({ groupIdx, setOpenCodeConfigPopup, openCodeConfigPopup }) => {
-  const [form, setForm] = useState({});
-
-  const { isLoading, isError, data, refetch } = useQuery('codeConfig', () => groupCodeConfigApi(groupIdx), {
-    refetchOnWindowFocus: false, // window 이동시 재실형 여부
-    retry: 0, // 실패시 재호출 횟수
-    onSuccess: data => {},
-    onError: e => {
-      console.error(e.message);
-    },
-  });
-
+  const [groupConfig, setGroupConfig] = useState({});
+  const isLoading = true;
   const handleClose = () => {
     setOpenCodeConfigPopup(false);
   };
@@ -57,7 +47,6 @@ const GroupCodeConfigPopup = ({ groupIdx, setOpenCodeConfigPopup, openCodeConfig
     return null;
   }
 
-  const { createdDate, expireDate, maxCount } = data.data;
   return (
     <Dialog aria-labelledby="customized-dialog-title" open={openCodeConfigPopup} maxWidth={'md'} fullWidth={true}>
       <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
@@ -69,13 +58,25 @@ const GroupCodeConfigPopup = ({ groupIdx, setOpenCodeConfigPopup, openCodeConfig
         ) : (
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <TextField label="만료일" name="expireDate" variant="outlined" fullWidth defaultValue={expireDate} />
+              <TextField
+                label="만료일"
+                name="expireDate"
+                variant="outlined"
+                fullWidth
+                defaultValue={groupConfig.expireDate}
+              />
             </Grid>
             <Grid item xs={6}>
-              <TextField label="등록일" variant="outlined" fullWidth value={createdDate} disabled />
+              <TextField label="등록일" variant="outlined" fullWidth value={groupConfig.createdDate} disabled />
             </Grid>
             <Grid item xs={6}>
-              <TextField label="등록가능 갯수" name="maxCount" variant="outlined" fullWidth defaultValue={maxCount} />
+              <TextField
+                label="등록가능 갯수"
+                name="maxCount"
+                variant="outlined"
+                fullWidth
+                defaultValue={groupConfig.maxCount}
+              />
             </Grid>
             <Grid item xs={6}>
               <TextField label="등록중 갯수" variant="outlined" fullWidth disabled />
