@@ -35,8 +35,10 @@ const SignupPage = ({ location }) => {
     job: '',
     company: '',
     jobDetail: '',
+    groupCode: '',
     verifiedId: false,
     verifiedEmail: false,
+    verifiedCode: false,
   };
 
   const handleSubmit = data => {

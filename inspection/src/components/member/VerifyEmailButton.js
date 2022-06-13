@@ -5,7 +5,7 @@ import { emailRegExp } from '../../utils/common';
 import { LoadingButton } from '@mui/lab';
 
 const VerifyEmailButton = ({ email, verifiedEmail, setVerifiedEmail }) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [sentEmail, setSentEmail] = useState(false);
 
   const sendVerifyEmail = () => {

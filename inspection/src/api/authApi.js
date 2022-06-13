@@ -234,3 +234,21 @@ export const resetPasswordApi = params => {
       });
   });
 };
+
+export const checkCodeApi = code => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`/api/auth/check-code`, {
+        groupCode: code,
+      })
+      .then(response => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};

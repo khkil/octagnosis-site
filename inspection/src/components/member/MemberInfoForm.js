@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Button,
   TextField,
@@ -9,7 +9,15 @@ import {
   IconButton,
   InputAdornment,
   MenuItem,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  FormControl,
+  FormLabel,
+  BottomNavigationAction,
+  BottomNavigation,
 } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -17,8 +25,20 @@ import FindAddressPopup from '../../components/common/FindAddressPopup';
 import { phoneRegExp } from '../../utils/common';
 import VerifyIdButton from './VerifyIdButton';
 import VerifyEmailButton from './VerifyEmailButton';
-import { Save } from '@mui/icons-material';
+import { Groups, Person, Restore, Save } from '@mui/icons-material';
 import PasswordResetButton from './PasswordResetButton';
+import { MEMBER_TYPE_GROUP, MEMBER_TYPE_INDIVIDUAL } from '../../constants';
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    color: 'black!important',
+    '&$selected': {
+      background: '#27313e;!important',
+      color: 'white!important',
+    },
+  },
+  selected: {},
+}));
 
 const MemberInfoForm = ({
   isSignUpPage,
@@ -27,9 +47,10 @@ const MemberInfoForm = ({
   handleSubmit,
   submitButtonText,
 }) => {
+  const classes = useStyles();
   const [openAddressPopup, setOpenAddressPopup] = useState(false);
-  const validationSchema = {
-    id: Yup.string().required('아이디를 입력하세요'),
+  const [validationSchema, setValidationSchema] = useState({
+    /* id: Yup.string().required('아이디를 입력하세요'),
     password: Yup.string().required('비밀번호를 입력하세요'),
     passwordConfirm: Yup.string()
       .required('비밀번호 확인을 입력하세요')
@@ -50,25 +71,108 @@ const MemberInfoForm = ({
     major: Yup.string().required('전공을 입력하세요'),
     job: Yup.string().required('직업을 입력하세요'),
     company: Yup.string().required('회사를 입력하세요'),
-    jobDetail: Yup.string().required('업무 내용을 입력하세요'),
-  };
+    jobDetail: Yup.string().required('업무 내용을 입력하세요'), */
+  });
 
   const showAddressPopup = e => {
     e.preventDefault();
     setOpenAddressPopup(true);
   };
 
+  const [memberType, setMemberType] = useState(MEMBER_TYPE_INDIVIDUAL);
+  const isGroupMember = useMemo(() => memberType === MEMBER_TYPE_GROUP, [
+    memberType,
+  ]);
+
+  useEffect(() => {
+    setValidationSchema({
+      ...validationSchema,
+      groupCode:
+        isGroupMember && Yup.string().required('단체코드를 입력하세요'),
+      verifiedCode:
+        isGroupMember &&
+        Yup.boolean().oneOf([true], '단체코드 인증을 완료해주세요'),
+    });
+  }, [memberType]);
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={Yup.object().shape(validationSchema)}
       onSubmit={data => {
-        handleSubmit(data);
+        alert('success');
+        //handleSubmit(data);
       }}
     >
       {({ values, setValues, handleChange, handleSubmit, touched, errors }) => (
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <Alert severity="info">회원 구분</Alert>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <BottomNavigation
+                classes={classes}
+                showLabels
+                value={memberType}
+                onChange={(event, newValue) => {
+                  setMemberType(newValue);
+                }}
+              >
+                <BottomNavigationAction
+                  value={MEMBER_TYPE_INDIVIDUAL}
+                  classes={classes}
+                  label="개인 회원"
+                  icon={<Person />}
+                />
+                <BottomNavigationAction
+                  value={MEMBER_TYPE_GROUP}
+                  classes={classes}
+                  label="단체 회원"
+                  icon={<Groups />}
+                />
+              </BottomNavigation>
+            </Grid>
+            {isGroupMember && (
+              <>
+                <Grid item xs={12} sm={4.7}>
+                  <TextField
+                    fullWidth
+                    name="groupCode"
+                    label="회차코드"
+                    type="text"
+                    value={values.groupCode}
+                    onChange={e => {
+                      setValues({
+                        ...values,
+                        groupCode: e.target.value,
+                        verifiedId: false,
+                      });
+                    }}
+                    error={Boolean(
+                      (touched.groupCode && errors.groupCode) ||
+                        (touched.verifiedCode && errors.verifiedCode),
+                    )}
+                    helperText={
+                      touched.groupCode &&
+                      (errors.groupCode
+                        ? errors.groupCode
+                        : errors.verifiedCode)
+                    }
+                    autoFocus
+                  />
+                </Grid>
+                <Grid item xs={12} sm={1.3}>
+                  <VerifyIdButton
+                    value={values.id}
+                    hasError={errors.id}
+                    setVerifiedId={isVerified => {
+                      setValues({ ...values, verifiedId: isVerified });
+                    }}
+                  />
+                </Grid>
+              </>
+            )}
+
             <Grid item xs={12} sm={12}>
               <Alert severity="info">기본정보</Alert>
             </Grid>
