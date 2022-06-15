@@ -75,6 +75,7 @@ const MyPage = () => {
         <MemberInfoForm
           isSignUpPage={isSignUpPage}
           isOauthUser={isOauthUser}
+          useEmailAuth={false}
           initialValues={initialValues}
           handleSubmit={handleSubmit}
           submitButtonText="정보수정"

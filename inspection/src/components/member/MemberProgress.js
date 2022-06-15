@@ -42,7 +42,7 @@ const ProgessButton = memo(
     const history = useHistory();
 
     const startInspection = useCallback(() => {
-      goProgressPage(history, inspectionIdx, 0);
+      history.push(`/inspections/${inspectionIdx}/pages/start`);
     }, [inspectionIdx, progressValue]);
 
     const continueInspection = useCallback(() => {

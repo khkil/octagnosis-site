@@ -71,6 +71,7 @@ const SignupPage = ({ location }) => {
         <MemberInfoForm
           isSignUpPage={isSignUpPage}
           isOauthUser={isOauthUser}
+          useEmailAuth={false}
           initialValues={initialValues}
           handleSubmit={handleSubmit}
           submitButtonText="회원가입"

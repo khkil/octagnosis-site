@@ -24,6 +24,8 @@ import PasswordResetButton from './PasswordResetButton';
 import { MEMBER_TYPE_GROUP, MEMBER_TYPE_INDIVIDUAL } from '../../constants';
 import VerifyCodeButton from './VerifyCodeButton';
 import { phoneRegExp } from '../../utils/common';
+import { memberGroupApi } from '../../api/memberApi';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,9 +38,35 @@ const useStyles = makeStyles(theme => ({
   selected: {},
 }));
 
+const GroupInfo = () => {
+  const [group, setGroup] = useState({});
+  const { idx } = useSelector(({ auth }) => auth.member);
+  useEffect(() => {
+    memberGroupApi(idx)
+      .then(({ data }) => {
+        setGroup(data);
+      })
+      .catch(() => {});
+  }, []);
+
+  return (
+    <>
+      <Grid item xs={12} sm={12}>
+        <Alert severity="info">단체 정보</Alert>
+      </Grid>
+      {group.idx && (
+        <Grid item xs={12} sm={6}>
+          <TextField value={group.name} label="단체명" disabled fullWidth />
+        </Grid>
+      )}
+    </>
+  );
+};
+
 const MemberInfoForm = ({
   isSignUpPage,
   isOauthUser,
+  useEmailAuth,
   initialValues,
   handleSubmit,
   submitButtonText,
@@ -53,7 +81,6 @@ const MemberInfoForm = ({
       .oneOf([Yup.ref('password'), null], '패스워드가 일치하지 않습니다.'),
     name: Yup.string().required('이름을 입력하세요'),
     verifiedId: Yup.boolean().oneOf([true], '아이디 중복체크를 해주세요'),
-    verifiedEmail: Yup.boolean().oneOf([true], '이메일 인증을 완료해주세요'),
     phone: Yup.string()
       .required('휴대전화를 입력하세요')
       .matches(phoneRegExp, '휴대폰 번호 양식에 맞게 입력하세요'),
@@ -76,18 +103,24 @@ const MemberInfoForm = ({
   };
 
   const [memberType, setMemberType] = useState(MEMBER_TYPE_INDIVIDUAL);
-  const isGroupMember = useMemo(() => memberType === MEMBER_TYPE_GROUP, [
+  const selectGroup = useMemo(() => memberType === MEMBER_TYPE_GROUP, [
     memberType,
   ]);
+  const isGroupMember = useMemo(
+    () => Boolean(initialValues.groupIdx && initialValues.groupIdx > 0),
+    [initialValues.groupIdx],
+  );
 
   useEffect(() => {
     setValidationSchema({
       ...validationSchema,
-      groupCode:
-        isGroupMember && Yup.string().required('단체코드를 입력하세요'),
+      groupCode: selectGroup && Yup.string().required('단체코드를 입력하세요'),
       verifiedCode:
-        isGroupMember &&
+        selectGroup &&
         Yup.boolean().oneOf([true], '단체코드 인증을 완료해주세요'),
+      verifiedEmail:
+        useEmailAuth &&
+        Yup.boolean().oneOf([true], '이메일 인증을 완료해주세요'),
     });
   }, [memberType]);
   return (
@@ -101,82 +134,79 @@ const MemberInfoForm = ({
       {({ values, setValues, handleChange, handleSubmit, touched, errors }) => (
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
-              <Alert severity="info">회원 구분</Alert>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <BottomNavigation
-                classes={classes}
-                showLabels
-                value={memberType}
-                onChange={(event, newValue) => {
-                  setMemberType(newValue);
-                  setValues({
-                    ...values,
-                    groupCode: '',
-                    verifiedCode: false,
-                  });
-                }}
-              >
-                <BottomNavigationAction
-                  value={MEMBER_TYPE_INDIVIDUAL}
-                  classes={classes}
-                  label="개인 회원"
-                  icon={<Person />}
-                />
-                <BottomNavigationAction
-                  value={MEMBER_TYPE_GROUP}
-                  classes={classes}
-                  label="단체 회원"
-                  icon={<Groups />}
-                />
-              </BottomNavigation>
-            </Grid>
-            {isGroupMember && (
+            {isSignUpPage && (
               <>
-                <Grid item xs={12} sm={4.7}>
-                  <TextField
-                    fullWidth
-                    name="groupCode"
-                    label="회차코드"
-                    type="text"
-                    value={values.groupCode}
-                    onChange={e => {
+                <Grid item xs={12} sm={12}>
+                  <Alert severity="info">회원 구분</Alert>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <BottomNavigation
+                    classes={classes}
+                    showLabels
+                    value={memberType}
+                    onChange={(event, newValue) => {
+                      setMemberType(newValue);
                       setValues({
                         ...values,
-                        groupCode: e.target.value,
+                        groupCode: '',
                         verifiedCode: false,
                       });
                     }}
-                    error={Boolean(
-                      (touched.groupCode && errors.groupCode) ||
-                        (touched.verifiedCode && errors.verifiedCode),
-                    )}
-                    helperText={
-                      touched.groupCode &&
-                      (errors.groupCode
-                        ? errors.groupCode
-                        : errors.verifiedCode)
-                    }
-                    autoFocus
-                  />
+                  >
+                    <BottomNavigationAction
+                      value={MEMBER_TYPE_INDIVIDUAL}
+                      classes={classes}
+                      label="개인 회원"
+                      icon={<Person />}
+                    />
+                    <BottomNavigationAction
+                      value={MEMBER_TYPE_GROUP}
+                      classes={classes}
+                      label="단체 회원"
+                      icon={<Groups />}
+                    />
+                  </BottomNavigation>
                 </Grid>
-                <Grid item xs={12} sm={1.3}>
-                  <VerifyCodeButton
-                    code={values.groupCode}
-                    hasError={errors.groupCode}
-                    setVerifiedCode={isVerified => {
-                      setValues({ ...values, verifiedCode: isVerified });
-                    }}
-                  />
-                  {/* <VerifyIdButton
-                    value={values.id}
-                    hasError={errors.id}
-                    setVerifiedId={isVerified => {
-                      setValues({ ...values, verifiedId: isVerified });
-                    }}
-                  /> */}
-                </Grid>
+                {selectGroup && (
+                  <>
+                    <Grid item xs={12} sm={4.7}>
+                      <TextField
+                        fullWidth
+                        name="groupCode"
+                        label="단체코드"
+                        type="text"
+                        value={values.groupCode}
+                        onChange={e => {
+                          setValues({
+                            ...values,
+                            groupCode: e.target.value,
+                            verifiedCode: false,
+                          });
+                        }}
+                        error={Boolean(
+                          (touched.groupCode && errors.groupCode) ||
+                            (touched.verifiedCode && errors.verifiedCode),
+                        )}
+                        helperText={
+                          touched.groupCode &&
+                          (errors.groupCode
+                            ? errors.groupCode
+                            : errors.verifiedCode)
+                        }
+                        autoFocus
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={1.3}>
+                      <VerifyCodeButton
+                        code={values.groupCode}
+                        hasError={errors.groupCode}
+                        setVerifiedCode={isVerified => {
+                          setValues({ ...values, verifiedCode: isVerified });
+                        }}
+                      />
+                    </Grid>
+                  </>
+                )}
               </>
             )}
 
@@ -268,7 +298,7 @@ const MemberInfoForm = ({
               </>
             )}
 
-            <Grid item xs={12} sm={isSignUpPage ? 4.7 : 6}>
+            <Grid item xs={12} sm={useEmailAuth ? 4.7 : 6}>
               <TextField
                 fullWidth
                 name="email"
@@ -286,7 +316,7 @@ const MemberInfoForm = ({
                 }
               />
             </Grid>
-            {isSignUpPage && (
+            {useEmailAuth && (
               <Grid item xs={12} sm={1.3}>
                 <VerifyEmailButton
                   email={values.email}
@@ -362,6 +392,8 @@ const MemberInfoForm = ({
                 <PasswordResetButton />
               </Grid>
             )}
+
+            {isGroupMember && <GroupInfo />}
 
             <Grid item xs={12} sm={12}>
               <Alert severity="info">현재 (최종) 학력 & 현재 직업 정보</Alert>
