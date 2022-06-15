@@ -9,14 +9,20 @@ const VerifyCodeButton = ({ code, setVerifiedCode }) => {
       return false;
     }
     checkCodeApi(code)
-      .then(({ success }) => {
+      .then(({ success, data }) => {
         if (Boolean(success)) {
-          alert('유효한 코드 입니다.');
+          const { name } = data;
+          alert(`${name}의 코드 인증에 성공하였습니다.`);
           setVerifiedCode(true);
         }
       })
-      .catch(() => {
-        alert('유효하지 않은 코드 입니다.');
+      .catch(({ response }) => {
+        if (response && response.data) {
+          alert(response.data.msg);
+        } else {
+          alert('코드인증에 실패 하였습니다');
+        }
+
         setVerifiedCode(false);
       });
   };

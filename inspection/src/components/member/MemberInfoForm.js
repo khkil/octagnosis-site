@@ -9,11 +9,6 @@ import {
   IconButton,
   InputAdornment,
   MenuItem,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  FormControl,
-  FormLabel,
   BottomNavigationAction,
   BottomNavigation,
 } from '@mui/material';
@@ -22,12 +17,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import FindAddressPopup from '../../components/common/FindAddressPopup';
-import { phoneRegExp } from '../../utils/common';
 import VerifyIdButton from './VerifyIdButton';
 import VerifyEmailButton from './VerifyEmailButton';
-import { Groups, Person, Restore, Save } from '@mui/icons-material';
+import { Groups, Person, Save } from '@mui/icons-material';
 import PasswordResetButton from './PasswordResetButton';
 import { MEMBER_TYPE_GROUP, MEMBER_TYPE_INDIVIDUAL } from '../../constants';
+import VerifyCodeButton from './VerifyCodeButton';
+import { phoneRegExp } from '../../utils/common';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -50,7 +46,7 @@ const MemberInfoForm = ({
   const classes = useStyles();
   const [openAddressPopup, setOpenAddressPopup] = useState(false);
   const [validationSchema, setValidationSchema] = useState({
-    /* id: Yup.string().required('아이디를 입력하세요'),
+    id: Yup.string().required('아이디를 입력하세요'),
     password: Yup.string().required('비밀번호를 입력하세요'),
     passwordConfirm: Yup.string()
       .required('비밀번호 확인을 입력하세요')
@@ -71,7 +67,7 @@ const MemberInfoForm = ({
     major: Yup.string().required('전공을 입력하세요'),
     job: Yup.string().required('직업을 입력하세요'),
     company: Yup.string().required('회사를 입력하세요'),
-    jobDetail: Yup.string().required('업무 내용을 입력하세요'), */
+    jobDetail: Yup.string().required('업무 내용을 입력하세요'),
   });
 
   const showAddressPopup = e => {
@@ -99,8 +95,7 @@ const MemberInfoForm = ({
       initialValues={initialValues}
       validationSchema={Yup.object().shape(validationSchema)}
       onSubmit={data => {
-        alert('success');
-        //handleSubmit(data);
+        handleSubmit(data);
       }}
     >
       {({ values, setValues, handleChange, handleSubmit, touched, errors }) => (
@@ -116,6 +111,11 @@ const MemberInfoForm = ({
                 value={memberType}
                 onChange={(event, newValue) => {
                   setMemberType(newValue);
+                  setValues({
+                    ...values,
+                    groupCode: '',
+                    verifiedCode: false,
+                  });
                 }}
               >
                 <BottomNavigationAction
@@ -145,7 +145,7 @@ const MemberInfoForm = ({
                       setValues({
                         ...values,
                         groupCode: e.target.value,
-                        verifiedId: false,
+                        verifiedCode: false,
                       });
                     }}
                     error={Boolean(
@@ -162,13 +162,20 @@ const MemberInfoForm = ({
                   />
                 </Grid>
                 <Grid item xs={12} sm={1.3}>
-                  <VerifyIdButton
+                  <VerifyCodeButton
+                    code={values.groupCode}
+                    hasError={errors.groupCode}
+                    setVerifiedCode={isVerified => {
+                      setValues({ ...values, verifiedCode: isVerified });
+                    }}
+                  />
+                  {/* <VerifyIdButton
                     value={values.id}
                     hasError={errors.id}
                     setVerifiedId={isVerified => {
                       setValues({ ...values, verifiedId: isVerified });
                     }}
-                  />
+                  /> */}
                 </Grid>
               </>
             )}
