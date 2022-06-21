@@ -82,10 +82,10 @@ export const groupCodeConfigApi = idx => {
   });
 };
 
-export const updateGroupCodeConfigApi = (idx, params) => {
+export const saveGroupCodeConfigApi = (idx, params) => {
   return new Promise((resolve, reject) => {
     axios
-      .put(`/api/admin/groups/${idx}/code-config`, params)
+      .post(`/api/admin/groups/${idx}/code-config`, params)
       .then(response => {
         if (response.status === 200) {
           resolve(response.data);

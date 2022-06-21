@@ -4,7 +4,7 @@ import Loader from '../ui/Loader';
 import { Form, Formik } from 'formik';
 import { Close, Save } from '@mui/icons-material';
 import { TextField } from '@mui/material';
-import { groupCodeConfigApi, updateGroupCodeConfigApi } from '../../api/groupApi';
+import { groupCodeConfigApi, saveGroupCodeConfigApi } from '../../api/groupApi';
 
 const BootstrapDialogTitle = props => {
   const { children, onClose, ...other } = props;
@@ -31,29 +31,59 @@ const BootstrapDialogTitle = props => {
 };
 
 const GroupCodeConfigPopup = ({ groupIdx, setOpenCodeConfigPopup, openCodeConfigPopup }) => {
-  const [groupConfig, setGroupConfig] = useState({});
-  const isLoading = true;
+  const [groupCodeConfig, setGroupCodeConfig] = useState({
+    loading: false,
+    data: {},
+  });
+
   const handleClose = () => {
     setOpenCodeConfigPopup(false);
   };
 
-  const updateGroupCodeConfig = () => {
-    updateGroupCodeConfigApi(groupIdx, {})
-      .then(() => {})
-      .catch(() => {});
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setGroupCodeConfig({
+      ...groupCodeConfig,
+      data: {
+        ...groupCodeConfig.data,
+        [name]: value,
+      },
+    });
   };
 
-  if (isLoading) {
+  const saveGroupCodeConfig = () => {
+    const params = {
+      groupIdx: groupIdx,
+      ...groupCodeConfig.data,
+    };
+    saveGroupCodeConfigApi(groupIdx, params)
+      .then(() => {
+        alert('정보가 저장되었습니다.');
+      })
+      .catch(() => {
+        alert('서버와 통신에 실패하였습니다.');
+      });
+  };
+
+  useEffect(() => {
+    groupCodeConfigApi(groupIdx).then(({ success, data }) => {
+      const group = data ? data : {};
+      setGroupCodeConfig({ ...groupCodeConfig, data: group, loading: false });
+    });
+  }, [openCodeConfigPopup]);
+
+  /*  if (isLoading) {
     return null;
-  }
+  } */
 
   return (
     <Dialog aria-labelledby="customized-dialog-title" open={openCodeConfigPopup} maxWidth={'md'} fullWidth={true}>
+      {JSON.stringify(groupCodeConfig.data)}
       <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
         회차코드 관리
       </BootstrapDialogTitle>
       <DialogContent dividers>
-        {isLoading ? (
+        {groupCodeConfig.data.loading ? (
           <Loader />
         ) : (
           <Grid container spacing={2}>
@@ -63,29 +93,40 @@ const GroupCodeConfigPopup = ({ groupIdx, setOpenCodeConfigPopup, openCodeConfig
                 name="expireDate"
                 variant="outlined"
                 fullWidth
-                defaultValue={groupConfig.expireDate}
+                value={groupCodeConfig.data.expireDate}
+                InputLabelProps={{ shrink: true }}
+                onChange={handleChange}
               />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField label="등록일" variant="outlined" fullWidth value={groupConfig.createdDate} disabled />
             </Grid>
             <Grid item xs={6}>
               <TextField
-                label="등록가능 갯수"
-                name="maxCount"
+                label="등록일"
                 variant="outlined"
                 fullWidth
-                defaultValue={groupConfig.maxCount}
+                value={groupCodeConfig.data.createdDate}
+                disabled
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
             <Grid item xs={6}>
-              <TextField label="등록중 갯수" variant="outlined" fullWidth disabled />
+              <TextField
+                label="등록 가능 회원수"
+                name="maxCount"
+                variant="outlined"
+                fullWidth
+                value={groupCodeConfig.data.maxCount}
+                InputLabelProps={{ shrink: true }}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField label="등록중 갯수" variant="outlined" fullWidth disabled InputLabelProps={{ shrink: true }} />
             </Grid>
           </Grid>
         )}
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" size="large" onClick={handleClose} startIcon={<Save />}>
+        <Button variant="contained" size="large" onClick={saveGroupCodeConfig} startIcon={<Save />}>
           설정저장
         </Button>
       </DialogActions>
