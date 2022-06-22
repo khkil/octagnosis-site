@@ -36,6 +36,7 @@ const InspectionDetailInfo = ({ inspectionDetail }) => {
                 onChange={handleChange}
                 error={Boolean(touched.inspectionName && errors.inspectionName)}
                 helperText={touched.inspectionName && errors.inspectionName}
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -48,6 +49,7 @@ const InspectionDetailInfo = ({ inspectionDetail }) => {
                 onChange={handleChange}
                 error={Boolean(touched.rankCount && errors.rankCount)}
                 helperText={touched.rankCount && errors.rankCount}
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -61,6 +63,7 @@ const InspectionDetailInfo = ({ inspectionDetail }) => {
                 onChange={handleChange}
                 error={Boolean(touched.showYn && errors.showYn)}
                 helperText={touched.showYn && errors.showYn}
+                InputLabelProps={{ shrink: true }}
               >
                 <MenuItem value="Y">유료검사</MenuItem>
                 <MenuItem value="N">무료검사</MenuItem>
@@ -77,6 +80,7 @@ const InspectionDetailInfo = ({ inspectionDetail }) => {
                 onChange={handleChange}
                 error={Boolean(touched.showYn && errors.showYn)}
                 helperText={touched.showYn && errors.showYn}
+                InputLabelProps={{ shrink: true }}
               >
                 <MenuItem value="Y">표시</MenuItem>
                 <MenuItem value="N">숨김</MenuItem>

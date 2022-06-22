@@ -1,4 +1,4 @@
-import { Box, Grid, Paper } from '@mui/material';
+import { Box, Container, Grid, Paper } from '@mui/material';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { groupRegistApi } from '../../api/groupApi';
@@ -25,12 +25,12 @@ const GroupRegistPage = ({ match }) => {
     console.log(group);
   };
   return (
-    <Box>
+    <Container maxWidth={'xl'}>
       <MenuBar match={match} />
       <Paper>
         <GroupForm onSubmit={registGroup} />
       </Paper>
-    </Box>
+    </Container>
   );
 };
 

@@ -7,8 +7,8 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
     display: 'flex',
-    height: props => `${props.height}vh`,
-    color: '#27313e',
+    justifycontent: 'center',
+    height: '80vh',
   },
 });
 

@@ -59,6 +59,7 @@ const GroupCodeConfigPopup = ({ groupIdx, setOpenCodeConfigPopup, openCodeConfig
     saveGroupCodeConfigApi(groupIdx, params)
       .then(() => {
         alert('정보가 저장되었습니다.');
+        handleClose();
       })
       .catch(() => {
         alert('서버와 통신에 실패하였습니다.');
@@ -78,7 +79,6 @@ const GroupCodeConfigPopup = ({ groupIdx, setOpenCodeConfigPopup, openCodeConfig
 
   return (
     <Dialog aria-labelledby="customized-dialog-title" open={openCodeConfigPopup} maxWidth={'md'} fullWidth={true}>
-      {JSON.stringify(groupCodeConfig.data)}
       <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
         회차코드 관리
       </BootstrapDialogTitle>

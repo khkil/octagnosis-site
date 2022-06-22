@@ -125,6 +125,7 @@ const QuestionDetail = ({ questionDetail, onClose, onSubmit }) => {
           label="문항명"
           value={questionForm.questionText}
           onChange={handleChange}
+          InputLabelProps={{ shrink: true }}
         />
         <Alert variant="info">문항 타입</Alert>
         <ToggleButtonGroup color="info" value={questionForm.questionType} onChange={handleChange} exclusive>

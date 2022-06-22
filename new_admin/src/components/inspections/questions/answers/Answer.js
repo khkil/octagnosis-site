@@ -72,6 +72,7 @@ const Answer = ({ index, answerIdx, answerText, answerScore, filePath, questionF
             value={answerText}
             onChange={onChange}
             sx={{ width: '80%', mr: 1 }}
+            InputLabelProps={{ shrink: true }}
           ></TextField>
           <TextField
             name="answerScore"
@@ -81,6 +82,7 @@ const Answer = ({ index, answerIdx, answerText, answerScore, filePath, questionF
             value={answerScore}
             onChange={onChange}
             sx={{ width: '10%', mr: 1 }}
+            InputLabelProps={{ shrink: true }}
           ></TextField>
 
           <IconButton sx={{ float: 'right' }} onClick={deleteAnswer}>

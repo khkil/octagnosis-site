@@ -84,6 +84,7 @@ const LoginPage = () => {
                           value={values.id}
                           error={Boolean(touched.id && errors.id)}
                           helperText={touched.id && errors.id}
+                          InputLabelProps={{ shrink: true }}
                           autoFocus
                         />
                       </Grid>
@@ -97,6 +98,7 @@ const LoginPage = () => {
                           value={values.password}
                           error={Boolean(touched.password && errors.password)}
                           helperText={touched.password && errors.password}
+                          InputLabelProps={{ shrink: true }}
                         />
                       </Grid>
                       <Grid item mb={2}>

@@ -83,6 +83,7 @@ const MemberDetail = ({ memberDetail }) => {
                 onChange={handleChange}
                 error={Boolean(touched.email && errors.email)}
                 helperText={touched.email && errors.email}
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -95,6 +96,7 @@ const MemberDetail = ({ memberDetail }) => {
                 onChange={handleChange}
                 error={Boolean(touched.phone && errors.phone)}
                 helperText={touched.phone && errors.phone}
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
 
@@ -109,8 +111,9 @@ const MemberDetail = ({ memberDetail }) => {
                 onClick={showAddressPopup}
                 error={Boolean(touched.address && errors.address)}
                 helperText={touched.address && errors.address}
+                InputLabelProps={{ shrink: true }}
                 InputProps={{
-                  readOnly: true,
+                  shrink: true,
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton edge="end" color="primary">
@@ -142,6 +145,7 @@ const MemberDetail = ({ memberDetail }) => {
                 onChange={handleChange}
                 error={Boolean(touched.addressSub && errors.addressSub)}
                 helperText={touched.addressSub && errors.addressSub}
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -157,6 +161,7 @@ const MemberDetail = ({ memberDetail }) => {
                 onChange={handleChange}
                 error={Boolean(touched.school && errors.school)}
                 helperText={touched.school && errors.school}
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
             <Grid item xs={12} sm={3}>
@@ -169,6 +174,7 @@ const MemberDetail = ({ memberDetail }) => {
                 onChange={handleChange}
                 error={Boolean(touched.education && errors.education)}
                 helperText={touched.education && errors.education}
+                InputLabelProps={{ shrink: true }}
               >
                 <MenuItem value={'졸업'}>졸업</MenuItem>
                 <MenuItem value={'재학'}>재학</MenuItem>
@@ -188,6 +194,7 @@ const MemberDetail = ({ memberDetail }) => {
                 onChange={handleChange}
                 error={Boolean(touched.grade && errors.grade)}
                 helperText={touched.grade && errors.grade}
+                InputLabelProps={{ shrink: true }}
               >
                 <MenuItem value={1}>1</MenuItem>
                 <MenuItem value={2}>2</MenuItem>
@@ -207,6 +214,7 @@ const MemberDetail = ({ memberDetail }) => {
                 onChange={handleChange}
                 error={Boolean(touched.major && errors.major)}
                 helperText={touched.major && errors.major}
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
 
@@ -220,6 +228,7 @@ const MemberDetail = ({ memberDetail }) => {
                 onChange={handleChange}
                 error={Boolean(touched.job && errors.job)}
                 helperText={touched.job && errors.job}
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
             <Grid item xs={12} sm={3}>
@@ -232,6 +241,7 @@ const MemberDetail = ({ memberDetail }) => {
                 onChange={handleChange}
                 error={Boolean(touched.company && errors.company)}
                 helperText={touched.company && errors.company}
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -244,6 +254,7 @@ const MemberDetail = ({ memberDetail }) => {
                 onChange={handleChange}
                 error={Boolean(touched.jobDetail && errors.jobDetail)}
                 helperText={touched.jobDetail && errors.jobDetail}
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
             <Grid item justifyContent="center">

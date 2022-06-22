@@ -81,7 +81,12 @@ const Question = ({
           ) : (
             <>
               {`${questionNumber}.`}
-              <TextField variant="standard" sx={{ width: '60%', marginLeft: 1 }} onChange={handleChange}></TextField>
+              <TextField
+                variant="standard"
+                sx={{ width: '60%', marginLeft: 1 }}
+                onChange={handleChange}
+                InputLabelProps={{ shrink: true }}
+              ></TextField>
             </>
           )}
         </ListItem>

@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom';
 
 const GroupForm = ({ initialValues, onSubmit }) => {
   const { groupIdx } = useParams();
-  const [openCodeConfigPopup, setOpenCodeConfigPopup] = useState(true);
+  const [openCodeConfigPopup, setOpenCodeConfigPopup] = useState(false);
   const [openAddressPopup, setOpenAddressPopup] = useState(false);
   return (
     <Formik
@@ -79,6 +79,7 @@ const GroupForm = ({ initialValues, onSubmit }) => {
                 onChange={handleChange}
                 error={Boolean(touched.name && errors.name)}
                 helperText={touched.name && errors.name}
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
             <Grid item xs={6}>
@@ -91,6 +92,7 @@ const GroupForm = ({ initialValues, onSubmit }) => {
                 onChange={handleChange}
                 error={Boolean(touched.tel && errors.tel)}
                 helperText={touched.tel && errors.tel}
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
             <Grid item xs={9}>
@@ -104,6 +106,7 @@ const GroupForm = ({ initialValues, onSubmit }) => {
                 onClick={setOpenAddressPopup}
                 error={Boolean(touched.address && errors.address)}
                 helperText={touched.address && errors.address}
+                InputLabelProps={{ shrink: true }}
                 InputProps={{
                   readOnly: true,
                   endAdornment: (
@@ -126,6 +129,7 @@ const GroupForm = ({ initialValues, onSubmit }) => {
                 onChange={handleChange}
                 error={Boolean(touched.addressSub && errors.addressSub)}
                 helperText={touched.addressSub && errors.addressSub}
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
             <Grid item xs={3}>
@@ -138,6 +142,7 @@ const GroupForm = ({ initialValues, onSubmit }) => {
                 onChange={handleChange}
                 error={Boolean(touched.contactName && errors.contactName)}
                 helperText={touched.contactName && errors.contactName}
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
             <Grid item xs={3}>
@@ -150,6 +155,7 @@ const GroupForm = ({ initialValues, onSubmit }) => {
                 onChange={handleChange}
                 error={Boolean(touched.contactTel && errors.contactTel)}
                 helperText={touched.contactTel && errors.contactTel}
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
             <Grid item xs={6}>
@@ -162,6 +168,7 @@ const GroupForm = ({ initialValues, onSubmit }) => {
                 onChange={handleChange}
                 error={Boolean(touched.contactEmail && errors.contactEmail)}
                 helperText={touched.contactEmail && errors.contactEmail}
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -177,6 +184,7 @@ const GroupForm = ({ initialValues, onSubmit }) => {
                 onChange={handleChange}
                 error={Boolean(touched.groupCode && errors.groupCode)}
                 helperText={touched.groupCode && errors.groupCode}
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
             <Grid item xs={2}>
