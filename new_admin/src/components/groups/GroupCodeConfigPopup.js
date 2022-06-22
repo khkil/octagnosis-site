@@ -89,11 +89,13 @@ const GroupCodeConfigPopup = ({ groupIdx, setOpenCodeConfigPopup, openCodeConfig
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <TextField
+                type="date"
                 label="만료일"
                 name="expireDate"
                 variant="outlined"
                 fullWidth
                 value={groupCodeConfig.data.expireDate}
+                readonly
                 InputLabelProps={{ shrink: true }}
                 onChange={handleChange}
               />

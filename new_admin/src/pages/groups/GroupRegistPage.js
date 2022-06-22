@@ -5,8 +5,7 @@ import { groupRegistApi } from '../../api/groupApi';
 import MenuBar from '../../components/common/MenuBar';
 import GroupForm from '../../components/groups/GroupForm';
 
-const GroupRegistPage = ({ match }) => {
-  const history = useHistory();
+const GroupRegistPage = ({ match, history }) => {
   const registGroup = group => {
     groupRegistApi(group)
       .then(({ success, data }) => {

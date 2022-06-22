@@ -7,7 +7,7 @@ import GroupForm from '../../components/groups/GroupForm';
 import Loader from '../../components/ui/Loader';
 import { fetchGroupDetail, FETCH_GROUP_DETAIL } from '../../modules/group';
 
-const GroupDetailPage = ({ match }) => {
+const GroupDetailPage = ({ match, history }) => {
   const dispatch = useDispatch();
   const { loading, groupDetail } = useSelector(({ loading, group }) => ({
     loading: loading[FETCH_GROUP_DETAIL] === undefined || Boolean(loading[FETCH_GROUP_DETAIL]),
@@ -19,6 +19,7 @@ const GroupDetailPage = ({ match }) => {
       .then(({ data, success }) => {
         if (Boolean(success)) {
           alert('수정에 성공하였습니다.');
+          history.push('/groups');
         } else {
           alert('수정에 실패하였습니다.');
         }

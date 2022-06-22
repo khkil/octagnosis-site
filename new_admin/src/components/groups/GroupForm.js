@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { Alert, Box, Button, Grid, IconButton, InputAdornment, Paper, TextField } from '@mui/material';
@@ -12,6 +12,8 @@ const GroupForm = ({ initialValues, onSubmit }) => {
   const { groupIdx } = useParams();
   const [openCodeConfigPopup, setOpenCodeConfigPopup] = useState(false);
   const [openAddressPopup, setOpenAddressPopup] = useState(false);
+  const useGroupConfig = useMemo(() => Boolean(groupIdx), [groupIdx]);
+
   return (
     <Formik
       initialValues={
@@ -171,49 +173,55 @@ const GroupForm = ({ initialValues, onSubmit }) => {
                 InputLabelProps={{ shrink: true }}
               />
             </Grid>
-            <Grid item xs={12}>
-              <Alert severity="success">회차코드 관리</Alert>
-            </Grid>
-            <Grid item xs={8}>
-              <TextField
-                fullWidth
-                name="groupCode"
-                label="단체 회차 코드"
-                type="text"
-                value={values.groupCode}
-                onChange={handleChange}
-                error={Boolean(touched.groupCode && errors.groupCode)}
-                helperText={touched.groupCode && errors.groupCode}
-                InputLabelProps={{ shrink: true }}
-              />
-            </Grid>
-            <Grid item xs={2}>
-              <Button
-                fullWidth
-                variant="contained"
-                size="large"
-                color="info"
-                sx={{ height: 55 }}
-                onClick={() => {
-                  setValues({ ...values, groupCode: generateCode() });
-                }}
-              >
-                랜덤 코드 발급
-              </Button>
-            </Grid>
-            <Grid item xs={2}>
-              <Button
-                fullWidth
-                variant="contained"
-                size="large"
-                sx={{ height: 55 }}
-                onClick={() => {
-                  setOpenCodeConfigPopup(true);
-                }}
-              >
-                회차코드 관리
-              </Button>
-            </Grid>
+
+            {useGroupConfig && (
+              <>
+                <Grid item xs={12}>
+                  <Alert severity="success">회차코드 관리</Alert>
+                </Grid>
+                <Grid item xs={8}>
+                  <TextField
+                    fullWidth
+                    name="groupCode"
+                    label="단체 회차 코드"
+                    type="text"
+                    value={values.groupCode}
+                    onChange={handleChange}
+                    error={Boolean(touched.groupCode && errors.groupCode)}
+                    helperText={touched.groupCode && errors.groupCode}
+                    InputLabelProps={{ shrink: true }}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    size="large"
+                    color="info"
+                    sx={{ height: 55 }}
+                    onClick={() => {
+                      setValues({ ...values, groupCode: generateCode() });
+                    }}
+                  >
+                    랜덤 코드 발급
+                  </Button>
+                </Grid>
+                <Grid item xs={2}>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    size="large"
+                    sx={{ height: 55 }}
+                    onClick={() => {
+                      setOpenCodeConfigPopup(true);
+                    }}
+                  >
+                    회차코드 관리
+                  </Button>
+                </Grid>
+              </>
+            )}
+
             <Grid item xs={12} style={{ textAlign: 'center' }}>
               <Button type="submit" variant="contained" size="large" startIcon={<Save />}>
                 저장하기
