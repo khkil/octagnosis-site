@@ -9,6 +9,7 @@ import { fetchInspectionDetail, FETCH_INPECTION_DETAIL } from '../../modules/ins
 import question, { clearQuestion, fetchQuestionList, FETCH_QUESTION_LIST } from '../../modules/question';
 import Loader from '../../components/ui/Loader';
 import { useParams } from 'react-router-dom';
+import { fetchResultList } from '../../modules/result';
 
 const tabData = [
   {
@@ -18,6 +19,10 @@ const tabData = [
   {
     text: '문항관리',
     value: 'question',
+  },
+  {
+    text: '결과관리',
+    value: 'result',
   },
 ];
 
@@ -40,6 +45,9 @@ const InspectionDetailPage = ({ match }) => {
       dispatch(fetchInspectionDetail(inspectionIdx));
     } else if (tabValue === 'question') {
       dispatch(fetchQuestionList(inspectionIdx));
+    } else if (tabValue === 'result') {
+      alert('result');
+      dispatch(fetchResultList(inspectionIdx));
     }
   }, [inspectionIdx, tabValue]);
 

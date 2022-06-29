@@ -6,6 +6,9 @@ import { useDispatch } from 'react-redux';
 import { fetchInspectionList } from './modules/inspection';
 
 const theme = createTheme({
+  typography: {
+    //fontFamily: 'serif',
+  },
   palette: {
     primary: {
       main: '#27313e',
