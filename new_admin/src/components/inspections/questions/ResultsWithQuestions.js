@@ -40,9 +40,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ResultList = ({ inspectionIdx, resultList, fetchQuestionList }) => {
+const ResultsWithQuestions = ({ inspectionIdx, resultsWithQuestions, fetchQuestionList }) => {
   const classes = useStyles({});
-  const firstResultIdx = useMemo(() => (resultList.length > 0 ? resultList[0].resultIdx : -1), [resultList]);
+  const firstResultIdx = useMemo(
+    () => (resultsWithQuestions.length > 0 ? resultsWithQuestions[0].resultIdx : -1),
+    [resultsWithQuestions],
+  );
   const [value, setValue] = useState(firstResultIdx);
 
   const handleChange = (event, newValue) => {
@@ -61,12 +64,12 @@ const ResultList = ({ inspectionIdx, resultList, fetchQuestionList }) => {
         aria-label="Vertical tabs example"
         sx={{ borderRight: 1, borderColor: 'divider' }}
       >
-        {resultList.map(({ resultIdx, resultName }) => (
+        {resultsWithQuestions.map(({ resultIdx, resultName }) => (
           <Tab className={classes.tab} key={resultIdx} label={resultName} value={resultIdx} />
         ))}
       </Tabs>
 
-      {resultList.map(({ resultIdx, resultName, questionList }) => (
+      {resultsWithQuestions.map(({ resultIdx, resultName, questionList }) => (
         <TabPanel key={resultIdx} value={value} index={resultIdx}>
           <QuestionList
             inspectionIdx={inspectionIdx}
@@ -81,4 +84,4 @@ const ResultList = ({ inspectionIdx, resultList, fetchQuestionList }) => {
   );
 };
 
-export default ResultList;
+export default ResultsWithQuestions;

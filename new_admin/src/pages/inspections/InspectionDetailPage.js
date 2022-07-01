@@ -3,13 +3,14 @@ import React, { useEffect, useMemo, useState } from 'react';
 import HorizonalTabs from '../../components/inspections/HorizonalTabs';
 import MenuBar from '../../components/common/MenuBar';
 import InspectionDetailInfo from '../../components/inspections/InspectionDetailInfo';
-import ResultList from '../../components/inspections/questions/ResultList';
+import ResultsWithQuestions from '../../components/inspections/questions/ResultsWithQuestions';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchInspectionDetail, FETCH_INPECTION_DETAIL } from '../../modules/inspection';
 import question, { clearQuestion, fetchQuestionList, FETCH_QUESTION_LIST } from '../../modules/question';
 import Loader from '../../components/ui/Loader';
 import { useParams } from 'react-router-dom';
-import { fetchResultList } from '../../modules/result';
+import { fetchResultList, FETCH_RESULT_LIST } from '../../modules/result';
+import ResultList from '../../components/inspections/results/ResultList';
 
 const tabData = [
   {
@@ -31,14 +32,18 @@ const InspectionDetailPage = ({ match }) => {
   const { inspectionIdx } = useParams();
   const [tabValue, setTabValue] = useState(tabData[0].value);
 
-  const { loading, inspectionDetail, resultList } = useSelector(({ loading, inspection, question }) => ({
-    loading: {
-      inspection: loading[FETCH_INPECTION_DETAIL] === undefined || Boolean(loading[FETCH_INPECTION_DETAIL]),
-      question: loading[FETCH_QUESTION_LIST] === undefined || Boolean(loading[FETCH_QUESTION_LIST]),
-    },
-    inspectionDetail: inspection.selected,
-    resultList: question.list,
-  }));
+  const { loading, inspectionDetail, resultsWithQuestions, resultList } = useSelector(
+    ({ loading, inspection, question, result }) => ({
+      loading: {
+        inspection: loading[FETCH_INPECTION_DETAIL] === undefined || Boolean(loading[FETCH_INPECTION_DETAIL]),
+        question: loading[FETCH_QUESTION_LIST] === undefined || Boolean(loading[FETCH_QUESTION_LIST]),
+        result: loading[FETCH_RESULT_LIST] === undefined || Boolean(loading[FETCH_RESULT_LIST]),
+      },
+      inspectionDetail: inspection.selected,
+      resultsWithQuestions: question.list,
+      resultList: result.list,
+    }),
+  );
 
   useEffect(() => {
     if (tabValue === 'basic') {
@@ -46,7 +51,6 @@ const InspectionDetailPage = ({ match }) => {
     } else if (tabValue === 'question') {
       dispatch(fetchQuestionList(inspectionIdx));
     } else if (tabValue === 'result') {
-      alert('result');
       dispatch(fetchResultList(inspectionIdx));
     }
   }, [inspectionIdx, tabValue]);
@@ -70,13 +74,19 @@ const InspectionDetailPage = ({ match }) => {
           loading.question ? (
             <Loader />
           ) : (
-            <ResultList
+            <ResultsWithQuestions
               inspectionIdx={inspectionIdx}
-              resultList={resultList}
+              resultsWithQuestions={resultsWithQuestions}
               fetchQuestionList={() => {
                 dispatch(fetchQuestionList(inspectionIdx));
               }}
             />
+          )
+        ) : tabValue === 'result' ? (
+          loading.result ? (
+            <Loader />
+          ) : (
+            <ResultList resultList={resultList} />
           )
         ) : null}
       </Paper>
