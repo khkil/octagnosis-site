@@ -9,6 +9,7 @@ const Result = ({ resultIdx, resultName }) => {
   const { inspectionIdx } = useParams();
 
   const deleteResult = useCallback(resultIdx => {
+    if (!confirm('결과를 삭제하시겠습니까? 복원할수 없습니다.')) return;
     dispatch(
       fetchDeleteResult({
         inspectionIdx: inspectionIdx,

@@ -3,7 +3,7 @@ import { Box, List, Alert, AlertTitle, Typography, Button, Checkbox, FormControl
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import Question from './Question';
 import { RestartAlt, Save, Add } from '@mui/icons-material';
-import { updateQuestionsApi } from '../../../api/questionApi';
+import { deleteQuestionApi, insertQuestionsApi } from '../../../api/questionApi';
 import QuestionDetailPopup from './QuestionDetailPopup';
 import { useDispatch } from 'react-redux';
 import { fetchQuestionDetail } from '../../../modules/question';
@@ -21,7 +21,7 @@ const QuestionList = ({ inspectionIdx, resultIdx, resultName, initialQuestionLis
 
   const updateQuestions = () => {
     if (!confirm('변경 사항을 저장하시겠습니까?')) return false;
-    updateQuestionsApi(questionList).then(() => {
+    insertQuestionsApi(questionList).then(() => {
       fetchQuestionList();
     });
   };
@@ -33,7 +33,7 @@ const QuestionList = ({ inspectionIdx, resultIdx, resultName, initialQuestionLis
         return questionNumber + 1;
       }, 0);
     const dummyQuestion = {
-      inspectionIdx: inspectionIdx,
+      inspectionIdx: Number(inspectionIdx),
       resultIdx: resultIdx,
       questionNumber: nextQuestionNumber,
       questionText: '',
@@ -42,11 +42,15 @@ const QuestionList = ({ inspectionIdx, resultIdx, resultName, initialQuestionLis
     setQuestionList([...questionList, dummyQuestion]);
   };
 
-  const deleteQuestion = (questionIdx, index) => {
-    const question = questionList.find(question => question.questionIdx === questionIdx);
-    const dataList = [...questionList];
-    dataList.splice(index, 1, { ...question, delYn: 'Y' });
-    setQuestionList(dataList);
+  const deleteQuestion = questionIdx => {
+    if (!confirm('해당 문항을 삭제하시겠습니까?')) return;
+    deleteQuestionApi(questionIdx)
+      .then(({ success }) => {
+        if (Boolean(success)) {
+          alert('삭제에 성공하였습니다.');
+        }
+      })
+      .catch(() => {});
   };
 
   const restoreQuestion = (questionIdx, index) => {

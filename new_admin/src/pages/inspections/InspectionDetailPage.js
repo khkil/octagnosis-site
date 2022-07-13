@@ -30,7 +30,7 @@ const tabData = [
 const InspectionDetailPage = ({ match }) => {
   const dispatch = useDispatch();
   const { inspectionIdx } = useParams();
-  const [tabValue, setTabValue] = useState(tabData[2].value);
+  const [tabValue, setTabValue] = useState(tabData[1].value);
 
   const { loading, inspectionDetail, resultsWithQuestions, resultList } = useSelector(
     ({ loading, inspection, question, result }) => ({
@@ -71,7 +71,7 @@ const InspectionDetailPage = ({ match }) => {
             <Loader />
           ) : (
             <ResultsWithQuestions
-              inspectionIdx={inspectionIdx}
+              inspectionIdx={Number(inspectionIdx)}
               resultsWithQuestions={resultsWithQuestions}
               fetchQuestionList={() => {
                 dispatch(fetchQuestionList(inspectionIdx));
@@ -85,7 +85,7 @@ const InspectionDetailPage = ({ match }) => {
             <ResultList
               resultList={resultList}
               initData={() => {
-                setTabValue('result');
+                dispatch(fetchResultList(inspectionIdx));
               }}
             />
           )

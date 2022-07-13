@@ -48,10 +48,26 @@ export const updateQuestionApi = (questionIdx, question) => {
   });
 };
 
-export const updateQuestionsApi = questions => {
+export const deleteQuestionApi = questionIdx => {
   return new Promise((resolve, reject) => {
     axios
-      .put(`/api/admin/questions`, questions)
+      .delete(`/api/admin/questions/${questionIdx}`)
+      .then(response => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
+export const insertQuestionsApi = questions => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`/api/admin/questions`, questions)
       .then(response => {
         if (response.status === 200) {
           resolve(response.data);

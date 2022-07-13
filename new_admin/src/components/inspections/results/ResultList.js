@@ -45,7 +45,6 @@ const ResultList = ({ resultList, initData }) => {
 
   return (
     <Box p={2}>
-      {JSON.stringify(newResults)}
       <Grid container spacing={2}>
         <Grid item sm={12}>
           <Button size={'small'} variant="contained" startIcon={<Add />} onClick={addResult}>
@@ -84,13 +83,15 @@ const ResultList = ({ resultList, initData }) => {
             </Card>
           </Grid>
         ))}
-        <Grid item sm={12}>
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Button variant="contained" size={'large'} startIcon={<Save />} onClick={insertResults}>
-              등록하기
-            </Button>
-          </Box>
-        </Grid>
+        {newResults.length > 0 && (
+          <Grid item sm={12}>
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+              <Button variant="contained" size={'large'} startIcon={<Save />} onClick={insertResults}>
+                등록하기
+              </Button>
+            </Box>
+          </Grid>
+        )}
       </Grid>
     </Box>
   );
