@@ -48,6 +48,7 @@ const QuestionList = ({ inspectionIdx, resultIdx, resultName, initialQuestionLis
       .then(({ success }) => {
         if (Boolean(success)) {
           alert('삭제에 성공하였습니다.');
+          fetchQuestionList();
         }
       })
       .catch(() => {});
@@ -121,6 +122,8 @@ const QuestionList = ({ inspectionIdx, resultIdx, resultName, initialQuestionLis
                       questionNumber={questionNumber}
                       questionText={questionText}
                       delYn={delYn}
+                      questionList={questionList}
+                      setQuestionList={setQuestionList}
                       getQuestionDetail={getQuestionDetail}
                       showDeletedQuestions={showDeletedQuestions}
                       deleteQuestion={deleteQuestion}

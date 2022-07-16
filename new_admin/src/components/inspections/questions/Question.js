@@ -19,6 +19,8 @@ const Question = ({
   questionNumber,
   questionText,
   delYn,
+  questionList,
+  setQuestionList,
   getQuestionDetail,
   showDeletedQuestions,
   deleteQuestion,
@@ -31,9 +33,12 @@ const Question = ({
 
   const handleChange = useCallback(
     e => {
-      const { value } = e.target;
+      const { name, value } = e.target;
+      setQuestionList(
+        questionList.map(question => (question.questionIdx != questionIdx ? question : { ...question, [name]: value })),
+      );
     },
-    [questionIdx],
+    [questionIdx, questionList],
   );
 
   return (
@@ -82,6 +87,7 @@ const Question = ({
             <>
               {`${questionNumber}.`}
               <TextField
+                name="questionText"
                 variant="standard"
                 sx={{ width: '60%', marginLeft: 1 }}
                 onChange={handleChange}
