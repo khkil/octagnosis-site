@@ -1,6 +1,6 @@
 import { createAction, handleActions } from 'redux-actions';
 import { takeLatest, call, put, delay } from 'redux-saga/effects';
-import { deleteResultApi, resultListApi } from '../api/resultApi';
+import { deleteResultApi, resultDetailApi, resultListApi } from '../api/resultApi';
 import { startLoading, endLoading } from './loading';
 
 export const LOADING_RESULT = 'result/LOADING_RESULT';
@@ -24,6 +24,26 @@ function* resultListSaga(action) {
     yield put(fetchResultListFailure(e));
   } finally {
     yield put(endLoading(LOADING_RESULT));
+  }
+}
+
+/* 결과 상세 */
+export const FETCH_RESULT_DETAIL = 'result/v';
+const FETCH_RESULT_DETAIL_SUCCESS = 'result/FETCH_RESULT_DETAIL_SUCCESS';
+const FETCH_RESULT_DETAIL_FAIL = 'result/FETCH_RESULT_DETAIL_FAIL';
+
+export const fetchResultDetail = createAction(FETCH_RESULT_DETAIL);
+const fetchResultDetailSuccess = createAction(FETCH_RESULT_DETAIL_SUCCESS, data => data);
+const fetchResultDetailFailure = createAction(FETCH_RESULT_DETAIL_FAIL, e => e);
+
+function* resultDetailSaga(action) {
+  try {
+    const { data } = yield call(resultDetailApi, action.payload);
+    yield put(fetchResultDetailSuccess(data));
+  } catch (e) {
+    console.error(e);
+    yield put(fetchResultDetailFailure(e));
+  } finally {
   }
 }
 
@@ -52,6 +72,7 @@ function* deleteResultSaga(action) {
 
 export function* resultSaga() {
   yield takeLatest(FETCH_RESULT_LIST, resultListSaga);
+  yield takeLatest(FETCH_RESULT_DETAIL, resultDetailSaga);
   yield takeLatest(FETCH_DELETE_RESULT, deleteResultSaga);
 }
 
@@ -68,6 +89,14 @@ const result = handleActions(
       list: action.payload,
     }),
     [FETCH_RESULT_LIST_FAIL]: (state, action) => ({
+      ...state,
+      error: action.payload,
+    }),
+    [FETCH_RESULT_DETAIL_SUCCESS]: (state, action) => ({
+      ...state,
+      selected: action.payload,
+    }),
+    [FETCH_RESULT_DETAIL_FAIL]: (state, action) => ({
       ...state,
       error: action.payload,
     }),

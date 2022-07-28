@@ -4,11 +4,15 @@ import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchDeleteResult } from '../../../modules/result';
 
-const Result = ({ resultIdx, resultName }) => {
+const Result = ({ resultIdx, resultName, selectedResultIdx, setSelectedResultIdx }) => {
   const dispatch = useDispatch();
   const { inspectionIdx } = useParams();
 
-  const deleteResult = useCallback(resultIdx => {
+  const showResultDetail = useCallback(() => {
+    setSelectedResultIdx(resultIdx);
+  });
+
+  const deleteResult = useCallback(() => {
     if (!confirm('결과를 삭제하시겠습니까? 복원할수 없습니다.')) return;
     dispatch(
       fetchDeleteResult({
@@ -27,17 +31,10 @@ const Result = ({ resultIdx, resultName }) => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small" variant="contained">
+          <Button size="small" variant="contained" onClick={showResultDetail}>
             상세정보
           </Button>
-          <Button
-            size="small"
-            color="error"
-            variant="contained"
-            onClick={() => {
-              deleteResult(resultIdx);
-            }}
-          >
+          <Button size="small" color="error" variant="contained" onClick={deleteResult}>
             삭제
           </Button>
         </CardActions>

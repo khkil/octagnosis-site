@@ -30,7 +30,7 @@ const tabData = [
 const InspectionDetailPage = ({ match }) => {
   const dispatch = useDispatch();
   const { inspectionIdx } = useParams();
-  const [tabValue, setTabValue] = useState(tabData[1].value);
+  const [tabValue, setTabValue] = useState(tabData[2].value);
 
   const { loading, inspectionDetail, resultsWithQuestions, resultList } = useSelector(
     ({ loading, inspection, question, result }) => ({

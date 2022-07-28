@@ -1,13 +1,17 @@
 import { Add, Save } from '@mui/icons-material';
 import { Box, Button, Card, CardActions, CardContent, Grid, TextField } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { insertResultsApi } from '../../../api/resultApi';
 import Result from './Result';
+import ResultDetailPopup from './ResultDetailPopup';
 
 const ResultList = ({ resultList, initData }) => {
   const { inspectionIdx } = useParams();
   const [newResults, setNewResults] = useState([]);
+  const [selectedResultIdx, setSelectedResultIdx] = useState(null);
+
+  const addedNewResults = useMemo(() => newResults.length > 0, [newResults]);
 
   const addResult = () => {
     const result = {
@@ -45,6 +49,12 @@ const ResultList = ({ resultList, initData }) => {
 
   return (
     <Box p={2}>
+      <ResultDetailPopup
+        inspectionIdx={inspectionIdx}
+        selectedResultIdx={selectedResultIdx}
+        setSelectedResultIdx={setSelectedResultIdx}
+      />
+
       <Grid container spacing={2}>
         <Grid item sm={12}>
           <Button size={'small'} variant="contained" startIcon={<Add />} onClick={addResult}>
@@ -52,7 +62,13 @@ const ResultList = ({ resultList, initData }) => {
           </Button>
         </Grid>
         {resultList.map(({ resultIdx, resultName }) => (
-          <Result key={resultIdx} resultIdx={resultIdx} resultName={resultName} />
+          <Result
+            key={resultIdx}
+            resultIdx={resultIdx}
+            resultName={resultName}
+            selectedResultIdx={selectedResultIdx}
+            setSelectedResultIdx={setSelectedResultIdx}
+          />
         ))}
         {newResults.map(({ resultName }, index) => (
           <Grid item sm={2} key={index}>
@@ -83,7 +99,7 @@ const ResultList = ({ resultList, initData }) => {
             </Card>
           </Grid>
         ))}
-        {newResults.length > 0 && (
+        {addedNewResults && (
           <Grid item sm={12}>
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
               <Button variant="contained" size={'large'} startIcon={<Save />} onClick={insertResults}>
