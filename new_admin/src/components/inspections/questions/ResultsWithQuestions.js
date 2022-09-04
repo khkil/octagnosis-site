@@ -40,16 +40,18 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ResultsWithQuestions = ({ inspectionIdx, resultsWithQuestions, fetchQuestionList }) => {
+const ResultsWithQuestions = ({ inspectionIdx, questionList, resultList, fetchQuestionList }) => {
   const classes = useStyles({});
-  const firstResultIdx = useMemo(
-    () => (resultsWithQuestions.length > 0 ? resultsWithQuestions[0].resultIdx : -1),
-    [resultsWithQuestions],
-  );
-  const [value, setValue] = useState(firstResultIdx);
+  const [selectedResultIdx, setSelectedResultIdx] = useState(firstResultIdx);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const firstResultIdx = useMemo(() => (resultList.length > 0 ? resultList[0].resultIdx : -1), [resultList]);
+  const filteredQuestionList = useMemo(
+    () => questionList.filter(({ resultIdx }) => resultIdx === selectedResultIdx),
+    [selectedResultIdx],
+  );
+
+  const changeResult = (event, newValue) => {
+    setSelectedResultIdx(newValue);
   };
 
   if (firstResultIdx === -1) return null;
@@ -59,25 +61,27 @@ const ResultsWithQuestions = ({ inspectionIdx, resultsWithQuestions, fetchQuesti
         className={classes.tabs}
         orientation="vertical"
         variant="scrollable"
-        value={value}
-        onChange={handleChange}
+        value={selectedResultIdx}
+        onChange={changeResult}
         aria-label="Vertical tabs example"
         sx={{ borderRight: 1, borderColor: 'divider' }}
       >
-        {resultsWithQuestions.map(({ resultIdx, resultName }) => (
+        {resultList.map(({ resultIdx, resultName }) => (
           <Tab className={classes.tab} key={resultIdx} label={resultName} value={resultIdx} />
         ))}
       </Tabs>
 
-      {resultsWithQuestions.map(({ resultIdx, resultName, questionList }) => (
-        <TabPanel key={resultIdx} value={value} index={resultIdx}>
-          <QuestionList
-            inspectionIdx={inspectionIdx}
-            resultIdx={resultIdx}
-            resultName={resultName}
-            initialQuestionList={questionList}
-            fetchQuestionList={fetchQuestionList}
-          />
+      {resultList.map(({ resultIdx, resultName }) => (
+        <TabPanel key={resultIdx} value={selectedResultIdx} index={resultIdx}>
+          {questionList && (
+            <QuestionList
+              inspectionIdx={inspectionIdx}
+              resultIdx={resultIdx}
+              resultName={resultName}
+              initialQuestionList={filteredQuestionList}
+              fetchQuestionList={fetchQuestionList}
+            />
+          )}
         </TabPanel>
       ))}
     </Box>

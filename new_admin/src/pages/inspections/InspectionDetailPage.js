@@ -32,7 +32,7 @@ const InspectionDetailPage = ({ match }) => {
   const { inspectionIdx } = useParams();
   const [tabValue, setTabValue] = useState(tabData[2].value);
 
-  const { loading, inspectionDetail, resultsWithQuestions, resultList } = useSelector(
+  const { loading, inspectionDetail, questionList, resultList } = useSelector(
     ({ loading, inspection, question, result }) => ({
       loading: {
         inspection: loading[FETCH_INPECTION_DETAIL] === undefined || Boolean(loading[FETCH_INPECTION_DETAIL]),
@@ -40,7 +40,7 @@ const InspectionDetailPage = ({ match }) => {
         result: loading[LOADING_RESULT] === undefined || Boolean(loading[LOADING_RESULT]),
       },
       inspectionDetail: inspection.selected,
-      resultsWithQuestions: question.list,
+      questionList: question.list,
       resultList: result.list,
     }),
   );
@@ -49,7 +49,16 @@ const InspectionDetailPage = ({ match }) => {
     if (tabValue === 'basic') {
       dispatch(fetchInspectionDetail(inspectionIdx));
     } else if (tabValue === 'question') {
-      dispatch(fetchQuestionList(inspectionIdx));
+      dispatch(fetchResultList(inspectionIdx));
+      dispatch(
+        fetchQuestionList({
+          inspectionIdx: inspectionIdx,
+          params: {
+            sortColumn: 'questionNumber',
+            direction: 'asc',
+          },
+        }),
+      );
     } else if (tabValue === 'result') {
       dispatch(fetchResultList(inspectionIdx));
     }
@@ -72,7 +81,8 @@ const InspectionDetailPage = ({ match }) => {
           ) : (
             <ResultsWithQuestions
               inspectionIdx={Number(inspectionIdx)}
-              resultsWithQuestions={resultsWithQuestions}
+              resultList={resultList}
+              questionList={questionList}
               fetchQuestionList={() => {
                 dispatch(fetchQuestionList(inspectionIdx));
               }}

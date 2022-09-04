@@ -25,7 +25,10 @@ const theme = createTheme({
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchInspectionList());
+    const params = {
+      octagnosisYn: 'Y',
+    };
+    dispatch(fetchInspectionList(params));
   }, []);
 
   return (
