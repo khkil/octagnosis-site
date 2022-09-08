@@ -14,9 +14,8 @@ const MemberListPage = ({ match, history, location }) => {
   const dispatch = useDispatch();
 
   const query = queryString.parse(location.search);
-  const { loading, memberList, pageInfo } = useSelector(({ loading, member }) => ({
+  const { loading, pageInfo } = useSelector(({ loading, member }) => ({
     loading: loading[FETCH_MEMBER_LIST] === undefined || Boolean(loading[FETCH_MEMBER_LIST]),
-    memberList: member.list,
     pageInfo: member.pageInfo,
   }));
 
@@ -24,7 +23,7 @@ const MemberListPage = ({ match, history, location }) => {
 
   const searchMember = e => {
     e.preventDefault();
-    delete query.pageNum;
+    delete query.offset;
     query.searchText = searchText;
     const searchString = queryString.stringify(query);
     const { pathname } = location;
@@ -35,7 +34,7 @@ const MemberListPage = ({ match, history, location }) => {
   };
 
   const goPage = page => {
-    query.pageNum = page;
+    query.offset = page;
     const searchString = queryString.stringify(query);
     const { pathname } = location;
     history.push({
@@ -48,6 +47,7 @@ const MemberListPage = ({ match, history, location }) => {
     dispatch(fetchMemberList(query));
   }, [location.search]);
 
+  if (!pageInfo.content) return null;
   return (
     <Container maxWidth={'xl'}>
       <MenuBar match={match} />
@@ -66,7 +66,7 @@ const MemberListPage = ({ match, history, location }) => {
         </Grid>
         {/* <Grid xs={12}>{loading ? <Loader /> : <MemberList memberList={memberList} startRow={pageInfo.startRow} />}</Grid> */}
         <Grid item xs={12}>
-          <MemberList memberList={memberList} startRow={pageInfo.startRow} />
+          <MemberList memberList={pageInfo.content} startRow={pageInfo.startRow} />
         </Grid>
 
         <Grid item xs={12}>

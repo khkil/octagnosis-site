@@ -45,20 +45,24 @@ const InspectionDetailPage = ({ match }) => {
     }),
   );
 
+  const initQuestions = () => {
+    dispatch(
+      fetchQuestionList({
+        inspectionIdx: inspectionIdx,
+        params: {
+          sortColumn: 'questionNumber',
+          direction: 'asc',
+        },
+      }),
+    );
+  };
+
   useEffect(() => {
     if (tabValue === 'basic') {
       dispatch(fetchInspectionDetail(inspectionIdx));
     } else if (tabValue === 'question') {
       dispatch(fetchResultList(inspectionIdx));
-      dispatch(
-        fetchQuestionList({
-          inspectionIdx: inspectionIdx,
-          params: {
-            sortColumn: 'questionNumber',
-            direction: 'asc',
-          },
-        }),
-      );
+      initQuestions();
     } else if (tabValue === 'result') {
       dispatch(fetchResultList(inspectionIdx));
     }
@@ -83,9 +87,7 @@ const InspectionDetailPage = ({ match }) => {
               inspectionIdx={Number(inspectionIdx)}
               resultList={resultList}
               questionList={questionList}
-              fetchQuestionList={() => {
-                dispatch(fetchQuestionList(inspectionIdx));
-              }}
+              fetchQuestionList={initQuestions}
             />
           )
         ) : tabValue === 'result' ? (

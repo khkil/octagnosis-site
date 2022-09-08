@@ -2,14 +2,14 @@ import React from 'react';
 import Pagination from 'react-js-pagination';
 
 const Paging = ({ page, setPage, pageInfo }) => {
-  if (!pageInfo.total || !pageInfo.pageSize) return null;
+  const { number, size, totalElements } = pageInfo;
   return (
     <Pagination
       activeLinkClass="active"
       pageRangeDisplayed={10}
-      totalItemsCount={pageInfo.total}
-      itemsCountPerPage={pageInfo.pageSize}
-      activePage={Number(page)}
+      activePage={number}
+      itemsCountPerPage={size}
+      totalItemsCount={totalElements}
       onChange={setPage}
     />
   );
