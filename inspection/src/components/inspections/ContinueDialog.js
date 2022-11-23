@@ -1,25 +1,26 @@
 import { Typography } from '@mui/material';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { deleteProgressApi } from '../../api/memberApi';
-import { goProgressPage } from '../../utils/common';
+import {
+  checkProgressHistoryApi,
+  deleteProgressApi,
+} from '../../api/memberApi';
+import { goNextPage } from '../../utils/common';
 import AlertDialog from '../common/AlertDialog';
 
-const ContinueDialog = ({
-  inspectionIdx,
-  memberIdx,
-  progressDetail,
-  totalPage,
-}) => {
+const ContinueDialog = ({ inspectionIdx, memberIdx }) => {
   const history = useHistory();
   const [continueDialog, setContinueDialog] = useState(false);
-  const { currentPage, userCount } = progressDetail;
+  const [progressHistory, setProgressHistory] = useState({
+    currentPage: 0,
+    totalPage: 0,
+  });
 
   const resetInspection = () => {
     deleteProgressApi(memberIdx, inspectionIdx)
       .then(({ success }) => {
         if (success) {
-          goProgressPage(history, inspectionIdx, 0);
+          goNextPage(history, inspectionIdx, 0);
         } else {
           alert('오류 발생');
         }
@@ -30,20 +31,29 @@ const ContinueDialog = ({
       });
   };
 
+  const checkHistory = () => {
+    checkProgressHistoryApi(inspectionIdx)
+      .then(({ success, data }) => {
+        const { currentPage } = data;
+        if (Boolean(success) && currentPage > 0) {
+          setProgressHistory({
+            ...progressHistory,
+            ...data,
+          });
+          setContinueDialog(true);
+        }
+      })
+      .catch(() => {
+        alert('히스토리를 가져는중 오류가 발생 하였습니다.');
+      });
+  };
+
   const continueInspection = () => {
-    goProgressPage(history, inspectionIdx, currentPage);
+    goNextPage(history, inspectionIdx, progressHistory.currentPage);
   };
-
-  const goResultPage = () => {
-    history.push(`/inspections/${inspectionIdx}/result`);
-  };
-
-  const showDialog = useMemo(() => userCount > 0, [userCount]);
 
   useEffect(() => {
-    if (showDialog) {
-      setContinueDialog(true);
-    }
+    checkHistory();
   }, []);
   return (
     <AlertDialog

@@ -6,15 +6,16 @@ import {
   fetchMemberProgressDetail,
   FETCH_MEMBER_PROGRESS_DETAIL_REQUEST,
 } from '../../modules/member';
-import { useParams } from 'react-router-dom';
+import { Redirect, useParams, useHistory } from 'react-router-dom';
 
 const ProgressBar = memo(({ memberIdx, inspectionIdx }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const { page } = useParams();
   const { memberProgress, loading } = useSelector(({ member, loading }) => ({
     loading: loading[FETCH_MEMBER_PROGRESS_DETAIL_REQUEST],
     memberProgress: member.progressDetail,
   }));
-  const { page } = useParams();
 
   useEffect(() => {
     dispatch(
@@ -29,10 +30,15 @@ const ProgressBar = memo(({ memberIdx, inspectionIdx }) => {
     memberProgress.progress ? memberProgress.progress : 0,
   );
 
+  const resultPageUrl = useMemo(
+    () => `/inspections/${inspectionIdx}/result`,
+    [],
+  );
+
   useEffect(() => {}, [page]);
 
-  console.log(loading, memberProgress);
-
+  if (currentProgress === 100 && history.location.pathname !== resultPageUrl)
+    return <Redirect to={resultPageUrl} />;
   return (
     <Grid className="bar-wrap">
       <Grid
@@ -41,7 +47,7 @@ const ProgressBar = memo(({ memberIdx, inspectionIdx }) => {
         style={{ marginRight: `${100 - currentProgress}%` }}
       />
       <Grid className="value" style={{ marginLeft: `${currentProgress}%` }}>
-        {`${currentProgress}%`}
+        <p>{`${currentProgress}%`}</p>
       </Grid>
     </Grid>
   );

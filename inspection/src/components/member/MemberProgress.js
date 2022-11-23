@@ -12,7 +12,7 @@ import {
 import { makeStyles } from '@mui/styles';
 import { styled } from '@mui/material/styles';
 import { useHistory } from 'react-router-dom';
-import { goProgressPage } from '../../utils/common';
+import { goNextPage } from '../../utils/common';
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
@@ -46,7 +46,7 @@ const ProgessButton = memo(
     }, [inspectionIdx, progressValue]);
 
     const continueInspection = useCallback(() => {
-      goProgressPage(history, inspectionIdx, currentPage, totalCount);
+      goNextPage(history, inspectionIdx, currentPage, totalCount);
     }, [inspectionIdx, progressValue]);
 
     const goResultPage = useCallback(() => {

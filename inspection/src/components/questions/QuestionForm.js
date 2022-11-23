@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import { Box } from '@mui/material';
 import { insertMemberAnswer } from '../../api/answerApi';
 import { useDispatch, useSelector } from 'react-redux';
-import { goProgressPage } from '../../utils/common';
+import { goNextPage } from '../../utils/common';
 
 const QuestionForm = ({ inspectionIdx, questionList, totalPage }) => {
   const { page } = useParams();
@@ -38,7 +38,7 @@ const QuestionForm = ({ inspectionIdx, questionList, totalPage }) => {
       answerIdx: data[key],
     }));
     insertMemberAnswer(memberAnswers).then(() => {
-      goProgressPage(history, inspectionIdx, page, totalPage);
+      goNextPage(history, inspectionIdx, page, totalPage);
     });
   };
 

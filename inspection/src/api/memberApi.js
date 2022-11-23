@@ -48,6 +48,22 @@ export const memberProgressDetailApi = ({ memberIdx, inspectionIdx }) => {
   });
 };
 
+export const checkProgressHistoryApi = inspectionIdx => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`/api/progress/inspections/${inspectionIdx}/check-history`)
+      .then(response => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
 export const deleteProgressApi = (memberIdx, inspectionIdx) => {
   return new Promise((resolve, reject) => {
     axios

@@ -10,10 +10,9 @@ import {
 } from '../../modules/member';
 import Loader from '../../components/ui/Loader';
 import ContinueDialog from '../../components/inspections/ContinueDialog';
-import { goProgressPage } from '../../utils/common';
+import { goNextPage } from '../../utils/common';
 
 const StartPage = () => {
-  const dispatch = useDispatch();
   const history = useHistory();
   const { inspectionIdx } = useParams();
   const { memberIdx, memberName, progressDetail } = useSelector(
@@ -24,17 +23,8 @@ const StartPage = () => {
   );
 
   const startInspection = () => {
-    goProgressPage(history, inspectionIdx, 0);
+    goNextPage(history, inspectionIdx, 0);
   };
-
-  useEffect(() => {
-    dispatch(
-      fetchMemberProgressDetail({
-        memberIdx: memberIdx,
-        inspectionIdx: inspectionIdx,
-      }),
-    );
-  }, []);
 
   return (
     <Container maxWidth="xl">
