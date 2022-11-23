@@ -16,19 +16,12 @@ const StartPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { inspectionIdx } = useParams();
-  const {
-    memberIdx,
-    memberName,
-    progressDetail,
-    totalPage,
-    isLoading,
-  } = useSelector(({ auth, member, inspection, loading }) => ({
-    memberIdx: auth.member.idx,
-    memberName: auth.member.name,
-    progressDetail: member.progressDetail,
-    totalPage: inspection.selected.totalPage,
-    isLoading: loading[FETCH_MEMBER_PROGRESS_DETAIL_REQUEST],
-  }));
+  const { memberIdx, memberName, progressDetail } = useSelector(
+    ({ auth, member }) => ({
+      memberName: auth.member.name,
+      progressDetail: member.progressDetail,
+    }),
+  );
 
   const startInspection = () => {
     goProgressPage(history, inspectionIdx, 0);
@@ -41,17 +34,7 @@ const StartPage = () => {
         inspectionIdx: inspectionIdx,
       }),
     );
-
-    return () => {
-      dispatch(clearMemberProgress());
-    };
   }, []);
-
-  if (isLoading) return <Loader />;
-  if (!progressDetail.inspectionIdx) return null;
-  if (progressDetail.totalCount === progressDetail.userCount) {
-    return <Redirect to={`/inspections/${inspectionIdx}/result`} />;
-  }
 
   return (
     <Container maxWidth="xl">
@@ -59,7 +42,7 @@ const StartPage = () => {
         inspectionIdx={inspectionIdx}
         memberIdx={memberIdx}
         progressDetail={progressDetail}
-        totalPage={totalPage}
+        totalPage={10}
       />
       <Box className="start-wrap">
         <p className="txt1">

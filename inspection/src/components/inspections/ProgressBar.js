@@ -1,32 +1,49 @@
 import React, { memo, useEffect, useMemo } from 'react';
 import { Grid } from '@mui/material';
 import Timer from '../questions/Timer';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  fetchMemberProgressDetail,
+  FETCH_MEMBER_PROGRESS_DETAIL_REQUEST,
+} from '../../modules/member';
+import { useParams } from 'react-router-dom';
 
-const ProgressBar = memo(({ inspectionName, totalPage, page }) => {
-  const currentProgress = useMemo(
-    () => (totalPage === 0 ? 0 : Math.round((100 / totalPage) * (page - 1))),
-    [page],
+const ProgressBar = memo(({ memberIdx, inspectionIdx }) => {
+  const dispatch = useDispatch();
+  const { memberProgress, loading } = useSelector(({ member, loading }) => ({
+    loading: loading[FETCH_MEMBER_PROGRESS_DETAIL_REQUEST],
+    memberProgress: member.progressDetail,
+  }));
+  const { page } = useParams();
+
+  useEffect(() => {
+    dispatch(
+      fetchMemberProgressDetail({
+        memberIdx: memberIdx,
+        inspectionIdx: inspectionIdx,
+      }),
+    );
+  }, [page]);
+
+  const currentProgress = useMemo(() =>
+    memberProgress.progress ? memberProgress.progress : 0,
   );
-  const overallProgress = useMemo(() => 100 - currentProgress, [
-    currentProgress,
-  ]);
-  console.log(totalPage, page);
+
+  useEffect(() => {}, [page]);
+
+  console.log(loading, memberProgress);
+
   return (
-    <>
-      <Timer />
-      <Grid className="progress">
-        <p className="txt">{inspectionName}</p>
-        <Grid className="bar-wrap">
-          <Grid
-            className="bar"
-            style={{ marginRight: `${overallProgress}%` }}
-          />
-          <Grid className="value" style={{ marginLeft: `${currentProgress}%` }}>
-            {`${currentProgress}%`}
-          </Grid>
-        </Grid>
+    <Grid className="bar-wrap">
+      <Grid
+        className="bar"
+        //style={{ marginRight: `${overallProgress}%` }}
+        style={{ marginRight: `${100 - currentProgress}%` }}
+      />
+      <Grid className="value" style={{ marginLeft: `${currentProgress}%` }}>
+        {`${currentProgress}%`}
       </Grid>
-    </>
+    </Grid>
   );
 });
 

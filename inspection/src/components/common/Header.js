@@ -9,6 +9,9 @@ import {
   FETCH_INPECTION_DETAIL,
 } from '../../modules/inspection';
 import MemberInfoTab from './MemberInfoTab';
+import { fetchMemberProgressDetail } from '../../modules/member';
+import Timer from '../questions/Timer';
+import { Grid } from '@mui/material';
 
 const useStyles = makeStyles({
   header: {
@@ -22,32 +25,37 @@ const useStyles = makeStyles({
 
 const Header = () => {
   const classes = useStyles();
-  const params = useParams();
+  const { inspectionIdx, page } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { inspectionDetail, isLoading } = useSelector(
-    ({ loading, inspection }) => ({
-      isLoading: loading[FETCH_INPECTION_DETAIL],
+  const { memberIdx, inspectionDetail, isLoading } = useSelector(
+    ({ auth, inspection, loading }) => ({
+      memberIdx: auth.member.idx,
       inspectionDetail: inspection.selected,
+      isLoading: loading[FETCH_INPECTION_DETAIL],
     }),
   );
-
-  const { inspectionIdx, inspectionName, totalPage } = inspectionDetail;
 
   const goMainPage = () => {
     history.push('/');
   };
 
-  useEffect(() => {
-    if (!params.inspectionIdx || inspectionIdx) return;
-    dispatch(fetchInspectionDetail(params.inspectionIdx));
-  }, []);
-
-  const isProgessPage = useMemo(
-    () => params.page && !isNaN(params.page) && params.page > 0,
-    [params.page],
+  const isStartPage = useMemo(
+    () =>
+      history.location.pathname === `/inspections/${inspectionIdx}/pages/start`,
+    [],
   );
+  const showProgress = useMemo(() => !isNaN(page) || isStartPage, [
+    inspectionIdx,
+    page,
+  ]);
+
+  useEffect(() => {
+    console.log(history.location.pathname);
+    if (!inspectionIdx) return;
+    dispatch(fetchInspectionDetail(inspectionIdx));
+  }, []);
 
   return (
     <div id="header">
@@ -57,12 +65,18 @@ const Header = () => {
             옥타그노시스 검사
           </a>
         </h1>
-        {isProgessPage && inspectionIdx && (
-          <ProgressBar
-            inspectionName={inspectionName}
-            totalPage={totalPage}
-            page={Number(params.page)}
-          />
+        {showProgress && (
+          <>
+            <Timer />
+            <Grid className="progress">
+              <p className="txt">{inspectionDetail.inspectionName}</p>
+              <ProgressBar
+                memberIdx={memberIdx}
+                inspectionIdx={inspectionIdx}
+                inspectionName={inspectionDetail.inspectionName}
+              />
+            </Grid>
+          </>
         )}
         <MemberInfoTab />
       </div>

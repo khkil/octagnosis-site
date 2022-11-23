@@ -12,7 +12,6 @@ import { goProgressPage } from '../../utils/common';
 
 const QuestionForm = ({ inspectionIdx, questionList, totalPage }) => {
   const { page } = useParams();
-  const dispatch = useDispatch();
   const history = useHistory();
 
   const validationSchema = Yup.object().shape(
@@ -33,10 +32,12 @@ const QuestionForm = ({ inspectionIdx, questionList, totalPage }) => {
   }));
 
   const handleSubmit = data => {
-    insertMemberAnswer({
-      answerMap: data,
+    const memberAnswers = Object.keys(data).map(key => ({
       memberIdx: memberIdx,
-    }).then(() => {
+      questionIdx: key.replace('question_', ''),
+      answerIdx: data[key],
+    }));
+    insertMemberAnswer(memberAnswers).then(() => {
       goProgressPage(history, inspectionIdx, page, totalPage);
     });
   };
