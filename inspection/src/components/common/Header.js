@@ -46,13 +46,9 @@ const Header = () => {
       history.location.pathname === `/inspections/${inspectionIdx}/pages/start`,
     [],
   );
-  const showProgress = useMemo(() => !isNaN(page) || isStartPage, [
-    inspectionIdx,
-    page,
-  ]);
+  const showProgress = useMemo(() => !isNaN(page), [page]);
 
   useEffect(() => {
-    console.log(history.location.pathname);
     if (!inspectionIdx) return;
     dispatch(fetchInspectionDetail(inspectionIdx));
   }, []);

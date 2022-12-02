@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 const PROJECT_ROOT = path.resolve(__dirname);
 const SRC_PATH = path.resolve(__dirname, "src");
@@ -11,11 +11,9 @@ const BUILD_PATH = path.resolve(PROJECT_ROOT, "build");
 const PUBLIC_INDEX = path.resolve(PROJECT_ROOT, "public", "index.html");
 
 module.exports = (webpackEnv) => {
-  const mode = webpackEnv.WEBPACK_SERVE ? "development" : "production";
-  const isEnvDevelopment = mode === "development";
-  const isEnvProduction = mode === "production";
+  const isDevelopment = process.env.NODE_ENV !== "production";
   return {
-    mode,
+    mode: isDevelopment ? "development" : "production",
     entry: path.resolve(SRC_PATH, "index.js"),
     output: {
       publicPath: "/",
@@ -25,11 +23,18 @@ module.exports = (webpackEnv) => {
     module: {
       rules: [
         {
-          test: /\.js?/,
+          test: /\.[jt]sx?$/,
           exclude: /node_modules/,
-          use: {
-            loader: "babel-loader",
-          },
+          use: [
+            {
+              loader: require.resolve("babel-loader"),
+              options: {
+                plugins: [
+                  isDevelopment && require.resolve("react-refresh/babel"),
+                ].filter(Boolean),
+              },
+            },
+          ],
         },
         {
           test: /\.css/,
@@ -50,16 +55,18 @@ module.exports = (webpackEnv) => {
       extensions: [".jsx", ".js", ".json"],
     },
     plugins: [
+      new ReactRefreshWebpackPlugin(),
       new HtmlWebpackPlugin({ template: PUBLIC_INDEX }),
       /* new FaviconsWebpackPlugin({
         logo: "public/favicon.png",
       }), */
       new Dotenv(),
       new CleanWebpackPlugin(),
+
       new MiniCssExtractPlugin(),
     ],
     cache: {
-      type: isEnvDevelopment ? "memory" : "filesystem",
+      type: isDevelopment ? "memory" : "filesystem",
     },
 
     devServer: {
@@ -68,6 +75,7 @@ module.exports = (webpackEnv) => {
       host: "localhost",
       open: true,
       overlay: true,
+      hot: true,
       stats: "errors-warnings",
       historyApiFallback: true,
       proxy: {

@@ -72,67 +72,89 @@ const MemberInfoForm = ({
   submitButtonText,
 }) => {
   const classes = useStyles();
+  const [memberType, setMemberType] = useState(MEMBER_TYPE_INDIVIDUAL);
   const [openAddressPopup, setOpenAddressPopup] = useState(false);
-  const [validationSchema, setValidationSchema] = useState({
-    id: Yup.string().required('아이디를 입력하세요'),
-    password: Yup.string().required('비밀번호를 입력하세요'),
-    passwordConfirm: Yup.string()
-      .required('비밀번호 확인을 입력하세요')
-      .oneOf([Yup.ref('password'), null], '패스워드가 일치하지 않습니다.'),
-    name: Yup.string().required('이름을 입력하세요'),
-    verifiedId: Yup.boolean().oneOf([true], '아이디 중복체크를 해주세요'),
-    phone: Yup.string()
-      .required('휴대전화를 입력하세요')
-      .matches(phoneRegExp, '휴대폰 번호 양식에 맞게 입력하세요'),
-    email: Yup.string()
-      .required('이메일을 입력하세요')
-      .email('이메일 형식에 맞게 입력하세요'),
-    address: Yup.string().required('주소를 입력하세요'),
-    school: Yup.string().required('학교명을 입력하세요'),
-    education: Yup.string().required('학력을 선택하세요'),
-    grade: Yup.string().required('학년을 입력하세요'),
-    major: Yup.string().required('전공을 입력하세요'),
-    job: Yup.string().required('직업을 입력하세요'),
-    company: Yup.string().required('회사를 입력하세요'),
-    jobDetail: Yup.string().required('업무 내용을 입력하세요'),
-  });
+
+  const selectGroup = useMemo(() => memberType === MEMBER_TYPE_GROUP, [
+    memberType,
+  ]);
+
+  const isGroupMember = useMemo(
+    () => Boolean(initialValues.groupIdx && initialValues.groupIdx > 0),
+    [initialValues.groupIdx],
+  );
+
+  const createValidationSchema = useMemo(() => {
+    let defaultSchema = {
+      name: Yup.string().required('이름을 입력하세요'),
+      phone: Yup.string()
+        .required('휴대전화를 입력하세요')
+        .matches(phoneRegExp, '휴대폰 번호 양식에 맞게 입력하세요'),
+      email: Yup.string()
+        .required('이메일을 입력하세요')
+        .email('이메일 형식에 맞게 입력하세요'),
+      address: Yup.string().required('주소를 입력하세요'),
+      school: Yup.string().required('학교명을 입력하세요'),
+      education: Yup.string().required('학력을 선택하세요'),
+      grade: Yup.string().required('학년을 입력하세요'),
+      major: Yup.string().required('전공을 입력하세요'),
+      job: Yup.string().required('직업을 입력하세요'),
+      company: Yup.string().required('회사를 입력하세요'),
+      jobDetail: Yup.string().required('업무 내용을 입력하세요'),
+    };
+
+    if (!isOauthUser) {
+      defaultSchema = {
+        ...defaultSchema,
+        verifiedId: Yup.boolean().oneOf([true], '아이디 중복체크를 해주세요'),
+        password: Yup.string().required('비밀번호를 입력하세요'),
+        passwordConfirm: Yup.string()
+          .required('비밀번호 확인을 입력하세요')
+          .oneOf([Yup.ref('password'), null], '패스워드가 일치하지 않습니다.'),
+      };
+
+      if (useEmailAuth) {
+        defaultSchema = {
+          ...defaultSchema,
+          verifiedEmail: Yup.boolean().oneOf(
+            [true],
+            '이메일 인증을 완료해주세요',
+          ),
+        };
+      }
+
+      if (selectGroup) {
+        defaultSchema = {
+          ...defaultSchema,
+          groupCode: Yup.string().required('단체코드를 입력하세요'),
+          verifiedCode: Yup.boolean().oneOf(
+            [true],
+            '단체코드 인증을 완료해주세요',
+          ),
+        };
+      }
+    }
+    console.log(memberType);
+
+    return defaultSchema;
+  }, [memberType]);
 
   const showAddressPopup = e => {
     e.preventDefault();
     setOpenAddressPopup(true);
   };
 
-  const [memberType, setMemberType] = useState(MEMBER_TYPE_INDIVIDUAL);
-  const selectGroup = useMemo(() => memberType === MEMBER_TYPE_GROUP, [
-    memberType,
-  ]);
-  const isGroupMember = useMemo(
-    () => Boolean(initialValues.groupIdx && initialValues.groupIdx > 0),
-    [initialValues.groupIdx],
-  );
-
-  useEffect(() => {
-    setValidationSchema({
-      ...validationSchema,
-      groupCode: selectGroup && Yup.string().required('단체코드를 입력하세요'),
-      verifiedCode:
-        selectGroup &&
-        Yup.boolean().oneOf([true], '단체코드 인증을 완료해주세요'),
-      verifiedEmail:
-        useEmailAuth &&
-        Yup.boolean().oneOf([true], '이메일 인증을 완료해주세요'),
-    });
-  }, [memberType]);
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={Yup.object().shape(validationSchema)}
+      validationSchema={Yup.object().shape(createValidationSchema)}
       onSubmit={data => {
         handleSubmit(data);
       }}
     >
       {({ values, setValues, handleChange, handleSubmit, touched, errors }) => (
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          {JSON.stringify(errors)}
           <Grid container spacing={2}>
             {isSignUpPage && (
               <>
