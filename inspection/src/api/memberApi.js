@@ -16,7 +16,7 @@ export const memberGroupApi = memberIdx => {
   });
 };
 
-export const memberProgressListApi = memberIdx => {
+export const memberProgressListApi = () => {
   return new Promise((resolve, reject) => {
     axios
       .get(`/api/progress`)

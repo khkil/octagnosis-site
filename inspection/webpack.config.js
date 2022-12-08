@@ -55,7 +55,7 @@ module.exports = (webpackEnv) => {
       extensions: [".jsx", ".js", ".json"],
     },
     plugins: [
-      new ReactRefreshWebpackPlugin(),
+      isDevelopment && new ReactRefreshWebpackPlugin(),
       new HtmlWebpackPlugin({ template: PUBLIC_INDEX }),
       /* new FaviconsWebpackPlugin({
         logo: "public/favicon.png",

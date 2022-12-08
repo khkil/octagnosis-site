@@ -55,7 +55,7 @@ const MyPage = () => {
 
   useEffect(() => {
     const { idx } = member;
-    dispatch(fetchMemberProgressList(idx));
+    dispatch(fetchMemberProgressList());
     return () => {
       dispatch(clearMemberProgress());
     };

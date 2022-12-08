@@ -86,6 +86,7 @@ const MemberInfoForm = ({
 
   const createValidationSchema = useMemo(() => {
     let defaultSchema = {
+      id: Yup.string().required('아이디를 입력하세요'),
       name: Yup.string().required('이름을 입력하세요'),
       phone: Yup.string()
         .required('휴대전화를 입력하세요')
@@ -154,7 +155,6 @@ const MemberInfoForm = ({
     >
       {({ values, setValues, handleChange, handleSubmit, touched, errors }) => (
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
-          {JSON.stringify(errors)}
           <Grid container spacing={2}>
             {isSignUpPage && (
               <>

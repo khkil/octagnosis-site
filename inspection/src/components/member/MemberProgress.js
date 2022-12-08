@@ -37,25 +37,25 @@ const useStyles = makeStyles({
 });
 
 const ProgessButton = memo(
-  ({ inspectionIdx, progressValue, currentPage, totalCount }) => {
+  ({ inspectionIdx, progress, currentPage, totalCount }) => {
     const classes = useStyles();
     const history = useHistory();
 
     const startInspection = useCallback(() => {
       history.push(`/inspections/${inspectionIdx}/pages/start`);
-    }, [inspectionIdx, progressValue]);
+    }, [inspectionIdx, progress]);
 
     const continueInspection = useCallback(() => {
       goNextPage(history, inspectionIdx, currentPage, totalCount);
-    }, [inspectionIdx, progressValue]);
+    }, [inspectionIdx, progress]);
 
     const goResultPage = useCallback(() => {
       history.push(`/inspections/${inspectionIdx}/result`);
-    }, [inspectionIdx, progressValue]);
+    }, [inspectionIdx, progress]);
 
     return (
       <Box ml={2}>
-        {progressValue === 0 ? (
+        {progress === 0 ? (
           <Button
             variant="contained"
             className={classes.startBtn}
@@ -63,7 +63,7 @@ const ProgessButton = memo(
           >
             검사 시작하기
           </Button>
-        ) : progressValue === 100 ? (
+        ) : progress === 100 ? (
           <Button
             variant="contained"
             className={classes.resultBtn}
@@ -84,15 +84,10 @@ const ProgessButton = memo(
 const MemberProgress = ({
   inspectionIdx,
   inspectionName,
-  userCount,
-  totalCount,
+  progress,
   currentPage,
 }) => {
   const classes = useStyles();
-  const progressValue = useMemo(
-    () => (userCount === 0 ? 0 : Math.round((userCount / totalCount) * 100)),
-    [userCount, totalCount],
-  );
 
   return (
     <StyledTableRow>
@@ -105,12 +100,12 @@ const MemberProgress = ({
             <LinearProgress
               className={classes.progressBar}
               variant="determinate"
-              value={progressValue}
+              value={progress}
             />
           </Box>
           <Box>
             <Typography variant="body2" color="text.secondary">
-              {`${progressValue}%`}
+              {`${progress}%`}
             </Typography>
           </Box>
         </Box>
@@ -118,9 +113,8 @@ const MemberProgress = ({
       <TableCell>
         <ProgessButton
           inspectionIdx={inspectionIdx}
-          progressValue={progressValue}
+          progress={progress}
           currentPage={currentPage}
-          totalCount={totalCount}
         />
       </TableCell>
       <TableCell align="center">결제 완료</TableCell>
