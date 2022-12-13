@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Routes from './routers/Router';
+import Routers from './routers/Router';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import './App.css';
 
@@ -23,7 +23,7 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Routes />
+      <Routers />
     </ThemeProvider>
   );
 }

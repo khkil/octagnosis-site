@@ -2,7 +2,7 @@ import React, { memo, useCallback, useEffect, useMemo } from 'react';
 import { Box, Grid, Typography, LinearProgress, Button, TableRow, TableCell, Table } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { styled } from '@mui/material/styles';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
@@ -27,7 +27,6 @@ const useStyles = makeStyles({
 });
 
 const MemberProgress = ({ inspectionName, userCount, totalCount }) => {
-  console.log(userCount, totalCount);
   const classes = useStyles();
   const progressValue = useMemo(
     () => (userCount === 0 ? 0 : Math.round((userCount / totalCount) * 100)),

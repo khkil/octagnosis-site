@@ -23,10 +23,6 @@ const Sidebar = () => {
 
   const inspectionList = useMemo(() => (!data ? [] : data.data), [data]);
 
-  useEffect(() => {
-    console.log('sidebar');
-  }, []);
-
   return (
     <Drawer
       variant="permanent"

@@ -1,10 +1,10 @@
 import { Link, Paper, Table, TableBody, TableContainer, TableHead, TableRow } from '@mui/material';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { StyledTableCell, StyledTableRow } from '../members/MemberList';
 
 const GroupList = ({ groupList, startRow }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   return (
     <TableContainer component={Paper}>
       <Table aria-label="customized table">
@@ -29,7 +29,7 @@ const GroupList = ({ groupList, startRow }) => {
                   variant="subtitle1"
                   onClick={e => {
                     e.preventDefault();
-                    history.push(`/groups/${idx}`);
+                    navigate(`/groups/${idx}`);
                   }}
                 >
                   {name}

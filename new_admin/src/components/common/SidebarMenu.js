@@ -1,13 +1,13 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { List, ListItemButton, ListItemIcon, ListItemText, Collapse, ListSubheader, Divider } from '@mui/material';
 import { ExpandLess, ExpandMore, StarBorder } from '@mui/icons-material';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleManu } from '../../modules/menu';
 
 const SidebarMenu = ({ header, name, path, children, icon, menuReducer, inspectionList }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const hasChildren = useMemo(() => children && children.filter(({ path }) => path.indexOf(':') === -1).length > 0);
   const [open, setOpen] = useState(Boolean(menuReducer[path]));
@@ -24,10 +24,8 @@ const SidebarMenu = ({ header, name, path, children, icon, menuReducer, inspecti
     }
   };
 
-  console.log('inspectionList', inspectionList);
-
   const goPage = path => {
-    history.push(path);
+    navigate(path);
   };
 
   return (
@@ -42,7 +40,7 @@ const SidebarMenu = ({ header, name, path, children, icon, menuReducer, inspecti
           <ListItemButton
             key={inspectionIdx}
             onClick={() => {
-              goPage(`${path}/${inspectionIdx}`);
+              goPage(`/${path}/${inspectionIdx}`);
             }}
             style={{ background: '#344152' }}
           >
@@ -69,7 +67,7 @@ const SidebarMenu = ({ header, name, path, children, icon, menuReducer, inspecti
                   key={index}
                   sx={{ pl: 4 }}
                   onClick={() => {
-                    goPage(path + child.path);
+                    goPage(`/${path}${child.path && `/${child.path}`}`);
                   }}
                 >
                   <ListItemIcon sx={{ color: 'white' }}>{child.icon}</ListItemIcon>

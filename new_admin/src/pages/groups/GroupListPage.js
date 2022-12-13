@@ -2,18 +2,18 @@ import { Button, Container, Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import queryString from 'query-string';
-import MenuBar from '../../components/common/MenuBar';
+import CommonBreadcrumbs from '../../components/common/CommonBreadcrumbs';
 import SearchBar from '../../components/common/SearchBar';
 import GroupList from '../../components/groups/GroupList';
 import Loader from '../../components/ui/Loader';
 import { fetchGroupList, FETCH_GROUP_LIST } from '../../modules/group';
 import Paging from '../../components/common/Paging';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Add, PlusOne } from '@mui/icons-material';
 
 const GroupListPage = ({ match }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const query = queryString.parse(location.search);
   const [searchText, setSearchText] = useState(query.searchText);
   const { groupList, pageInfo, loading } = useSelector(({ group, loading }) => ({
@@ -26,19 +26,19 @@ const GroupListPage = ({ match }) => {
     e.preventDefault();
     delete query.pageNum;
     query.searchText = searchText;
-    history.push({
+    navigate({
       pathname: location.pathname,
       search: queryString.stringify(query),
     });
   };
 
   const goRegistPage = () => {
-    history.push('/groups/regist');
+    navigate('/groups/regist');
   };
 
   const goPage = page => {
     query.pageNum = page;
-    history.push({
+    navigate({
       pathname: location.pathname,
       search: queryString.stringify(query),
     });
@@ -50,7 +50,6 @@ const GroupListPage = ({ match }) => {
 
   return (
     <Container maxWidth="xl">
-      <MenuBar match={match} />
       <Grid container alignContent={'center'} spacing={2}>
         <Grid item xs={10.5}>
           <SearchBar
@@ -60,7 +59,7 @@ const GroupListPage = ({ match }) => {
               setSearchText(value);
             }}
             onSubmit={serachGroup}
-            placeholder={'단체명을 입력해주세요'}
+            placeholder={'기관명을 입력해주세요'}
           />
         </Grid>
         <Grid item xs={1.5}>
@@ -72,7 +71,7 @@ const GroupListPage = ({ match }) => {
             startIcon={<Add />}
             onClick={goRegistPage}
           >
-            단체 등록
+            기관 등록
           </Button>
         </Grid>
         <Grid item xs={12}>

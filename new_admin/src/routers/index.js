@@ -12,33 +12,33 @@ import AccessStatisticsPage from '../pages/statistics/AccessStatisticsPage';
 import GroupRegistPage from '../pages/groups/GroupRegistPage';
 
 const mainDashBoardRoute = {
-  path: '/',
+  path: '',
   name: '메인 페이지',
-  component: MainDashBoard,
+  element: MainDashBoard,
 };
 
 const authRoute = {
-  path: '/auth',
+  path: 'auth',
   name: 'auth',
   children: [
     {
-      path: '/login',
+      path: 'login',
       name: '로그인 페이지',
-      component: LoginPage,
+      element: LoginPage,
     },
   ],
 };
 
 const inspectionRoute = {
   header: '검사 관리',
-  name: '검사 리스트',
-  path: '/inspections',
+  name: '검사 목록',
+  path: 'inspections',
   icon: <Subject />,
   children: [
     {
-      path: '/:inspectionIdx',
+      path: ':inspectionIdx',
       name: '검사 상세',
-      component: InspectionDetailPage,
+      element: InspectionDetailPage,
     },
   ],
 };
@@ -46,59 +46,59 @@ const inspectionRoute = {
 const memberRoute = {
   header: '사용자 관리',
   name: '개인 관리',
-  path: '/members',
+  path: 'members',
   icon: <Person />,
   children: [
     {
       path: '',
-      name: '개인 리스트',
-      component: MemberListPage,
+      name: '개인 목록',
+      element: MemberListPage,
     },
     {
       name: '개인 상세',
-      path: '/:memberIdx',
-      component: MemberDetailPage,
+      path: ':memberIdx',
+      element: MemberDetailPage,
     },
   ],
 };
 
 const managerRoute = {
   name: '매니저 관리',
-  path: '/managers',
+  path: 'managers',
   icon: <AdminPanelSettings />,
   children: [
     {
       path: '',
-      name: '매니저 리스트',
-      component: MemberListPage,
+      name: '매니저 목록',
+      element: MemberListPage,
     },
     {
       name: '매니저 상세',
-      path: '/:memberIdx',
-      component: MemberDetailPage,
+      path: ':memberIdx',
+      element: MemberDetailPage,
     },
   ],
 };
 
 const groupRoute = {
-  name: '단체 관리',
-  path: '/groups',
+  name: '기관 관리',
+  path: 'groups',
   icon: <Group />,
   children: [
     {
-      name: '단체 등록',
-      path: '/regist',
-      component: GroupRegistPage,
-    },
-    {
-      name: '단체 리스트',
+      name: '기관 목록',
       path: '',
-      component: GroupListPage,
+      element: GroupListPage,
     },
     {
-      name: '단체 상세',
-      path: '/:groupIdx',
-      component: GroupDetailPage,
+      name: '기관 상세',
+      path: ':groupIdx',
+      element: GroupDetailPage,
+    },
+    {
+      name: '기관 등록',
+      path: 'regist',
+      element: GroupRegistPage,
     },
   ],
 };
@@ -107,15 +107,15 @@ const statisticsRoutes = [
   {
     header: '통계',
     name: '검사 통계',
-    path: '/statistics/inspection',
+    path: 'statistics/inspection',
     icon: <Subject />,
-    component: InspectionStatisticsPage,
+    element: InspectionStatisticsPage,
   },
   {
     name: '접속 통계',
-    path: '/statistics/access',
+    path: 'statistics/access',
     icon: <Subject />,
-    component: AccessStatisticsPage,
+    element: AccessStatisticsPage,
   },
 ];
 

@@ -1,7 +1,7 @@
 import { Box, Container, Paper, Typography } from '@mui/material';
 import React, { useEffect, useMemo, useState } from 'react';
 import HorizonalTabs from '../../components/inspections/HorizonalTabs';
-import MenuBar from '../../components/common/MenuBar';
+import CommonBreadcrumbs from '../../components/common/CommonBreadcrumbs';
 import InspectionDetailInfo from '../../components/inspections/InspectionDetailInfo';
 import ResultsWithQuestions from '../../components/inspections/questions/ResultsWithQuestions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -70,7 +70,7 @@ const InspectionDetailPage = ({ match }) => {
 
   return (
     <Container maxWidth={'xl'}>
-      <MenuBar match={match} thirdText={inspectionDetail.inspectionName} />
+      <CommonBreadcrumbs match={match} thirdText={inspectionDetail.inspectionName} />
       <HorizonalTabs tabData={tabData} tabValue={tabValue} setTabValue={setTabValue} />
       <Paper>
         {tabValue === 'basic' ? (

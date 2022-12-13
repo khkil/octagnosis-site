@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   TextField,
@@ -19,7 +19,7 @@ import * as Yup from 'yup';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { loginRequest, LOGIN_REQUEST } from '../../modules/auth';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useNavigate } from 'react-router-dom';
 const useStyles = makeStyles({
   root: {
     justifyContent: 'center',
@@ -34,6 +34,7 @@ const useStyles = makeStyles({
 
 const LoginPage = () => {
   const dispatch = useDispatch();
+  let navigate = useNavigate();
 
   const { isLoading, isLoggedIn } = useSelector(({ loading, auth }) => ({
     isLoading: loading[LOGIN_REQUEST],
@@ -45,7 +46,10 @@ const LoginPage = () => {
   };
   const classes = useStyles();
 
-  if (isLoggedIn) return <Redirect to="/" />;
+  useEffect(() => {
+    if (isLoggedIn) return navigate('/');
+  }, [isLoggedIn]);
+
   return (
     <Container>
       <Box container spacing={0} justify="center" direction="row">

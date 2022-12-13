@@ -1,8 +1,7 @@
 import { Box, Container, Grid, Paper } from '@mui/material';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import { groupRegistApi } from '../../api/groupApi';
-import MenuBar from '../../components/common/MenuBar';
+import CommonBreadcrumbs from '../../components/common/CommonBreadcrumbs';
 import GroupForm from '../../components/groups/GroupForm';
 
 const GroupRegistPage = ({ match, history }) => {
@@ -12,7 +11,7 @@ const GroupRegistPage = ({ match, history }) => {
         if (Boolean(success)) {
           alert('등록에 성공 하였습니다.');
           const { idx } = data;
-          history.push(`/groups/${idx}`);
+          navigate(`/groups/${idx}`);
         } else {
           alert('등록에 실패 하였습니다.');
         }
@@ -25,7 +24,7 @@ const GroupRegistPage = ({ match, history }) => {
   };
   return (
     <Container maxWidth={'xl'}>
-      <MenuBar match={match} />
+      <CommonBreadcrumbs match={match} />
       <Paper>
         <GroupForm onSubmit={registGroup} />
       </Paper>

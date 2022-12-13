@@ -7,7 +7,7 @@ import { startLoading, endLoading } from './loading';
 export const CLEAR_MEMBER = 'member/CLEAR_MEMBER';
 export const clearMember = createAction(CLEAR_MEMBER);
 
-/* 회원리스트 */
+/* 회원목록 */
 export const FETCH_MEMBER_LIST = 'member/FETCH_MEMBER_LIST';
 const FETCH_MEMBER_LIST_SUCCESS = 'member/FETCH_MEMBER_LIST_SUCCESS';
 const FETCH_MEMBER_LIST_FAIL = 'member/FETCH_MEMBER_LIST_FAIL';

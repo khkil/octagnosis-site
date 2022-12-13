@@ -5,7 +5,7 @@ import { startLoading, endLoading } from './loading';
 
 export const LOADING_RESULT = 'result/LOADING_RESULT';
 
-/* 결과 리스트 */
+/* 결과 목록 */
 export const FETCH_RESULT_LIST = 'result/FETCH_RESULT_LIST';
 const FETCH_RESULT_LIST_SUCCESS = 'result/FETCH_RESULT_LIST_SUCCESS';
 const FETCH_RESULT_LIST_FAIL = 'result/FETCH_RESULT_LIST_FAIL';

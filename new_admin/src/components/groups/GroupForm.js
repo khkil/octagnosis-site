@@ -31,7 +31,7 @@ const GroupForm = ({ initialValues, onSubmit }) => {
             }
       }
       validationSchema={Yup.object().shape({
-        name: Yup.string().required('단체명을 입력하세요'),
+        name: Yup.string().required('기관명을 입력하세요'),
         /* 
         tel: Yup.string().required('연락처를 입력하세요'),
         address: Yup.string().required('주소를 입력하세요'),
@@ -75,7 +75,7 @@ const GroupForm = ({ initialValues, onSubmit }) => {
               <TextField
                 fullWidth
                 name="name"
-                label="단체명"
+                label="기관명"
                 type="text"
                 value={values.name}
                 onChange={handleChange}
@@ -183,7 +183,7 @@ const GroupForm = ({ initialValues, onSubmit }) => {
                   <TextField
                     fullWidth
                     name="groupCode"
-                    label="단체 회차 코드"
+                    label="기관 회차 코드"
                     type="text"
                     value={values.groupCode}
                     onChange={handleChange}

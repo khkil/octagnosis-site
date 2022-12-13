@@ -5,7 +5,7 @@ import { getPageVariables } from '../utils';
 import { DELAY_TIME } from '../utils/sagaUtil';
 import { startLoading, endLoading } from './loading';
 
-/* 단체 리스트 */
+/* 기관 목록 */
 export const FETCH_GROUP_LIST = 'group/FETCH_GROUP_LIST';
 export const FETCH_GROUP_LIST_SUCCESS = 'group/FETCH_GROUP_LIST_SUCCESS';
 export const FETCH_GROUP_LIST_FAIL = 'group/FETCH_GROUP_LIST_FAIL';
@@ -27,7 +27,7 @@ function* groupListSaga(action) {
   }
 }
 
-/* 단체 상세 */
+/* 기관 상세 */
 export const FETCH_GROUP_DETAIL = 'group/FETCH_GROUP_DETAIL';
 export const FETCH_GROUP_DETAIL_SUCCESS = 'group/FETCH_GROUP_DETAIL_SUCCESS';
 export const FETCH_GROUP_DETAIL_FAIL = 'group/FETCH_GROUP_DETAIL_FAIL';

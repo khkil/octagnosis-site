@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { styled } from '@mui/material/styles';
 import { tableCellClasses } from '@mui/material/TableCell';
 import { Paper, Table, TableBody, TableContainer, TableHead, TableRow, TableCell, Link } from '@mui/material';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import SearchBar from '../common/SearchBar';
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -25,8 +25,8 @@ export const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const MemberList = ({ memberList, startRow }) => {
-  const history = useHistory();
+const MemberList = ({ memberList, startNum }) => {
+  const navigate = useNavigate();
 
   return (
     <TableContainer component={Paper}>
@@ -44,7 +44,7 @@ const MemberList = ({ memberList, startRow }) => {
           {memberList.map(({ idx, name, email, phone, cdate }, index) => (
             <StyledTableRow key={idx}>
               <StyledTableCell component="th" scope="row">
-                {startRow + index}
+                {startNum - index}
               </StyledTableCell>
               <StyledTableCell align="center">
                 <Link
@@ -54,7 +54,7 @@ const MemberList = ({ memberList, startRow }) => {
                   variant="subtitle1"
                   onClick={e => {
                     e.preventDefault();
-                    history.push(`/members/${idx}`);
+                    navigate(`/members/${idx}`);
                   }}
                 >
                   {name}

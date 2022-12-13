@@ -22,3 +22,12 @@ export const generateCode = size => {
   }
   return result;
 };
+
+export const getDynamicPath = (path, params) => {
+  Object.keys(params).forEach(key => {
+    if (path.indexOf(key)) {
+      path = path.replace(`:${key}`, params[key]);
+    }
+  });
+  return path;
+};

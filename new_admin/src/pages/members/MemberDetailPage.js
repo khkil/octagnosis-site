@@ -4,7 +4,7 @@ import { Button, TextField, Grid, Box, Alert, MenuItem, Paper, Container } from 
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import MemberProgressList from '../../components/members/progress/MemberProgressList';
-import MenuBar from '../../components/common/MenuBar';
+import CommonBreadcrumbs from '../../components/common/CommonBreadcrumbs';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMemberProgressList, FETCH_MEMBER_PROGRESS_LIST } from '../../modules/progress';
 import { fetchMemberDetail, FETCH_MEMBER_DETAIL } from '../../modules/member';
@@ -31,7 +31,7 @@ const MemberDetailPage = ({ match }) => {
         <Loader />
       ) : (
         <>
-          <MenuBar match={match} thirdText={memberDetail.name} />
+          <CommonBreadcrumbs match={match} thirdText={memberDetail.name} />
           <Paper>
             <Grid container spacing={2} sx={{ p: 2 }}>
               <Grid item xs={12} sm={12}>
