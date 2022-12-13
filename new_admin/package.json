@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "webpack serve",
+    "dev": "webpack serve --env development",
     "build": "webpack --progress"
   },
   "devDependencies": {
@@ -41,6 +41,7 @@
     "@mui/lab": "^5.0.0-alpha.61",
     "@mui/material": "^5.2.4",
     "@mui/styles": "^5.2.3",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "axios": "^0.24.0",
     "dotenv-webpack": "^7.0.2",
     "extract-text-webpack-plugin": "^3.0.2",
@@ -54,8 +55,9 @@
     "react-helmet": "^6.1.0",
     "react-helmet-async": "^1.2.2",
     "react-js-pagination": "^3.0.3",
-    "react-query": "^3.5.0",
+    "react-query": "^3.39.2",
     "react-redux": "^7.2.6",
+    "react-refresh": "^0.14.0",
     "react-router-dom": "^5.2.0",
     "redux": "^4.1.2",
     "redux-actions": "^2.6.5",

@@ -10,6 +10,7 @@ import rootReducer, { rootSaga } from './modules';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 import logger from 'redux-logger';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -18,15 +19,18 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(sagaMiddleware)),
 );
 const persistor = persistStore(store);
+const queryClient = new QueryClient();
 
 sagaMiddleware.run(rootSaga);
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </QueryClientProvider>
       </PersistGate>
     </Provider>
   </React.StrictMode>,

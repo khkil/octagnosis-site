@@ -5,7 +5,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleManu } from '../../modules/menu';
 
-const SidebarMenu = ({ header, name, path, children, icon, menuReducer }) => {
+const SidebarMenu = ({ header, name, path, children, icon, menuReducer, inspectionList }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -24,11 +24,11 @@ const SidebarMenu = ({ header, name, path, children, icon, menuReducer }) => {
     }
   };
 
+  console.log('inspectionList', inspectionList);
+
   const goPage = path => {
     history.push(path);
   };
-
-  const inspectionList = useSelector(({ inspection }) => inspection.list);
 
   return (
     <List component="div" disablePadding>

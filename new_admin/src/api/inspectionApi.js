@@ -3,7 +3,7 @@ import axios from '../utils/axios';
 export const fetchInspectionListApi = params => {
   return new Promise((resolve, reject) => {
     axios
-      .get(`/api/public/inspections`, {
+      .get(`/api/inspections`, {
         params: params,
       })
       .then(response => {

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { memo, useEffect, useMemo } from 'react';
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import { makeStyles } from '@mui/styles';
@@ -6,12 +6,26 @@ import SidebarMenu from './SidebarMenu';
 import { sidebarRoutes } from '../../routers';
 import { Box, Divider, Drawer, ListItem, ListItemIcon, ListItemText, Toolbar } from '@mui/material';
 import { useSelector } from 'react-redux';
+import { fetchInspectionListApi } from '../../api/inspectionApi';
+import { useQuery } from 'react-query';
 
 const Sidebar = () => {
   const drawerWidth = 240;
   const { menuReducer } = useSelector(({ menu }) => ({
     menuReducer: menu,
   }));
+
+  const { data } = useQuery(['exFormDetail'], () =>
+    fetchInspectionListApi({
+      octagnosisYn: 'Y',
+    }),
+  );
+
+  const inspectionList = useMemo(() => (!data ? [] : data.data), [data]);
+
+  useEffect(() => {
+    console.log('sidebar');
+  }, []);
 
   return (
     <Drawer
@@ -44,10 +58,11 @@ const Sidebar = () => {
             children={children}
             icon={icon}
             menuReducer={menuReducer}
+            inspectionList={inspectionList}
           />
         ))}
       </Box>
     </Drawer>
   );
 };
-export default Sidebar;
+export default memo(Sidebar);

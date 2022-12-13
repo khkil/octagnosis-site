@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import Routes from './routers/Router';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import './App.css';
-import { useDispatch } from 'react-redux';
-import { fetchInspectionList } from './modules/inspection';
 
 const theme = createTheme({
   typography: {
@@ -23,14 +21,6 @@ const theme = createTheme({
 });
 
 function App() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const params = {
-      octagnosisYn: 'Y',
-    };
-    dispatch(fetchInspectionList(params));
-  }, []);
-
   return (
     <ThemeProvider theme={theme}>
       <Routes />

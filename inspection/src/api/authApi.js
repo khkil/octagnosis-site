@@ -1,7 +1,6 @@
 import axios from '../utils/axios';
 
 export const signUpApi = params => {
-  params.role = 'ROLE_MEMBER';
   return new Promise((resolve, reject) => {
     axios
       .post(`/api/auth/sign-up`, params)
@@ -37,7 +36,6 @@ export const checkIdApi = id => {
 };
 
 export const loginApi = params => {
-  params.role = 'ROLE_MEMBER';
   return new Promise((resolve, reject) => {
     axios
       .post(`/api/auth/login`, params)

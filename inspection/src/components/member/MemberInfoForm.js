@@ -191,7 +191,7 @@ const MemberInfoForm = ({
                 </Grid>
                 {selectGroup && (
                   <>
-                    <Grid item xs={12} sm={4.7}>
+                    <Grid item xs={12} sm={4.5}>
                       <TextField
                         fullWidth
                         name="groupCode"
@@ -218,7 +218,7 @@ const MemberInfoForm = ({
                         autoFocus
                       />
                     </Grid>
-                    <Grid item xs={12} sm={1.3}>
+                    <Grid item xs={12} sm={1.5}>
                       <VerifyCodeButton
                         code={values.groupCode}
                         hasError={errors.groupCode}
@@ -237,11 +237,12 @@ const MemberInfoForm = ({
             </Grid>
             {!isOauthUser && (
               <>
-                <Grid item xs={12} sm={isSignUpPage ? 4.7 : 6}>
+                <Grid item xs={12} sm={isSignUpPage ? 4.5 : 6}>
                   <TextField
                     fullWidth
                     name="id"
                     label="아이디"
+                    disabled={!isSignUpPage}
                     type="text"
                     value={values.id}
                     onChange={e => {
@@ -262,7 +263,7 @@ const MemberInfoForm = ({
                   />
                 </Grid>
                 {isSignUpPage && (
-                  <Grid item xs={12} sm={1.3}>
+                  <Grid item xs={12} sm={1.5}>
                     <VerifyIdButton
                       value={values.id}
                       hasError={errors.id}
@@ -320,7 +321,7 @@ const MemberInfoForm = ({
               </>
             )}
 
-            <Grid item xs={12} sm={useEmailAuth ? 4.7 : 6}>
+            <Grid item xs={12} sm={useEmailAuth ? 4.5 : 6}>
               <TextField
                 fullWidth
                 name="email"
@@ -339,7 +340,7 @@ const MemberInfoForm = ({
               />
             </Grid>
             {useEmailAuth && (
-              <Grid item xs={12} sm={1.3}>
+              <Grid item xs={12} sm={1.5}>
                 <VerifyEmailButton
                   email={values.email}
                   verifiedEmail={values.verifiedEmail}

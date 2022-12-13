@@ -59,7 +59,7 @@ const VerifyEmailButton = ({ email, verifiedEmail, setVerifiedEmail }) => {
           style={{ height: '56px' }}
           onClick={sendVerifyEmail}
         >
-          <Typography variant="subtitle1">인증 메일 발송</Typography>
+          <Typography variant="subtitle1">이메일 인증</Typography>
         </LoadingButton>
       ) : (
         <Button

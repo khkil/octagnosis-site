@@ -42,11 +42,7 @@ const SignupPage = ({ location }) => {
   };
 
   const handleSubmit = data => {
-    const params = {
-      role: 'ROLE_MEMBER',
-      ...data,
-    };
-    dispatch(signUpRequest(params));
+    dispatch(signUpRequest(data));
   };
 
   useEffect(() => {}, []);
@@ -71,8 +67,7 @@ const SignupPage = ({ location }) => {
         <MemberInfoForm
           isSignUpPage={isSignUpPage}
           isOauthUser={isOauthUser}
-          //useEmailAuth={true} 삭제
-          useEmailAuth={false}
+          useEmailAuth={true}
           initialValues={initialValues}
           handleSubmit={handleSubmit}
           submitButtonText="회원가입"
