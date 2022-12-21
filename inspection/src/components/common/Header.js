@@ -31,7 +31,7 @@ const Header = () => {
 
   const { memberIdx, inspectionDetail, isLoading } = useSelector(
     ({ auth, inspection, loading }) => ({
-      memberIdx: auth.member.idx,
+      memberIdx: auth.member && auth.member.idx,
       inspectionDetail: inspection.selected,
       isLoading: loading[FETCH_INPECTION_DETAIL],
     }),
@@ -61,7 +61,7 @@ const Header = () => {
             옥타그노시스 검사
           </a>
         </h1>
-        {showProgress && (
+        {showProgress && !isLoading && (
           <>
             <Timer />
             <Grid className="progress">

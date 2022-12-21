@@ -19,7 +19,18 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(sagaMiddleware)),
 );
 const persistor = persistStore(store);
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0,
+      useErrorBoundary: true, // Fallback Ui 설정
+      refetchOnWindowFocus: false,
+    },
+    mutations: {
+      useErrorBoundary: true,
+    },
+  },
+});
 
 sagaMiddleware.run(rootSaga);
 ReactDOM.render(

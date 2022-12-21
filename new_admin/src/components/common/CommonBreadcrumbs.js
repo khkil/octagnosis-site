@@ -44,7 +44,7 @@ const CommonBreadcrumbs = () => {
         <Breadcrumbs aria-label="breadcrumb">
           {recentMenuList.map(({ title, path }, index) =>
             path === pathname ? (
-              <Typography key={index} color="secondary">
+              <Typography key={index} color="primary">
                 {title}
               </Typography>
             ) : (

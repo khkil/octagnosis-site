@@ -70,7 +70,7 @@ module.exports = (webpackEnv) => {
     },
 
     devServer: {
-      port: 3002,
+      port: 3001,
       disableHostCheck: true,
       host: "localhost",
       open: true,

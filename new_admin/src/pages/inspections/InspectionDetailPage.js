@@ -70,7 +70,6 @@ const InspectionDetailPage = ({ match }) => {
 
   return (
     <Container maxWidth={'xl'}>
-      <CommonBreadcrumbs match={match} thirdText={inspectionDetail.inspectionName} />
       <HorizonalTabs tabData={tabData} tabValue={tabValue} setTabValue={setTabValue} />
       <Paper>
         {tabValue === 'basic' ? (

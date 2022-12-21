@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "webpack serve --env development",
-    "build": "webpack --progress"
+    "build": "webpack --progress && ./upload.sh"
   },
   "devDependencies": {
     "@babel/core": "^7.13.8",
