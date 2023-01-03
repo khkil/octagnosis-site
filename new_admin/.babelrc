@@ -1,5 +1,0 @@
-//preset 을 사용하려면 .babelrc에서 설정
-{
-  "presets": ["@babel/preset-env", "@babel/preset-react"],
-  "plugins": ["@babel/plugin-transform-runtime"]
-}
