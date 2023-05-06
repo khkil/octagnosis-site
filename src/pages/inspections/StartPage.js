@@ -3,37 +3,26 @@ import { Container, Box } from '@mui/material';
 import footerLogo from '../../assets/images/common/headline.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory, useParams } from 'react-router-dom';
-import {
-  clearMemberProgress,
-  fetchMemberProgressDetail,
-  FETCH_MEMBER_PROGRESS_DETAIL_REQUEST,
-} from '../../modules/member';
+import { clearMemberProgress, fetchMemberProgressDetail, FETCH_MEMBER_PROGRESS_DETAIL_REQUEST } from '../../modules/member';
 import Loader from '../../components/ui/Loader';
 import ContinueDialog from '../../components/inspections/ContinueDialog';
-import { goNextPage } from '../../utils/common';
+import { goPage } from '../../utils/common';
 
 const StartPage = () => {
   const history = useHistory();
   const { inspectionIdx } = useParams();
-  const { memberIdx, memberName, progressDetail } = useSelector(
-    ({ auth, member }) => ({
-      memberName: auth.member.name,
-      progressDetail: member.progressDetail,
-    }),
-  );
+  const { memberIdx, memberName, progressDetail } = useSelector(({ auth, member }) => ({
+    memberName: auth.member.name,
+    progressDetail: member.progressDetail,
+  }));
 
   const startInspection = () => {
-    goNextPage(history, inspectionIdx, 0);
+    goPage(history, inspectionIdx, 1);
   };
 
   return (
     <Container maxWidth="xl">
-      <ContinueDialog
-        inspectionIdx={inspectionIdx}
-        memberIdx={memberIdx}
-        progressDetail={progressDetail}
-        totalPage={10}
-      />
+      <ContinueDialog inspectionIdx={inspectionIdx} memberIdx={memberIdx} progressDetail={progressDetail} totalPage={10} />
       <Box className="start-wrap">
         <p className="txt1">
           교육전문가들이 선택한 <br />

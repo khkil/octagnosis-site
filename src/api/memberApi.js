@@ -64,10 +64,10 @@ export const checkProgressHistoryApi = inspectionIdx => {
   });
 };
 
-export const deleteProgressApi = (memberIdx, inspectionIdx) => {
+export const deleteMemberAnswerApi = inspectionIdx => {
   return new Promise((resolve, reject) => {
     axios
-      .delete(`/api/progress/inspections/${inspectionIdx}`)
+      .delete(`/api/answers/inspections/${inspectionIdx}`)
       .then(response => {
         if (response.status === 200) {
           resolve(response.data);

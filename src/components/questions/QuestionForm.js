@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import { Box } from '@mui/material';
 import { insertMemberAnswer } from '../../api/answerApi';
 import { useDispatch, useSelector } from 'react-redux';
-import { goNextPage } from '../../utils/common';
+import { goPage } from '../../utils/common';
 
 const QuestionForm = ({ inspectionIdx, questionList, totalPage }) => {
   const { page } = useParams();
@@ -16,9 +16,7 @@ const QuestionForm = ({ inspectionIdx, questionList, totalPage }) => {
 
   const validationSchema = Yup.object().shape(
     questionList.reduce((result, { questionIdx }) => {
-      result[`question_${questionIdx}`] = Yup.string().required(
-        '문항을 선택해주세요',
-      );
+      result[`question_${questionIdx}`] = Yup.string().required('문항을 선택해주세요');
       return result;
     }, {}),
   );
@@ -38,7 +36,7 @@ const QuestionForm = ({ inspectionIdx, questionList, totalPage }) => {
       answerIdx: data[key],
     }));
     insertMemberAnswer(memberAnswers).then(() => {
-      goNextPage(history, inspectionIdx, page, totalPage);
+      goPage(history, inspectionIdx, Number(page) + 1, totalPage);
     });
   };
 
@@ -52,34 +50,12 @@ const QuestionForm = ({ inspectionIdx, questionList, totalPage }) => {
     >
       {({ values, handleChange, touched, errors }) => (
         <Form>
-          {questionList.map(
-            ({
-              questionIdx,
-              questionText,
-              questionNumber,
-              questionType,
-              answers,
-            }) =>
-              questionType === TEXT_QUESTION ? (
-                <TextQuestion
-                  key={questionIdx}
-                  questionIdx={questionIdx}
-                  questionNumber={questionNumber}
-                  questionText={questionText}
-                  answers={answers}
-                  handleChange={handleChange}
-                  values={values}
-                />
-              ) : questionType === IMAGE_QUESTION ? (
-                <ImageQuestion
-                  key={questionIdx}
-                  questionIdx={questionIdx}
-                  questionNumber={questionNumber}
-                  questionText={questionText}
-                  handleChange={handleChange}
-                  values={values}
-                />
-              ) : null,
+          {questionList.map(({ questionIdx, questionText, questionNumber, questionType, answers }) =>
+            questionType === TEXT_QUESTION ? (
+              <TextQuestion key={questionIdx} questionIdx={questionIdx} questionNumber={questionNumber} questionText={questionText} answers={answers} handleChange={handleChange} values={values} />
+            ) : questionType === IMAGE_QUESTION ? (
+              <ImageQuestion key={questionIdx} questionIdx={questionIdx} questionNumber={questionNumber} questionText={questionText} handleChange={handleChange} values={values} />
+            ) : null,
           )}
 
           <Box className="btn-wrap mt40">

@@ -1,0 +1,391 @@
+/*css reset*/
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+html,
+body {
+  width: 100%;
+  height: auto;
+  position: relative;
+  font-family: 'Pretendard';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #1a1a1a;
+  font-size: 17px;
+  scroll-behavior: smooth;
+}
+ul,
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+a,
+img {
+  display: block;
+}
+/*common*/
+.wrap {
+  width: 100%;
+  position: relative;
+}
+.inner {
+  width: 90%;
+  max-width: 1400px;
+  margin: auto;
+  box-sizing: border-box;
+}
+.pc {
+  display: block;
+}
+.mob {
+  display: none;
+}
+.center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.ft-ink {
+  font-family: 'InkLipquid';
+  font-size: 30px;
+}
+.ft-jalnan {
+  font-family: 'yg-jalnan';
+}
+
+/*상단 제목*/
+.main-title {
+  padding: 8vh 0 10vh;
+  text-align: center;
+}
+.main-title .txt1 {
+  font-size: 2rem;
+  color: #040000;
+}
+.main-title .txt1 span {
+  color: #d7004a;
+}
+.main-title .txt2 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #004077;
+}
+.main-title .txt3 {
+  font-size: 1.2rem;
+  color: #231815;
+  font-weight: 500;
+  line-height: 1.4;
+  margin-top: 2vh;
+}
+/*검사항목*/
+.test-list {
+  display: flex;
+  justify-content: space-between;
+}
+.test-list > li {
+  width: 45%;
+  border-radius: 50%;
+  border: 6px solid #009591;
+  position: relative;
+}
+.test-list > li::after {
+  content: '';
+  display: block;
+  padding-bottom: 100%;
+}
+.test-wrap {
+  text-align: center;
+  width: 80%;
+}
+.test-wrap .txt1 {
+  font-size: 2.4rem;
+  line-height: 1;
+  color: #009591;
+}
+.test-wrap .txt2 {
+  font-size: 1.2rem;
+  color: #595757;
+  font-weight: 500;
+  margin: 8px 0 6vh;
+}
+.test-con {
+  display: flex;
+  justify-content: space-between;
+  text-align: initial;
+  width: 80%;
+  margin: auto;
+  height: 18vh;
+}
+.test-con > li {
+  width: 47%;
+}
+.test-con > li img {
+  width: 100%;
+}
+.test-con > li p {
+  font-size: 1rem;
+  color: #231815;
+  word-break: keep-all;
+  line-height: 1.5;
+}
+.test-btn {
+  font-size: 2.2rem;
+  color: #fff;
+  text-align: center;
+  display: inline-block;
+  background: #009591;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-top: 5vh;
+}
+.test-list1 .test-con {
+  align-items: center;
+}
+.test-list2 img {
+  width: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+.test-list > li.test-list2 {
+  border: 6px solid #4694d1;
+}
+.test-list2 .txt1 {
+  color: #4694d1;
+}
+.test-list2 .test-btn {
+  background: #4694d1;
+}
+/*인증서*/
+.main-cer {
+  margin-top: 10vh;
+}
+.cer-ul {
+  display: flex;
+  justify-content: space-between;
+  background: #f1f1f1;
+  border-radius: 40px;
+  box-sizing: border-box;
+  padding: 40px;
+}
+.cer-ul > li {
+  width: 25%;
+}
+.cer-ul > li img {
+  width: 55%;
+  display: block;
+  margin: auto;
+}
+.cer-ul > li p {
+  color: #d7004a;
+  font-weight: 500;
+  margin-top: 3vh;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+/*푸터*/
+footer {
+  margin-top: 10vh;
+}
+.footer-bg {
+  width: 90%;
+  margin: auto;
+}
+.footer-bg img {
+  width: 100%;
+  display: block;
+}
+.footer-wrap {
+  background: #595757;
+  padding: 4vh 0;
+}
+.footer-info {
+  display: flex;
+  align-items: center;
+  margin: auto;
+  width: max-content;
+}
+.footer-info > li:nth-child(1) {
+  margin-right: 4vw;
+}
+.footer-info img {
+  width: 240px;
+}
+.footer-info p {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+/*반응형*/
+@media screen and (max-width: 1600px) {
+  html,
+  body {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 1400px) {
+  html,
+  body {
+    font-size: 15px;
+  }
+  .test-con {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  html,
+  body {
+    font-size: 14px;
+  }
+  .test-con {
+    height: 16vh;
+  }
+}
+
+@media screen and (max-width: 840px) {
+  .pc {
+    display: none;
+  }
+  .mob {
+    display: block;
+  }
+  html,
+  body {
+    font-size: 17px;
+  }
+  .test-con {
+    height: auto;
+  }
+  .test-list {
+    flex-wrap: wrap;
+  }
+  .test-list > li {
+    width: 100%;
+    margin-bottom: 10vh;
+  }
+  .test-list > li:nth-last-child(1) {
+    margin-bottom: 0;
+  }
+  .cer-ul {
+    flex-wrap: wrap;
+  }
+  .cer-ul > li {
+    width: 50%;
+    margin-bottom: 4vh;
+  }
+  .cer-ul > li:nth-child(3),
+  .cer-ul > li:nth-child(4) {
+    margin-bottom: 0;
+  }
+}
+
+@media screen and (max-width: 460px) {
+  html,
+  body {
+    font-size: 16px;
+  }
+  .main-title .txt1 {
+    font-size: 1.4rem;
+  }
+  .main-title .txt2 {
+    font-size: 2rem;
+  }
+  .main-title .txt3 {
+    font-size: 1rem;
+  }
+  .main-title {
+    padding: 8vh 0 6vh;
+  }
+  .test-list > li {
+    border-radius: 30px;
+  }
+  .test-wrap {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    margin: auto;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 30px;
+  }
+  .test-wrap .txt1 {
+    font-size: 2rem;
+  }
+  .test-wrap .txt2 {
+    margin: 8px 0 4vh;
+  }
+  .test-list > li {
+    margin-bottom: 6vh;
+  }
+  .test-list > li::after {
+    display: none;
+  }
+  .test-con {
+    flex-wrap: wrap;
+  }
+  .test-con > li {
+    width: 100%;
+  }
+  .test-con > li p {
+    line-height: 1.8;
+  }
+  .test-con > li img {
+    margin-bottom: 4vh;
+  }
+  .test-btn {
+    font-size: 1.4rem;
+    margin-top: 3vh;
+  }
+  .main-cer {
+    margin-top: 6vh;
+  }
+  .cer-ul {
+    border-radius: 30px;
+    padding: 40px 30px;
+  }
+  .cer-ul > li p {
+    margin-top: 2vh;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    word-break: keep-all;
+  }
+  footer {
+    margin-top: 8vh;
+  }
+  .footer-info {
+    flex-wrap: wrap;
+    width: 90%;
+    margin: auto;
+  }
+  .footer-info > li {
+    width: 100%;
+  }
+  .footer-info > li:nth-child(1) {
+    margin-bottom: 2vh;
+    margin-right: 0;
+  }
+  .footer-info p {
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  html,
+  body {
+    font-size: 14px;
+  }
+}

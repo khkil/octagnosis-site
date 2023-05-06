@@ -1,13 +1,12 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-export const goNextPage = (history, inspectionIdx, currentPage, totalPage) => {
+export const goPage = (history, inspectionIdx, currentPage, totalPage) => {
   if (isNaN(currentPage) && currentPage !== 'end' && currentPage !== 'start') {
     alert('유효하지 않은 페이지 입니다.');
     return;
   }
-  const nextPage =
-    totalPage && totalPage == currentPage ? 'end' : Number(currentPage) + 1;
+  const nextPage = totalPage && totalPage == currentPage ? 'end' : Number(currentPage);
   history.push({
     pathname: `/inspections/${inspectionIdx}/pages/${nextPage}`,
     state: currentPage,

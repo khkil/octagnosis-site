@@ -1,11 +1,8 @@
 import { Typography } from '@mui/material';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import {
-  checkProgressHistoryApi,
-  deleteProgressApi,
-} from '../../api/memberApi';
-import { goNextPage } from '../../utils/common';
+import { checkProgressHistoryApi, deleteMemberAnswerApi } from '../../api/memberApi';
+import { goPage as goInspectionPage, goPage } from '../../utils/common';
 import AlertDialog from '../common/AlertDialog';
 
 const ContinueDialog = ({ inspectionIdx, memberIdx }) => {
@@ -15,21 +12,6 @@ const ContinueDialog = ({ inspectionIdx, memberIdx }) => {
     currentPage: 0,
     totalPage: 0,
   });
-
-  const resetInspection = () => {
-    deleteProgressApi(memberIdx, inspectionIdx)
-      .then(({ success }) => {
-        if (success) {
-          goNextPage(history, inspectionIdx, 0);
-        } else {
-          alert('오류 발생');
-        }
-      })
-      .catch(e => {
-        console.error(e);
-        alert('server error');
-      });
-  };
 
   const checkHistory = () => {
     checkProgressHistoryApi(inspectionIdx)
@@ -48,23 +30,40 @@ const ContinueDialog = ({ inspectionIdx, memberIdx }) => {
       });
   };
 
+  const resetInspection = () => {
+    deleteMemberAnswerApi(inspectionIdx)
+      .then(({ success }) => {
+        if (success) {
+          goPage(history, inspectionIdx, 1);
+        } else {
+          alert('오류 발생');
+        }
+      })
+      .catch(e => {
+        console.error(e);
+        alert('server error');
+      });
+  };
+
   const continueInspection = () => {
-    goNextPage(history, inspectionIdx, progressHistory.currentPage);
+    goInspectionPage(history, inspectionIdx, progressHistory.currentPage + 1);
   };
 
   useEffect(() => {
     checkHistory();
   }, []);
+
   return (
     <AlertDialog
       open={continueDialog}
       setOpen={setContinueDialog}
       title={'검사를 이어서 진행 하시겠습니까?'}
       content={
-        <Typography>
-          취소 버튼 클릭시 이전 문항을 체크했던 이력이 <strong>초기화</strong>
-          되고 <br />
-          처음 부터 시작가능합니다.
+        <Typography variant="caption">
+          <Typography variant="button" color="error">
+            처음부터 하기
+          </Typography>{' '}
+          버튼 클릭시 검사를 진행했던 이력이 <Typography variant="button">초기화</Typography> 됩니다
         </Typography>
       }
       onConfirm={continueInspection}

@@ -2,10 +2,12 @@ import { createTheme, ThemeProvider } from '@mui/material';
 import React from 'react';
 import Routes from './routes/Router';
 
+import './assets/styles/font.css';
 import './assets/styles/reset.css';
 import './assets/styles/utility.css';
 import './assets/styles/common.css';
 import './assets/styles/style.css';
+import './assets/styles/main.css';
 
 const theme = createTheme({
   palette: {
