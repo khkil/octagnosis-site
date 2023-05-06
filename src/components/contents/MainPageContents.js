@@ -1,6 +1,11 @@
 import React from 'react';
 import bgImage1 from '../../assets/images/main/test1-bg.png';
 import bgImage2 from '../../assets/images/main/test2-bg.png';
+import certImage1 from '../../assets/images/main/cer1.png';
+import certImage2 from '../../assets/images/main/cer2.png';
+import certImage3 from '../../assets/images/main/cer3.png';
+import certImage4 from '../../assets/images/main/cer4.png';
+import footerBgImage from '../../assets/images/main/footer-bg.png';
 import { useHistory } from 'react-router-dom';
 
 const MainPageContents = ({ inspectionList }) => {
@@ -98,6 +103,28 @@ const MainPageContents = ({ inspectionList }) => {
                   START
                 </a>
               </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <section class="wrap main-cer">
+        <div class="inner">
+          <ul class="cer-ul">
+            <li>
+              <img src={certImage1} alt="특허 제 10-2469087호" />
+              <p>특허 제 10-2469087호</p>
+            </li>
+            <li>
+              <img src={certImage2} alt="2021 고객감동 우수브랜드 대상 1위" />
+              <p>2021 고객감동 우수브랜드 대상 1위</p>
+            </li>
+            <li>
+              <img src={certImage3} alt="2년연속 올해의 우수브랜드 대상 1위" />
+              <p>2년연속 올해의 우수브랜드 대상 1위</p>
+            </li>
+            <li>
+              <img src={certImage4} alt="2021 대한민국 신지식경영 대상" />
+              <p>2021 대한민국 신지식경영 대상</p>
             </li>
           </ul>
         </div>

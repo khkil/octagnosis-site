@@ -167,6 +167,7 @@ img {
 /*인증서*/
 .main-cer {
   margin-top: 10vh;
+  margin-bottom: 6vh;
 }
 .cer-ul {
   display: flex;
