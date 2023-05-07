@@ -28,7 +28,6 @@ const NaverLoginCallbackPage = ({ location }) => {
 
   useEffect(() => {
     const { code } = queryString.parse(location.search);
-    console.log(code);
     naverLoginApi(code)
       .then(res => {
         const { success, data } = res;

@@ -1,17 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  TextField,
-  Grid,
-  Paper,
-  AppBar,
-  Typography,
-  Toolbar,
-  Link,
-  Container,
-  Box,
-  CircularProgress,
-} from '@mui/material';
+import { Button, TextField, Grid, Paper, AppBar, Typography, Toolbar, Link, Container, Box, CircularProgress } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { makeStyles } from '@mui/styles';
 import { ErrorMessage, Formik } from 'formik';
@@ -66,13 +54,7 @@ const LoginPage = ({ history }) => {
   return (
     <Container>
       <Box container spacing={0} justify="center">
-        <Grid
-          container
-          direction="column"
-          justify="center"
-          spacing={2}
-          className={classes.root}
-        >
+        <Grid container direction="column" justify="center" spacing={2} className={classes.root}>
           <Paper variant="elevation" elevation={2} className={classes.form}>
             <Grid item m={4}>
               <img src={headlineLogo} />
@@ -85,9 +67,7 @@ const LoginPage = ({ history }) => {
                 }}
                 validationSchema={Yup.object().shape({
                   id: Yup.string().required('아이디를 입력하세요'),
-                  password: Yup.string()
-                    .max(255)
-                    .required('비밀번호를 입력하세요'),
+                  password: Yup.string().max(255).required('비밀번호를 입력하세요'),
                 })}
                 onSubmit={(data, props) => {
                   handleSubmit(data);
@@ -126,35 +106,15 @@ const LoginPage = ({ history }) => {
                         />
                       </Grid>
                       {attempted && !isLoading && error != null ? (
-                        <Typography
-                          name="invalidUser"
-                          mb={-2}
-                          color={'red'}
-                          p={1}
-                        >
+                        <Typography name="invalidUser" mb={-2} color={'red'} p={1}>
                           아이디 또는 비밀번호가 잘못 입력 되었습니다.
                         </Typography>
                       ) : (
                         <Grid m={1.5} />
                       )}
                       <Grid item mb={-1}>
-                        <LoadingButton
-                          type="submit"
-                          style={{ background: '#27313e', height: '52px' }}
-                          fullWidth
-                          loading={isLoading}
-                          variant="outlined"
-                        >
-                          {isLoading ? (
-                            <CircularProgress
-                              size={24}
-                              style={{ color: 'white' }}
-                            />
-                          ) : (
-                            <Typography style={{ color: 'white' }}>
-                              로그인
-                            </Typography>
-                          )}
+                        <LoadingButton type="submit" style={{ background: '#27313e', height: '52px' }} fullWidth loading={isLoading} variant="outlined">
+                          {isLoading ? <CircularProgress size={24} style={{ color: 'white' }} /> : <Typography style={{ color: 'white' }}>로그인</Typography>}
                         </LoadingButton>
                       </Grid>
                       <KakaoLoginButton />
@@ -166,14 +126,10 @@ const LoginPage = ({ history }) => {
               </Formik>
             </Grid>
             <Box item mt={3}>
-              <Link
-                underline="none"
-                onClick={goSignUpPage}
-                sx={{ float: 'left' }}
-              >
+              <Link underline="none" onClick={goSignUpPage} sx={{ float: 'left' }}>
                 회원 가입
               </Link>
-              <Box sx={{ float: 'right' }}>
+              {/* <Box sx={{ display: 'flex', float: 'right' }}>
                 <Link underline="none" onClick={goFindIdPage}>
                   아이디 찾기
                 </Link>
@@ -183,7 +139,7 @@ const LoginPage = ({ history }) => {
                 <Link underline="none" onClick={goFindPasswordPage}>
                   비밀번호 찾기
                 </Link>
-              </Box>
+              </Box> */}
             </Box>
           </Paper>
         </Grid>

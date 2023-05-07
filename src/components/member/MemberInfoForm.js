@@ -1,17 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import {
-  Button,
-  TextField,
-  Grid,
-  Box,
-  Typography,
-  Alert,
-  IconButton,
-  InputAdornment,
-  MenuItem,
-  BottomNavigationAction,
-  BottomNavigation,
-} from '@mui/material';
+import { Button, TextField, Grid, Box, Typography, Alert, IconButton, InputAdornment, MenuItem, BottomNavigationAction, BottomNavigation } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import { Formik } from 'formik';
@@ -63,37 +51,21 @@ const GroupInfo = () => {
   );
 };
 
-const MemberInfoForm = ({
-  isSignUpPage,
-  isOauthUser,
-  useEmailAuth,
-  initialValues,
-  handleSubmit,
-  submitButtonText,
-}) => {
+const MemberInfoForm = ({ isSignUpPage, isOauthUser, useEmailAuth, initialValues, handleSubmit, submitButtonText }) => {
   const classes = useStyles();
   const [memberType, setMemberType] = useState(MEMBER_TYPE_INDIVIDUAL);
   const [openAddressPopup, setOpenAddressPopup] = useState(false);
 
-  const selectGroup = useMemo(() => memberType === MEMBER_TYPE_GROUP, [
-    memberType,
-  ]);
+  const selectGroup = useMemo(() => memberType === MEMBER_TYPE_GROUP, [memberType]);
 
-  const isGroupMember = useMemo(
-    () => Boolean(initialValues.groupIdx && initialValues.groupIdx > 0),
-    [initialValues.groupIdx],
-  );
+  const isGroupMember = useMemo(() => Boolean(initialValues.groupIdx && initialValues.groupIdx > 0), [initialValues.groupIdx]);
 
   const createValidationSchema = useMemo(() => {
     let defaultSchema = {
       id: Yup.string().required('아이디를 입력하세요'),
       name: Yup.string().required('이름을 입력하세요'),
-      phone: Yup.string()
-        .required('휴대전화를 입력하세요')
-        .matches(phoneRegExp, '휴대폰 번호 양식에 맞게 입력하세요'),
-      email: Yup.string()
-        .required('이메일을 입력하세요')
-        .email('이메일 형식에 맞게 입력하세요'),
+      phone: Yup.string().required('휴대전화를 입력하세요').matches(phoneRegExp, '휴대폰 번호 양식에 맞게 입력하세요'),
+      email: Yup.string().required('이메일을 입력하세요').email('이메일 형식에 맞게 입력하세요'),
       address: Yup.string().required('주소를 입력하세요'),
       school: Yup.string().required('학교명을 입력하세요'),
       education: Yup.string().required('학력을 선택하세요'),
@@ -117,10 +89,7 @@ const MemberInfoForm = ({
       if (useEmailAuth) {
         defaultSchema = {
           ...defaultSchema,
-          verifiedEmail: Yup.boolean().oneOf(
-            [true],
-            '이메일 인증을 완료해주세요',
-          ),
+          verifiedEmail: Yup.boolean().oneOf([true], '이메일 인증을 완료해주세요'),
         };
       }
 
@@ -128,10 +97,7 @@ const MemberInfoForm = ({
         defaultSchema = {
           ...defaultSchema,
           groupCode: Yup.string().required('단체코드를 입력하세요'),
-          verifiedCode: Yup.boolean().oneOf(
-            [true],
-            '단체코드 인증을 완료해주세요',
-          ),
+          verifiedCode: Yup.boolean().oneOf([true], '단체코드 인증을 완료해주세요'),
         };
       }
     }
@@ -175,18 +141,8 @@ const MemberInfoForm = ({
                       });
                     }}
                   >
-                    <BottomNavigationAction
-                      value={MEMBER_TYPE_INDIVIDUAL}
-                      classes={classes}
-                      label="개인 회원"
-                      icon={<Person />}
-                    />
-                    <BottomNavigationAction
-                      value={MEMBER_TYPE_GROUP}
-                      classes={classes}
-                      label="단체 회원"
-                      icon={<Groups />}
-                    />
+                    <BottomNavigationAction value={MEMBER_TYPE_INDIVIDUAL} classes={classes} label="개인 회원" icon={<Person />} />
+                    <BottomNavigationAction value={MEMBER_TYPE_GROUP} classes={classes} label="단체 회원" icon={<Groups />} />
                   </BottomNavigation>
                 </Grid>
                 {selectGroup && (
@@ -205,16 +161,8 @@ const MemberInfoForm = ({
                             verifiedCode: false,
                           });
                         }}
-                        error={Boolean(
-                          (touched.groupCode && errors.groupCode) ||
-                            (touched.verifiedCode && errors.verifiedCode),
-                        )}
-                        helperText={
-                          touched.groupCode &&
-                          (errors.groupCode
-                            ? errors.groupCode
-                            : errors.verifiedCode)
-                        }
+                        error={Boolean((touched.groupCode && errors.groupCode) || (touched.verifiedCode && errors.verifiedCode))}
+                        helperText={touched.groupCode && (errors.groupCode ? errors.groupCode : errors.verifiedCode)}
                         autoFocus
                       />
                     </Grid>
@@ -252,13 +200,8 @@ const MemberInfoForm = ({
                         verifiedId: false,
                       });
                     }}
-                    error={Boolean(
-                      (touched.id && errors.id) ||
-                        (touched.verifiedId && errors.verifiedId),
-                    )}
-                    helperText={
-                      touched.id && (errors.id ? errors.id : errors.verifiedId)
-                    }
+                    error={Boolean((touched.id && errors.id) || (touched.verifiedId && errors.verifiedId))}
+                    helperText={touched.id && (errors.id ? errors.id : errors.verifiedId)}
                     autoFocus
                   />
                 </Grid>
@@ -308,12 +251,8 @@ const MemberInfoForm = ({
                         type="password"
                         value={values.passwordConfirm}
                         onChange={handleChange}
-                        error={Boolean(
-                          touched.passwordConfirm && errors.passwordConfirm,
-                        )}
-                        helperText={
-                          touched.passwordConfirm && errors.passwordConfirm
-                        }
+                        error={Boolean(touched.passwordConfirm && errors.passwordConfirm)}
+                        helperText={touched.passwordConfirm && errors.passwordConfirm}
                       />
                     </Grid>
                   </>
@@ -329,14 +268,8 @@ const MemberInfoForm = ({
                 type="text"
                 value={values.email}
                 onChange={handleChange}
-                error={Boolean(
-                  (touched.email && errors.email) ||
-                    (touched.verifiedEmail && errors.verifiedEmail),
-                )}
-                helperText={
-                  touched.email &&
-                  (errors.email ? errors.email : errors.verifiedEmail)
-                }
+                error={Boolean((touched.email && errors.email) || (touched.verifiedEmail && errors.verifiedEmail))}
+                helperText={touched.email && (errors.email ? errors.email : errors.verifiedEmail)}
               />
             </Grid>
             {useEmailAuth && (
@@ -485,16 +418,7 @@ const MemberInfoForm = ({
             </Grid>
 
             <Grid item xs={12} sm={3}>
-              <TextField
-                fullWidth
-                name="job"
-                label="직업"
-                type="text"
-                value={values.job}
-                onChange={handleChange}
-                error={Boolean(touched.job && errors.job)}
-                helperText={touched.job && errors.job}
-              />
+              <TextField fullWidth name="job" label="직업" type="text" value={values.job} onChange={handleChange} error={Boolean(touched.job && errors.job)} helperText={touched.job && errors.job} />
             </Grid>
             <Grid item xs={12} sm={3}>
               <TextField
@@ -522,14 +446,7 @@ const MemberInfoForm = ({
             </Grid>
           </Grid>
           <Grid style={{ textAlign: 'center' }}>
-            <Button
-              type="submit"
-              variant="contained"
-              size="large"
-              sx={{ mt: 3, mb: 2 }}
-              style={{ height: '52px' }}
-              startIcon={<Save />}
-            >
+            <Button type="submit" variant="contained" size="large" sx={{ mt: 3, mb: 2 }} style={{ height: '52px' }} startIcon={<Save />}>
               <Typography variant="h6">{submitButtonText}</Typography>
             </Button>
           </Grid>

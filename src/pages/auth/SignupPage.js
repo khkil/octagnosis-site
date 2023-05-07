@@ -7,17 +7,8 @@ import { signUpRequest } from '../../modules/auth';
 
 const SignupPage = ({ location }) => {
   const dispatch = useDispatch();
-  const isSignUpPage = useMemo(
-    () => location.pathname.indexOf('/auth/sign-up') > -1,
-    [location.state],
-  );
-  const isOauthUser = useMemo(
-    () =>
-      Boolean(
-        location.state && location.state.userId && location.state.username,
-      ),
-    [location.state],
-  );
+  const isSignUpPage = useMemo(() => location.pathname.indexOf('/auth/sign-up') > -1, [location.state]);
+  const isOauthUser = useMemo(() => Boolean(location.state && location.state.userId && location.state.username), [location.state]);
 
   const initialValues = {
     id: isOauthUser ? location.state.userId : '',
@@ -45,7 +36,9 @@ const SignupPage = ({ location }) => {
     dispatch(signUpRequest(data));
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log(location.state);
+  }, []);
 
   return (
     <Container component="main" maxWidth="lg">
@@ -64,14 +57,7 @@ const SignupPage = ({ location }) => {
         <Typography component="h1" variant="h5">
           회원가입
         </Typography>
-        <MemberInfoForm
-          isSignUpPage={isSignUpPage}
-          isOauthUser={isOauthUser}
-          useEmailAuth={true}
-          initialValues={initialValues}
-          handleSubmit={handleSubmit}
-          submitButtonText="회원가입"
-        />
+        <MemberInfoForm isSignUpPage={isSignUpPage} isOauthUser={isOauthUser} useEmailAuth={!isOauthUser} initialValues={initialValues} handleSubmit={handleSubmit} submitButtonText="회원가입" />
       </Card>
     </Container>
   );
