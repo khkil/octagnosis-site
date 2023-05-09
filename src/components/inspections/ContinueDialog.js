@@ -63,7 +63,7 @@ const ContinueDialog = ({ inspectionIdx, memberIdx }) => {
           <Typography variant="button" color="error">
             처음부터 하기
           </Typography>{' '}
-          버튼 클릭시 검사를 진행했던 이력이 <Typography variant="button">초기화</Typography> 됩니다
+          버튼 클릭시 이전에 검사하신 내역은 사라집니다.
         </Typography>
       }
       onConfirm={continueInspection}

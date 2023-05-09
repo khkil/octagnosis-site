@@ -68,8 +68,6 @@ i[class^='ic-'] {
 .inp-wrap .inp-item {
   flex: none;
 }
-.inp-item {
-}
 
 .inp-item.radio input[type='radio'] {
   position: absolute;

@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Box } from '@mui/material';
+import { Box, RadioGroup } from '@mui/material';
 import Answer from '../answers/Answer';
 import { ErrorMessage } from 'formik';
 
@@ -7,7 +7,7 @@ const TextQuestion = memo(({ questionIdx, questionNumber, questionText, answers,
   return (
     <Box className="question">
       <p className="num">{questionNumber}</p>
-      <div>
+      <RadioGroup>
         <p className="txt-question">
           {questionText}
           <ErrorMessage component="strong" name={`question_${questionIdx}`} style={{ marginLeft: '20px', fontSize: 13, color: 'red' }} />
@@ -17,8 +17,7 @@ const TextQuestion = memo(({ questionIdx, questionNumber, questionText, answers,
             <Answer key={answerIdx} questionIdx={questionIdx} answerIdx={answerIdx} answerText={answerText} filePath={filePath} index={index} handleChange={handleChange} values={values} />
           ))}
         </div>
-        <div></div>
-      </div>
+      </RadioGroup>
     </Box>
   );
 });

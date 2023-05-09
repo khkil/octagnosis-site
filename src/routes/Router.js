@@ -1,11 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { authLayoutRoutes, commonLayoutRoutes } from '.';
 import AuthLayout from '../layouts/AuthLayout';
 import CommonLayout from '../layouts/CommonLayout';
@@ -15,16 +10,11 @@ const PrivateRoute = ({ ...rest }) => {
   const dispatch = useDispatch();
 
   const { isLoading, isLoggedIn } = useSelector(({ auth, loading }) => ({
-    isLoading:
-      loading[VALIDATE_TOKEN_REQUEST] === undefined ||
-      loading[VALIDATE_TOKEN_REQUEST],
+    isLoading: loading[VALIDATE_TOKEN_REQUEST] === undefined || loading[VALIDATE_TOKEN_REQUEST],
     isLoggedIn: auth.isLoggedIn,
   }));
 
-  const loadingCompleted = useMemo(
-    () => isLoading != null && !Boolean(isLoading),
-    [isLoading],
-  );
+  const loadingCompleted = useMemo(() => isLoading != null && !Boolean(isLoading), [isLoading]);
 
   useEffect(() => {
     dispatch(validateTokenRequest());

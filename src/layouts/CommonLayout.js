@@ -1,10 +1,11 @@
 import { Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import CustomHelmet from '../components/common/CustomHelmet';
 import Footer from '../components/common/Footer';
 import Header from '../components/common/Header';
+import { useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles(() => ({
   content: {
@@ -16,6 +17,12 @@ const useStyles = makeStyles(() => ({
 
 const CommonLayout = ({ children, title }) => {
   const classes = useStyles();
+
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <Box>

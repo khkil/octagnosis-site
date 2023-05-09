@@ -16,7 +16,7 @@ const QuestionForm = ({ inspectionIdx, questionList, totalPage }) => {
 
   const validationSchema = Yup.object().shape(
     questionList.reduce((result, { questionIdx }) => {
-      result[`question_${questionIdx}`] = Yup.string().required('문항을 선택해주세요');
+      result[`question_${questionIdx}`] = Yup.string().required('질문에 답해주세요.');
       return result;
     }, {}),
   );

@@ -46,31 +46,17 @@ const MemberInfoTab = () => {
 
   return (
     <Grid className={classes.root}>
-      <Button
-        className={classes.tab}
-        startIcon={<InfoIcon />}
-        variant="contained"
-        onClick={goMyPage}
-      >
-        내 정보
-      </Button>
-
       {isLoggedIn ? (
-        <Button
-          variant="contained"
-          color="error"
-          startIcon={<LogoutIcon />}
-          onClick={logout}
-        >
-          로그아웃
-        </Button>
+        <>
+          <Button className={classes.tab} startIcon={<InfoIcon />} variant="contained" onClick={goMyPage}>
+            내 정보
+          </Button>
+          <Button variant="contained" color="error" startIcon={<LogoutIcon />} onClick={logout}>
+            로그아웃
+          </Button>
+        </>
       ) : (
-        <Button
-          variant="contained"
-          color="info"
-          startIcon={<LoginIcon />}
-          onClick={goLoginPage}
-        >
+        <Button variant="contained" color="info" startIcon={<LoginIcon />} onClick={goLoginPage}>
           로그인
         </Button>
       )}
